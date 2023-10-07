@@ -1,5 +1,14 @@
-class TilesStock {
-    private deck = [
+export interface ITile {
+    id: number;
+    design: string;
+    borders: ('field' | 'road' | 'wall' | 'water' | 'city')[];
+    neighbors: boolean[];
+    pennant: boolean;
+    rotation: number;
+}
+
+class TilesDeck {
+    private deck: ITile[] = [
         { id: 1, design: "A", borders: ['field', 'field', 'road', 'field'], neighbors: [false, false, false, false], pennant: false, rotation: 1 },
         { id: 2, design: "A", borders: ['field', 'field', 'road', 'field'], neighbors: [false, false, false, false], pennant: false, rotation: 1 },
         { id: 3, design: "B", borders: ['field', 'field', 'field', 'field'], neighbors: [false, false, false, false], pennant: false, rotation: 1 },
@@ -74,9 +83,9 @@ class TilesStock {
     ];
 
 
-    shuffledDeck() {
+    public getShuffledDeck() {
         return shuffle(this.deck);
     }
 }
 
-export default TilesStock
+export default TilesDeck
