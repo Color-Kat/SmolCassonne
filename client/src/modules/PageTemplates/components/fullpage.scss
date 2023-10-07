@@ -1,0 +1,68 @@
+// Remove watermark
+a[href="https://alvarotrigo.com/fullPage/"], .fp-watermark {
+  display: none;
+}
+
+#fullpage{
+  will-change: transform;
+  scroll-behavior: smooth;
+}
+
+.section-overlay {
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, .5);
+  z-index: -1;
+}
+
+//@media only screen and (max-width: 1023px) {
+//  #fp-nav {
+//    display: none;
+//  }
+//}
+
+// Nav dots position
+#fp-nav {
+  left: auto;
+  right: 5rem;
+  background: rgba(0, 0, 0, .25) !important;
+  border-radius: 100px !important;
+  z-index: 1 !important;
+}
+
+// Navigation Dots
+#fp-nav ul li a span, .fp-slidesNav ul li a span {
+  background: 0 0 !important;
+  border: 1px solid #fff !important;
+}
+
+#fp-nav ul li a.active span {
+  background: #fff !important;
+  -webkit-box-shadow: 0 0 16.92px 1.08px #fff !important;
+  box-shadow: 0 0 16.92px 1.08px #fff !important;
+}
+
+// Active dot size
+#fp-nav ul li a.active span, #fp-nav ul li:hover a.active span {
+  width: 18px !important;
+  height: 18px !important;
+  margin: -9px 0 0 -9px !important;
+}
+
+// Not active dot size
+#fp-nav ul li a span, #fp-nav ul li:hover a span {
+  width: 12px !important;
+  height: 12px !important;
+  margin: -6px 0 0 -6px !important;
+}
+
+// Dots gaps
+#fp-nav ul li {
+  width: 18px !important;
+  height: 18px !important;
+  margin: 10px !important;
+}

@@ -1,0 +1,1486 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Бизнес-центр Victory Park (ex. Минская Плаза) в Москве</title>
+	    <!-- JQUERY-->
+	<?//   ?>  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+
+    <meta name="description" content="Аренда и продажа офисов класса А в Victory Park (ex. Минская Плаза) в Центре Москвы.">
+<meta name="keywords" content="бц Victory Park, бц Минская Плаза, офис в районе Раменки">
+<link href="/css/main.css" rel="stylesheet">
+<link href="/css/custom.css" rel="stylesheet">    <link href="/css/fotorama.css" rel="stylesheet">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
+                <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+        <script>
+            ymaps.ready(init);
+            let map,
+            placemark;
+            
+            function init() {
+            	map = new ymaps.Map("map", {
+            		center: [55.724191, 37.504853],
+            		zoom: 16,
+            		controls: []
+            	});
+            	placemark = new ymaps.Placemark([55.724191, 37.504853], {
+            			balloonContentHeader: 'Бизнесс-центр Victory Park',
+            			balloonContentBody: 'Адрес: г. Москва, Минская улица, 2Ж<br>' + 'Телефон: +7 (495) ' +
+            			'21-21-799<br>' + 'Email: info@minskayaplaza.ru'
+            		},
+            		{
+            			iconLayout: 'default#image',
+            			iconImageHref: 'img/map-marker.png',
+            			iconImageSize: [50, 63],
+            			iconImageOffset: [-30, -60]
+            		}); 
+            	map.geoObjects.add(placemark);
+            	map.behaviors.disable('scrollZoom');
+            	map.behaviors.disable('drag');
+            }
+        </script>
+    </head>
+<body>
+
+    <header>
+        <div class="logo">
+            <a href="/">
+                <img src="/img/logo.png">
+                <span>Современный комплекс класса B+</span>
+            </a>
+        </div>
+        <div class="call">
+            <div class="close">
+                <span></span>
+                <span></span>
+            </div>
+            <a href="tel:+74952121799">
+                <img src="/img/phone.png">
+                +7 (495) 21-21-799
+            </a>
+            <div class="button-outline call-request">
+                Заказать звонок
+            </div>
+        </div>
+        <div class="call-trigger">
+            <img src="/img/phone.png">
+        </div>
+        <nav class="main-nav">
+            <div class="close">
+                <span></span>
+                <span></span>
+            </div>
+            <a class="active-menu-item" href="/">
+                Главная
+            </a>
+            <a href="/#page3">
+                Аренда офисов
+            </a>
+            <a href="/#page4">
+                Продажа офисов
+            </a>
+            <a href="/#page5">
+                Фотогалерея
+            </a>
+            <a  href="/about">
+                О бизнес-центре
+            </a>
+                                    <a  href="/contacts">
+                Контакты
+            </a>
+        </nav>
+        <div class="main-nav-trigger" href="#">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </header>
+                 
+    <main id="fullpage">
+        <div class="row section top-screen no-gutters">
+            <div class="container top-screen-header">
+                <div class="row">
+
+                    <div class="col-xl-12">
+                        <h1>
+                            Бизнес Центр Victory Park
+                        </h1>
+                    </div>
+                    <div class="col-md-6 offset-md-6">
+                        <p>
+                            Новый офисный центр класса B+ на западе Москвы.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="move-down col-xl-12 text-center">
+                        <a href="#" id="down">
+                            <img src="img/scroll.png">
+                        </a>
+                    </div>
+                </div>
+            </div>
+                        <div class="video-overlay">
+            </div>
+        </div>
+
+        <div class="row section text-screen no-gutters">
+            <div class="col-xl-12">
+                <h2>
+                    Офисы на Минской улице.
+                </h2>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-8 offset-xl-2">
+                        <p>
+                            Бизнес-центр Victory Park (ex. Минская Плаза) расположен рядом со станцией метро Минская в Москве. На сайте бизнес-центра есть вся необходимая информация по свободным площадям.  
+                        </p>
+                        <p>
+                        </p>
+                    </div>
+                    <div class="col-xl-12 text-center">
+                        <a class="button" href="/about">
+                            Узнать больше
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row section offices-rent-screen no-gutters">
+            <div class="col-xl-12">
+                <h2>
+                    Офисы на Минской улице в аренду.
+                </h2>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+
+                        
+
+                            <div class="default-content-block block">
+                                <table class="default-table default-table_closed default-table_JS">
+                                    <thead class="default-table__thead">
+                                    <tr>
+                                        <td>Этаж</td>
+                                        <td>Площадь</td>
+                                        <td>Арендная<br>ставка</td>
+                                        <td>Налоги</td>
+                                        <td>За помещение<br>в месяц</td>
+                                        <td>Состояние</td>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="default-table__tbody">
+                                                                            <tr class="tr-offer-table" href="/block/rent/37111"
+                                                data-href="/block/rent/37111"
+                                                data-block-id="37111"
+                                                data-block-type="rent">
+                                            <td>
+                                                <a href="/block/rent/37111">
+                                                    1 этаж                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="/block/rent/37111">
+                                                    194 <span> м<sup>2</sup></span>                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="/block/rent/37111">
+                                                                                                        19 550 руб.                                                </a>
+                                            </td>
+                                            <td class="hidden-xs">
+                                                <a href="/block/rent/37111">
+                                                    Включая ндс                                                </a>
+                                            </td>
+                                            <td class="hidden-xs">
+                                                <a href="/block/rent/37111">
+                                                    <span style="white-space: nowrap;">316 058 руб.</span>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="/block/rent/37111">
+                                                    Готово к въезду                                                </a>
+                                            </td>
+                                        </tr>
+                                                                            <tr class="tr-offer-table" href="/block/rent/38866"
+                                                data-href="/block/rent/38866"
+                                                data-block-id="38866"
+                                                data-block-type="rent">
+                                            <td>
+                                                <a href="/block/rent/38866">
+                                                    1 этаж                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="/block/rent/38866">
+                                                    от 94 <span> м<sup>2</sup></span> до 890 <span> м<sup>2</sup></span>                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="/block/rent/38866">
+                                                                                                        19 550 руб.                                                </a>
+                                            </td>
+                                            <td class="hidden-xs">
+                                                <a href="/block/rent/38866">
+                                                    Включая ндс                                                </a>
+                                            </td>
+                                            <td class="hidden-xs">
+                                                <a href="/block/rent/38866">
+                                                    <span style="white-space: nowrap;">153 142 руб.</span>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="/block/rent/38866">
+                                                    Готово к въезду                                                </a>
+                                            </td>
+                                        </tr>
+                                                                            <tr class="tr-offer-table" href="/block/rent/51752"
+                                                data-href="/block/rent/51752"
+                                                data-block-id="51752"
+                                                data-block-type="rent">
+                                            <td>
+                                                <a href="/block/rent/51752">
+                                                    1 этаж                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="/block/rent/51752">
+                                                    155 <span> м<sup>2</sup></span>                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="/block/rent/51752">
+                                                                                                        19 550 руб.                                                </a>
+                                            </td>
+                                            <td class="hidden-xs">
+                                                <a href="/block/rent/51752">
+                                                    Включая ндс                                                </a>
+                                            </td>
+                                            <td class="hidden-xs">
+                                                <a href="/block/rent/51752">
+                                                    <span style="white-space: nowrap;">252 521 руб.</span>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="/block/rent/51752">
+                                                    Готово к въезду                                                </a>
+                                            </td>
+                                        </tr>
+                                                                            <tr class="tr-offer-table" href="/block/rent/52159"
+                                                data-href="/block/rent/52159"
+                                                data-block-id="52159"
+                                                data-block-type="rent">
+                                            <td>
+                                                <a href="/block/rent/52159">
+                                                    1 этаж                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="/block/rent/52159">
+                                                    88 <span> м<sup>2</sup></span>                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="/block/rent/52159">
+                                                                                                        26 550 руб.                                                </a>
+                                            </td>
+                                            <td class="hidden-xs">
+                                                <a href="/block/rent/52159">
+                                                    Включая ндс                                                </a>
+                                            </td>
+                                            <td class="hidden-xs">
+                                                <a href="/block/rent/52159">
+                                                    <span style="white-space: nowrap;">194 700 руб.</span>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="/block/rent/52159">
+                                                    Готово к въезду                                                </a>
+                                            </td>
+                                        </tr>
+                                                                            <tr class="tr-offer-table" href="/block/rent/52160"
+                                                data-href="/block/rent/52160"
+                                                data-block-id="52160"
+                                                data-block-type="rent">
+                                            <td>
+                                                <a href="/block/rent/52160">
+                                                    1 этаж                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="/block/rent/52160">
+                                                    57 <span> м<sup>2</sup></span>                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="/block/rent/52160">
+                                                                                                        26 550 руб.                                                </a>
+                                            </td>
+                                            <td class="hidden-xs">
+                                                <a href="/block/rent/52160">
+                                                    Включая ндс                                                </a>
+                                            </td>
+                                            <td class="hidden-xs">
+                                                <a href="/block/rent/52160">
+                                                    <span style="white-space: nowrap;">126 113 руб.</span>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="/block/rent/52160">
+                                                    Готово к въезду                                                </a>
+                                            </td>
+                                        </tr>
+                                                                            <tr class="tr-offer-table" href="/block/rent/34824"
+                                                data-href="/block/rent/34824"
+                                                data-block-id="34824"
+                                                data-block-type="rent">
+                                            <td>
+                                                <a href="/block/rent/34824">
+                                                    2 этаж                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="/block/rent/34824">
+                                                    от 129 <span> м<sup>2</sup></span> до 610 <span> м<sup>2</sup></span>                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="/block/rent/34824">
+                                                                                                        20 550 руб.                                                </a>
+                                            </td>
+                                            <td class="hidden-xs">
+                                                <a href="/block/rent/34824">
+                                                    Включая ндс                                                </a>
+                                            </td>
+                                            <td class="hidden-xs">
+                                                <a href="/block/rent/34824">
+                                                    <span style="white-space: nowrap;">220 913 руб.</span>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="/block/rent/34824">
+                                                    Готово к въезду                                                </a>
+                                            </td>
+                                        </tr>
+                                                                            <tr class="tr-offer-table" href="/block/rent/35438"
+                                                data-href="/block/rent/35438"
+                                                data-block-id="35438"
+                                                data-block-type="rent">
+                                            <td>
+                                                <a href="/block/rent/35438">
+                                                    2 этаж                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="/block/rent/35438">
+                                                    158 <span> м<sup>2</sup></span>                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="/block/rent/35438">
+                                                                                                        24 200 руб.                                                </a>
+                                            </td>
+                                            <td class="hidden-xs">
+                                                <a href="/block/rent/35438">
+                                                    Включая ндс                                                </a>
+                                            </td>
+                                            <td class="hidden-xs">
+                                                <a href="/block/rent/35438">
+                                                    <span style="white-space: nowrap;">318 633 руб.</span>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="/block/rent/35438">
+                                                    Готово к въезду                                                </a>
+                                            </td>
+                                        </tr>
+                                                                            <tr class="tr-offer-table" href="/block/rent/35439"
+                                                data-href="/block/rent/35439"
+                                                data-block-id="35439"
+                                                data-block-type="rent">
+                                            <td>
+                                                <a href="/block/rent/35439">
+                                                    2 этаж                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="/block/rent/35439">
+                                                    160 <span> м<sup>2</sup></span>                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="/block/rent/35439">
+                                                                                                        24 200 руб.                                                </a>
+                                            </td>
+                                            <td class="hidden-xs">
+                                                <a href="/block/rent/35439">
+                                                    Включая ндс                                                </a>
+                                            </td>
+                                            <td class="hidden-xs">
+                                                <a href="/block/rent/35439">
+                                                    <span style="white-space: nowrap;">322 667 руб.</span>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="/block/rent/35439">
+                                                    Готово к въезду                                                </a>
+                                            </td>
+                                        </tr>
+                                                                            <tr class="tr-offer-table" href="/block/rent/19783"
+                                                data-href="/block/rent/19783"
+                                                data-block-id="19783"
+                                                data-block-type="rent">
+                                            <td>
+                                                <a href="/block/rent/19783">
+                                                    3 этаж                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="/block/rent/19783">
+                                                    159 <span> м<sup>2</sup></span>                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="/block/rent/19783">
+                                                                                                        21 550 руб.                                                </a>
+                                            </td>
+                                            <td class="hidden-xs">
+                                                <a href="/block/rent/19783">
+                                                    Включая ндс                                                </a>
+                                            </td>
+                                            <td class="hidden-xs">
+                                                <a href="/block/rent/19783">
+                                                    <span style="white-space: nowrap;">285 538 руб.</span>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="/block/rent/19783">
+                                                    Готово к въезду                                                </a>
+                                            </td>
+                                        </tr>
+                                                                            <tr class="tr-offer-table" href="/block/rent/16105"
+                                                data-href="/block/rent/16105"
+                                                data-block-id="16105"
+                                                data-block-type="rent">
+                                            <td>
+                                                <a href="/block/rent/16105">
+                                                    4 этаж                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="/block/rent/16105">
+                                                    от 160 <span> м<sup>2</sup></span> до 3 418 <span> м<sup>2</sup></span>                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="/block/rent/16105">
+                                                                                                        19 550 руб.                                                </a>
+                                            </td>
+                                            <td class="hidden-xs">
+                                                <a href="/block/rent/16105">
+                                                    Включая ндс                                                </a>
+                                            </td>
+                                            <td class="hidden-xs">
+                                                <a href="/block/rent/16105">
+                                                    <span style="white-space: nowrap;">260 667 руб.</span>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="/block/rent/16105">
+                                                    Под отделку                                                </a>
+                                            </td>
+                                        </tr>
+                                                                            <tr class="tr-offer-table" href="/block/rent/51386"
+                                                data-href="/block/rent/51386"
+                                                data-block-id="51386"
+                                                data-block-type="rent">
+                                            <td>
+                                                <a href="/block/rent/51386">
+                                                    4 этаж                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="/block/rent/51386">
+                                                    207 <span> м<sup>2</sup></span>                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="/block/rent/51386">
+                                                                                                        23 550 руб.                                                </a>
+                                            </td>
+                                            <td class="hidden-xs">
+                                                <a href="/block/rent/51386">
+                                                    Включая ндс                                                </a>
+                                            </td>
+                                            <td class="hidden-xs">
+                                                <a href="/block/rent/51386">
+                                                    <span style="white-space: nowrap;">406 238 руб.</span>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="/block/rent/51386">
+                                                    Готово к въезду                                                </a>
+                                            </td>
+                                        </tr>
+                                                                            <tr class="tr-offer-table" href="/block/rent/51724"
+                                                data-href="/block/rent/51724"
+                                                data-block-id="51724"
+                                                data-block-type="rent">
+                                            <td>
+                                                <a href="/block/rent/51724">
+                                                    6 этаж                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="/block/rent/51724">
+                                                    1 186 <span> м<sup>2</sup></span>                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="/block/rent/51724">
+                                                                                                        52 613 руб.                                                </a>
+                                            </td>
+                                            <td class="hidden-xs">
+                                                <a href="/block/rent/51724">
+                                                    Включая ндс                                                </a>
+                                            </td>
+                                            <td class="hidden-xs">
+                                                <a href="/block/rent/51724">
+                                                    <span style="white-space: nowrap;">5 199 918 руб.</span>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="/block/rent/51724">
+                                                    Готово к въезду                                                </a>
+                                            </td>
+                                        </tr>
+                                                                        </tbody>
+                                </table>
+                            </div>
+
+                                            </div>
+                </div>
+            </div>
+        </div>
+        <div class="row section offices-sale-screen no-gutters">
+            <div class="col-xl-12">
+                <h2>
+                    Офисы на Минской улице на продажу.
+                </h2>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row section photogallery-screen no-gutters">
+            <div class="photogalery-screen-header col-xl-12">
+                <h2>
+                    Фотогалерея
+                </h2>
+            </div>
+
+                            <div class="main-slider slick-slider col-xl-12">
+                                            <div class="slide">
+                            <div class="slide-container" style="background-image: url(/yii2images/images/image-by-item-and-alias?item=ObjectModel13&dirtyAlias=c6f600.jpg%3F1619518546)">
+                            </div>
+                        </div>
+                                            <div class="slide">
+                            <div class="slide-container" style="background-image: url(/yii2images/images/image-by-item-and-alias?item=ObjectModel13&dirtyAlias=ed98f8.jpg%3F1619518542)">
+                            </div>
+                        </div>
+                                            <div class="slide">
+                            <div class="slide-container" style="background-image: url(/yii2images/images/image-by-item-and-alias?item=ObjectModel13&dirtyAlias=86d514.jpg%3F1619518546)">
+                            </div>
+                        </div>
+                                            <div class="slide">
+                            <div class="slide-container" style="background-image: url(/yii2images/images/image-by-item-and-alias?item=ObjectModel13&dirtyAlias=9dc3e1.jpg%3F1619518543)">
+                            </div>
+                        </div>
+                                            <div class="slide">
+                            <div class="slide-container" style="background-image: url(/yii2images/images/image-by-item-and-alias?item=ObjectModel13&dirtyAlias=fbe6eb.jpg%3F1619518545)">
+                            </div>
+                        </div>
+                                            <div class="slide">
+                            <div class="slide-container" style="background-image: url(/yii2images/images/image-by-item-and-alias?item=ObjectModel13&dirtyAlias=6fc4b3.jpg%3F1619518548)">
+                            </div>
+                        </div>
+                                            <div class="slide">
+                            <div class="slide-container" style="background-image: url(/yii2images/images/image-by-item-and-alias?item=ObjectModel13&dirtyAlias=abfa44.jpg%3F1619518547)">
+                            </div>
+                        </div>
+                                            <div class="slide">
+                            <div class="slide-container" style="background-image: url(/yii2images/images/image-by-item-and-alias?item=ObjectModel13&dirtyAlias=d2786b.jpg%3F1619518542)">
+                            </div>
+                        </div>
+                                            <div class="slide">
+                            <div class="slide-container" style="background-image: url(/yii2images/images/image-by-item-and-alias?item=ObjectModel13&dirtyAlias=a3da3a.jpg%3F1619518543)">
+                            </div>
+                        </div>
+                                            <div class="slide">
+                            <div class="slide-container" style="background-image: url(/yii2images/images/image-by-item-and-alias?item=ObjectModel13&dirtyAlias=69af85.jpg%3F1619518544)">
+                            </div>
+                        </div>
+                                            <div class="slide">
+                            <div class="slide-container" style="background-image: url(/yii2images/images/image-by-item-and-alias?item=ObjectModel13&dirtyAlias=a19499.jpg%3F1619518547)">
+                            </div>
+                        </div>
+                                            <div class="slide">
+                            <div class="slide-container" style="background-image: url(/yii2images/images/image-by-item-and-alias?item=ObjectModel13&dirtyAlias=ea68a9.jpg%3F1619518544)">
+                            </div>
+                        </div>
+                                            <div class="slide">
+                            <div class="slide-container" style="background-image: url(/yii2images/images/image-by-item-and-alias?item=ObjectModel13&dirtyAlias=ce60d0.jpg%3F1619518538)">
+                            </div>
+                        </div>
+                                            <div class="slide">
+                            <div class="slide-container" style="background-image: url(/yii2images/images/image-by-item-and-alias?item=ObjectModel13&dirtyAlias=05483d.jpg%3F1619518537)">
+                            </div>
+                        </div>
+                                            <div class="slide">
+                            <div class="slide-container" style="background-image: url(/yii2images/images/image-by-item-and-alias?item=ObjectModel13&dirtyAlias=b47aad.jpg%3F1619518541)">
+                            </div>
+                        </div>
+                                            <div class="slide">
+                            <div class="slide-container" style="background-image: url(/yii2images/images/image-by-item-and-alias?item=ObjectModel13&dirtyAlias=12e210.jpg%3F1619518541)">
+                            </div>
+                        </div>
+                                            <div class="slide">
+                            <div class="slide-container" style="background-image: url(/yii2images/images/image-by-item-and-alias?item=ObjectModel13&dirtyAlias=aabec5.jpg%3F1619518539)">
+                            </div>
+                        </div>
+                                            <div class="slide">
+                            <div class="slide-container" style="background-image: url(/yii2images/images/image-by-item-and-alias?item=ObjectModel13&dirtyAlias=7ff4bd.jpg%3F1619518539)">
+                            </div>
+                        </div>
+                                            <div class="slide">
+                            <div class="slide-container" style="background-image: url(/yii2images/images/image-by-item-and-alias?item=ObjectModel13&dirtyAlias=4fbaed.jpg%3F1619518540)">
+                            </div>
+                        </div>
+                                            <div class="slide">
+                            <div class="slide-container" style="background-image: url(/yii2images/images/image-by-item-and-alias?item=ObjectModel13&dirtyAlias=5838d1.jpeg%3F1619732444)">
+                            </div>
+                        </div>
+                                            <div class="slide">
+                            <div class="slide-container" style="background-image: url(/yii2images/images/image-by-item-and-alias?item=ObjectModel13&dirtyAlias=761af8.jpg%3F1619518538)">
+                            </div>
+                        </div>
+                                            <div class="slide">
+                            <div class="slide-container" style="background-image: url(/yii2images/images/image-by-item-and-alias?item=ObjectModel13&dirtyAlias=7dd745.jpeg%3F1619732445)">
+                            </div>
+                        </div>
+                                            <div class="slide">
+                            <div class="slide-container" style="background-image: url(/yii2images/images/image-by-item-and-alias?item=ObjectModel13&dirtyAlias=1655e6.jpeg%3F1619732445)">
+                            </div>
+                        </div>
+                                            <div class="slide">
+                            <div class="slide-container" style="background-image: url(/yii2images/images/image-by-item-and-alias?item=ObjectModel13&dirtyAlias=49fcdc.JPG%3F1619606596)">
+                            </div>
+                        </div>
+                                    </div>
+                             
+            <div class="col-xl-12 slider-control">
+                <div class="slider-counts">
+                    <span class="current">
+                    </span>
+                    <span class="count">
+                    </span>
+                </div>
+                <div class="slider-arrows">
+                </div>
+            </div>
+        </div>
+        <div class="row section contacts-screen no-gutters">
+            <div class="contacts-screen-header col-xl-12">
+                <h2>
+                    Контактная информация
+                </h2>
+            </div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="contacts-overlay col-lg-12">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <article>
+                                        <p>
+                                            Адрес:
+                                        </p>
+                                        <span>
+                                            г. Москва Минская улица, 2Ж
+                                        </span>
+                                    </article>
+                                </div>
+                                <div class="col-md-4">
+                                    <article>
+                                        <p>
+                                            Телефон:
+                                        </p>
+                                        <a href="tel:+74952121799">
+                                            +7 (495) 21-21-799
+                                        </a>
+                                    </article>
+                                </div>
+                                <div class="col-md-4">
+                                    <article>
+                                        <p>
+                                            E-mail:
+                                        </p>
+                                        <a href="mailto:info@minskayaplaza.ru">
+                                            info@minskayaplaza.ru
+                                        </a>
+                                    </article>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="map col-xl-12" id="map">
+                    </div>
+                </div>
+            </div>
+ 
+
+                        <footer class="main-footer container-fluid">
+                <div class="row">
+                    <div class="col-md-4 d-flex align-items-center justify-content-center m-2 m-md-auto">
+                        <nav class="footer-nav d-flex justify-content-around"><a href="/infrastructure">Инфраструктура</a></nav>
+                    </div>
+                    <div class="col-md-4 social d-flex align-items-center justify-content-around m-2 m-md-auto">
+                                            </div>
+                    <div class="col-md-4 text-center text-md-right m-2 m-md-auto">
+                        <div class="button call-request">Оставить заявку</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="copyright"><span>© 2023 Бизнес-центр<br>Victory Park. Все права защищены</span></div>
+                    </div>
+                </div>
+            </footer>        </div>   
+    </main>
+    <footer class="aside-footer">
+        <nav class="footer-nav"><a href="/infrastructure">Инфраструктура</a></nav>
+        <div class="button call-request">Оставить заявку</div>
+        <div class="social container">
+            <div class="row">
+                            </div>
+        </div>
+        <div class="copyright"><span>© 2023 Бизнес-центр<br>Victory Park.<br>Все права защищены</span></div>
+    </footer>
+
+<div class="office-rent-modal-overlay"></div>
+
+        <div class="office-rent-modal office-id-rent-37111">
+            <div class="office-rent-modal-close">
+                <div class="close-office"><span></span><span></span></div>
+            </div>
+            <div class="office-rent-container container">
+                <div class="row">
+                    <div class="col-lg-6 office-card">
+                        <div class="office-page-slider slick-slider" data-block-id="37111" data-block-type="rent">
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block285&dirtyAlias=f3b38c.jpg%3F1619736415)"></div>
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block285&dirtyAlias=b8bf3e.jpg%3F1619736417)"></div>
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block285&dirtyAlias=01642d.jpg%3F1619736419)"></div>
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block285&dirtyAlias=200bc2.jpg%3F1619736421)"></div>
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block285&dirtyAlias=0adad6.jpg%3F1619736424)"></div>
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block285&dirtyAlias=b07306.jpg%3F1619739026)"></div>
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block285&dirtyAlias=6b4f92.jpg%3F1619739027)"></div>
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block285&dirtyAlias=a80d86.jpg%3F1619739027)"></div>
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block285&dirtyAlias=b7ea85.jpg%3F1619739028)"></div>
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block285&dirtyAlias=611b6d.jpg%3F1619739028)"></div>
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block285&dirtyAlias=0563b8.JPG%3F1619627085)"></div>
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block285&dirtyAlias=2b7275.jpg%3F1619737553)"></div>
+                                                    </div>
+                        <div class="col-xl-12 slider-control">
+                            <div class="slider-counts">
+                                <span class="current">02</span>
+                                <span class="count">/05</span></div>
+                            <div class="slider-arrows"></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 office-card">
+                        <div class="office-specification">
+                            <p><span>Этаж:</span><span>1 этаж</span></p>
+                            <p>
+                                <span>Арендуемая площадь:</span><span>194 <span> м<sup>2</sup></span></span>
+                            </p>
+                            <p><span>Готовность:</span><span>Готово к въезду</span></p>
+                            <p><span>Ставка аренды:</span><span>
+                                                                19 550 руб./м<sup>2</sup> в год                            </span>
+                            </p>
+                            <p><span>За помещение в месяц:</span><span>316 058 руб./м<sup>2</sup> в год</span></p>
+                            <p><span>Налогообложение:</span><span>Включая ндс</span></p>
+                        </div>
+                        <div class="office-order">
+                            <div class="call d-flex justify-content-between align-items-center flex-column flex-sm-row flex-lg-column flex-xl-row">
+                                 <span><a href="tel:+74952121799"><img src="/img/phone.png">+7 (495) 21-21-799</a></span>
+                                <div class="button call-request">Заказать звонок</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                <div class="col-lg-12 office-rent-modal-link">
+                    <a href="/block/rent/37111" class="button" target="_blank">Открыть в новом окне</a>
+                </div>
+                                    </div>
+            </div>
+        </div>
+                <div class="office-rent-modal office-id-rent-38866">
+            <div class="office-rent-modal-close">
+                <div class="close-office"><span></span><span></span></div>
+            </div>
+            <div class="office-rent-container container">
+                <div class="row">
+                    <div class="col-lg-6 office-card">
+                        <div class="office-page-slider slick-slider" data-block-id="38866" data-block-type="rent">
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block286&dirtyAlias=cd7515.JPG%3F1619745271)"></div>
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block286&dirtyAlias=58b1d7.JPG%3F1619745272)"></div>
+                                                    </div>
+                        <div class="col-xl-12 slider-control">
+                            <div class="slider-counts">
+                                <span class="current">02</span>
+                                <span class="count">/05</span></div>
+                            <div class="slider-arrows"></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 office-card">
+                        <div class="office-specification">
+                            <p><span>Этаж:</span><span>1 этаж</span></p>
+                            <p>
+                                <span>Арендуемая площадь:</span><span>от 94 <span> м<sup>2</sup></span> до 890 <span> м<sup>2</sup></span></span>
+                            </p>
+                            <p><span>Готовность:</span><span>Готово к въезду</span></p>
+                            <p><span>Ставка аренды:</span><span>
+                                                                19 550 руб./м<sup>2</sup> в год                            </span>
+                            </p>
+                            <p><span>За помещение в месяц:</span><span>153 142 руб./м<sup>2</sup> в год</span></p>
+                            <p><span>Налогообложение:</span><span>Включая ндс</span></p>
+                        </div>
+                        <div class="office-order">
+                            <div class="call d-flex justify-content-between align-items-center flex-column flex-sm-row flex-lg-column flex-xl-row">
+                                 <span><a href="tel:+74952121799"><img src="/img/phone.png">+7 (495) 21-21-799</a></span>
+                                <div class="button call-request">Заказать звонок</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                <div class="col-lg-12 office-rent-modal-link">
+                    <a href="/block/rent/38866" class="button" target="_blank">Открыть в новом окне</a>
+                </div>
+                                    </div>
+            </div>
+        </div>
+                <div class="office-rent-modal office-id-rent-51752">
+            <div class="office-rent-modal-close">
+                <div class="close-office"><span></span><span></span></div>
+            </div>
+            <div class="office-rent-container container">
+                <div class="row">
+                    <div class="col-lg-6 office-card">
+                        <div class="office-page-slider slick-slider" data-block-id="51752" data-block-type="rent">
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block290&dirtyAlias=6fdb5b.jpeg%3F1619739143)"></div>
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block290&dirtyAlias=e68f0b.jpeg%3F1619739144)"></div>
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block290&dirtyAlias=89845e.jpeg%3F1619739145)"></div>
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block290&dirtyAlias=bb55a2.PNG%3F1619739140)"></div>
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block290&dirtyAlias=ea18c9.PNG%3F1619739141)"></div>
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block290&dirtyAlias=cacb4a.PNG%3F1619739142)"></div>
+                                                    </div>
+                        <div class="col-xl-12 slider-control">
+                            <div class="slider-counts">
+                                <span class="current">02</span>
+                                <span class="count">/05</span></div>
+                            <div class="slider-arrows"></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 office-card">
+                        <div class="office-specification">
+                            <p><span>Этаж:</span><span>1 этаж</span></p>
+                            <p>
+                                <span>Арендуемая площадь:</span><span>155 <span> м<sup>2</sup></span></span>
+                            </p>
+                            <p><span>Готовность:</span><span>Готово к въезду</span></p>
+                            <p><span>Ставка аренды:</span><span>
+                                                                19 550 руб./м<sup>2</sup> в год                            </span>
+                            </p>
+                            <p><span>За помещение в месяц:</span><span>252 521 руб./м<sup>2</sup> в год</span></p>
+                            <p><span>Налогообложение:</span><span>Включая ндс</span></p>
+                        </div>
+                        <div class="office-order">
+                            <div class="call d-flex justify-content-between align-items-center flex-column flex-sm-row flex-lg-column flex-xl-row">
+                                 <span><a href="tel:+74952121799"><img src="/img/phone.png">+7 (495) 21-21-799</a></span>
+                                <div class="button call-request">Заказать звонок</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                <div class="col-lg-12 office-rent-modal-link">
+                    <a href="/block/rent/51752" class="button" target="_blank">Открыть в новом окне</a>
+                </div>
+                                    </div>
+            </div>
+        </div>
+                <div class="office-rent-modal office-id-rent-52159">
+            <div class="office-rent-modal-close">
+                <div class="close-office"><span></span><span></span></div>
+            </div>
+            <div class="office-rent-container container">
+                <div class="row">
+                    <div class="col-lg-6 office-card">
+                        <div class="office-page-slider slick-slider" data-block-id="52159" data-block-type="rent">
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block291&dirtyAlias=281eb4.jpeg%3F1619739168)"></div>
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block291&dirtyAlias=e6fc98.jpeg%3F1619739168)"></div>
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block291&dirtyAlias=982be6.jpeg%3F1619739169)"></div>
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block291&dirtyAlias=76d16a.PNG%3F1619739165)"></div>
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block291&dirtyAlias=717dac.PNG%3F1619739166)"></div>
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block291&dirtyAlias=80ebdd.PNG%3F1619739167)"></div>
+                                                    </div>
+                        <div class="col-xl-12 slider-control">
+                            <div class="slider-counts">
+                                <span class="current">02</span>
+                                <span class="count">/05</span></div>
+                            <div class="slider-arrows"></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 office-card">
+                        <div class="office-specification">
+                            <p><span>Этаж:</span><span>1 этаж</span></p>
+                            <p>
+                                <span>Арендуемая площадь:</span><span>88 <span> м<sup>2</sup></span></span>
+                            </p>
+                            <p><span>Готовность:</span><span>Готово к въезду</span></p>
+                            <p><span>Ставка аренды:</span><span>
+                                                                26 550 руб./м<sup>2</sup> в год                            </span>
+                            </p>
+                            <p><span>За помещение в месяц:</span><span>194 700 руб./м<sup>2</sup> в год</span></p>
+                            <p><span>Налогообложение:</span><span>Включая ндс</span></p>
+                        </div>
+                        <div class="office-order">
+                            <div class="call d-flex justify-content-between align-items-center flex-column flex-sm-row flex-lg-column flex-xl-row">
+                                 <span><a href="tel:+74952121799"><img src="/img/phone.png">+7 (495) 21-21-799</a></span>
+                                <div class="button call-request">Заказать звонок</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                <div class="col-lg-12 office-rent-modal-link">
+                    <a href="/block/rent/52159" class="button" target="_blank">Открыть в новом окне</a>
+                </div>
+                                    </div>
+            </div>
+        </div>
+                <div class="office-rent-modal office-id-rent-52160">
+            <div class="office-rent-modal-close">
+                <div class="close-office"><span></span><span></span></div>
+            </div>
+            <div class="office-rent-container container">
+                <div class="row">
+                    <div class="col-lg-6 office-card">
+                        <div class="office-page-slider slick-slider" data-block-id="52160" data-block-type="rent">
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block292&dirtyAlias=9b47ef.jpeg%3F1619739200)"></div>
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block292&dirtyAlias=0ab9d0.jpeg%3F1619739201)"></div>
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block292&dirtyAlias=4b0542.PNG%3F1619739198)"></div>
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block292&dirtyAlias=7da450.PNG%3F1619739198)"></div>
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block292&dirtyAlias=f1e3cb.PNG%3F1619739199)"></div>
+                                                    </div>
+                        <div class="col-xl-12 slider-control">
+                            <div class="slider-counts">
+                                <span class="current">02</span>
+                                <span class="count">/05</span></div>
+                            <div class="slider-arrows"></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 office-card">
+                        <div class="office-specification">
+                            <p><span>Этаж:</span><span>1 этаж</span></p>
+                            <p>
+                                <span>Арендуемая площадь:</span><span>57 <span> м<sup>2</sup></span></span>
+                            </p>
+                            <p><span>Готовность:</span><span>Готово к въезду</span></p>
+                            <p><span>Ставка аренды:</span><span>
+                                                                26 550 руб./м<sup>2</sup> в год                            </span>
+                            </p>
+                            <p><span>За помещение в месяц:</span><span>126 113 руб./м<sup>2</sup> в год</span></p>
+                            <p><span>Налогообложение:</span><span>Включая ндс</span></p>
+                        </div>
+                        <div class="office-order">
+                            <div class="call d-flex justify-content-between align-items-center flex-column flex-sm-row flex-lg-column flex-xl-row">
+                                 <span><a href="tel:+74952121799"><img src="/img/phone.png">+7 (495) 21-21-799</a></span>
+                                <div class="button call-request">Заказать звонок</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                <div class="col-lg-12 office-rent-modal-link">
+                    <a href="/block/rent/52160" class="button" target="_blank">Открыть в новом окне</a>
+                </div>
+                                    </div>
+            </div>
+        </div>
+                <div class="office-rent-modal office-id-rent-34824">
+            <div class="office-rent-modal-close">
+                <div class="close-office"><span></span><span></span></div>
+            </div>
+            <div class="office-rent-container container">
+                <div class="row">
+                    <div class="col-lg-6 office-card">
+                        <div class="office-page-slider slick-slider" data-block-id="34824" data-block-type="rent">
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block282&dirtyAlias=628189.JPG%3F1619745372)"></div>
+                                                    </div>
+                        <div class="col-xl-12 slider-control">
+                            <div class="slider-counts">
+                                <span class="current">02</span>
+                                <span class="count">/05</span></div>
+                            <div class="slider-arrows"></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 office-card">
+                        <div class="office-specification">
+                            <p><span>Этаж:</span><span>2 этаж</span></p>
+                            <p>
+                                <span>Арендуемая площадь:</span><span>от 129 <span> м<sup>2</sup></span> до 610 <span> м<sup>2</sup></span></span>
+                            </p>
+                            <p><span>Готовность:</span><span>Готово к въезду</span></p>
+                            <p><span>Ставка аренды:</span><span>
+                                                                20 550 руб./м<sup>2</sup> в год                            </span>
+                            </p>
+                            <p><span>За помещение в месяц:</span><span>220 913 руб./м<sup>2</sup> в год</span></p>
+                            <p><span>Налогообложение:</span><span>Включая ндс</span></p>
+                        </div>
+                        <div class="office-order">
+                            <div class="call d-flex justify-content-between align-items-center flex-column flex-sm-row flex-lg-column flex-xl-row">
+                                 <span><a href="tel:+74952121799"><img src="/img/phone.png">+7 (495) 21-21-799</a></span>
+                                <div class="button call-request">Заказать звонок</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                <div class="col-lg-12 office-rent-modal-link">
+                    <a href="/block/rent/34824" class="button" target="_blank">Открыть в новом окне</a>
+                </div>
+                                    </div>
+            </div>
+        </div>
+                <div class="office-rent-modal office-id-rent-35438">
+            <div class="office-rent-modal-close">
+                <div class="close-office"><span></span><span></span></div>
+            </div>
+            <div class="office-rent-container container">
+                <div class="row">
+                    <div class="col-lg-6 office-card">
+                        <div class="office-page-slider slick-slider" data-block-id="35438" data-block-type="rent">
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block283&dirtyAlias=f4c306.jpg%3F1622558052)"></div>
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block283&dirtyAlias=8977e4.jpg%3F1622558052)"></div>
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block283&dirtyAlias=2e3fb4.jpg%3F1622558052)"></div>
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block283&dirtyAlias=251a35.jpg%3F1622558052)"></div>
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block283&dirtyAlias=6f1fab.JPG%3F1619627090)"></div>
+                                                    </div>
+                        <div class="col-xl-12 slider-control">
+                            <div class="slider-counts">
+                                <span class="current">02</span>
+                                <span class="count">/05</span></div>
+                            <div class="slider-arrows"></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 office-card">
+                        <div class="office-specification">
+                            <p><span>Этаж:</span><span>2 этаж</span></p>
+                            <p>
+                                <span>Арендуемая площадь:</span><span>158 <span> м<sup>2</sup></span></span>
+                            </p>
+                            <p><span>Готовность:</span><span>Готово к въезду</span></p>
+                            <p><span>Ставка аренды:</span><span>
+                                                                24 200 руб./м<sup>2</sup> в год                            </span>
+                            </p>
+                            <p><span>За помещение в месяц:</span><span>318 633 руб./м<sup>2</sup> в год</span></p>
+                            <p><span>Налогообложение:</span><span>Включая ндс</span></p>
+                        </div>
+                        <div class="office-order">
+                            <div class="call d-flex justify-content-between align-items-center flex-column flex-sm-row flex-lg-column flex-xl-row">
+                                 <span><a href="tel:+74952121799"><img src="/img/phone.png">+7 (495) 21-21-799</a></span>
+                                <div class="button call-request">Заказать звонок</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                <div class="col-lg-12 office-rent-modal-link">
+                    <a href="/block/rent/35438" class="button" target="_blank">Открыть в новом окне</a>
+                </div>
+                                    </div>
+            </div>
+        </div>
+                <div class="office-rent-modal office-id-rent-35439">
+            <div class="office-rent-modal-close">
+                <div class="close-office"><span></span><span></span></div>
+            </div>
+            <div class="office-rent-container container">
+                <div class="row">
+                    <div class="col-lg-6 office-card">
+                        <div class="office-page-slider slick-slider" data-block-id="35439" data-block-type="rent">
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block284&dirtyAlias=1165ab.JPG%3F1619606615)"></div>
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block284&dirtyAlias=ca0f23.JPG%3F1619606615)"></div>
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block284&dirtyAlias=827966.JPG%3F1619606616)"></div>
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block284&dirtyAlias=64cc12.JPG%3F1619606616)"></div>
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block284&dirtyAlias=6e6cfa.JPG%3F1619606614)"></div>
+                                                    </div>
+                        <div class="col-xl-12 slider-control">
+                            <div class="slider-counts">
+                                <span class="current">02</span>
+                                <span class="count">/05</span></div>
+                            <div class="slider-arrows"></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 office-card">
+                        <div class="office-specification">
+                            <p><span>Этаж:</span><span>2 этаж</span></p>
+                            <p>
+                                <span>Арендуемая площадь:</span><span>160 <span> м<sup>2</sup></span></span>
+                            </p>
+                            <p><span>Готовность:</span><span>Готово к въезду</span></p>
+                            <p><span>Ставка аренды:</span><span>
+                                                                24 200 руб./м<sup>2</sup> в год                            </span>
+                            </p>
+                            <p><span>За помещение в месяц:</span><span>322 667 руб./м<sup>2</sup> в год</span></p>
+                            <p><span>Налогообложение:</span><span>Включая ндс</span></p>
+                        </div>
+                        <div class="office-order">
+                            <div class="call d-flex justify-content-between align-items-center flex-column flex-sm-row flex-lg-column flex-xl-row">
+                                 <span><a href="tel:+74952121799"><img src="/img/phone.png">+7 (495) 21-21-799</a></span>
+                                <div class="button call-request">Заказать звонок</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                <div class="col-lg-12 office-rent-modal-link">
+                    <a href="/block/rent/35439" class="button" target="_blank">Открыть в новом окне</a>
+                </div>
+                                            <div class="col-xl-12 office-description">
+                            <p><p>Id: 35439</p><p>БЦ «Минская Плаза» - это современный семиэтажный офисный центр, занимающий площадь около тридцати тысяч кв. метров, и возведенный в 2014 году. Соответствует категории «В+» объектов коммерческой недвижимости. Предлагается помещение под офис 160кв.м на 2 этаже с отделкой. Ставка 16 500р.за кв.м. в год +2 500р. за кв. .м в год -эксплуатация.</p></p>
+                        </div>
+                                    </div>
+            </div>
+        </div>
+                <div class="office-rent-modal office-id-rent-19783">
+            <div class="office-rent-modal-close">
+                <div class="close-office"><span></span><span></span></div>
+            </div>
+            <div class="office-rent-container container">
+                <div class="row">
+                    <div class="col-lg-6 office-card">
+                        <div class="office-page-slider slick-slider" data-block-id="19783" data-block-type="rent">
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block281&dirtyAlias=621b32.JPG%3F1619744774)"></div>
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block281&dirtyAlias=754c90.JPG%3F1619744776)"></div>
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block281&dirtyAlias=d09a10.JPG%3F1619744779)"></div>
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block281&dirtyAlias=b21c90.JPG%3F1619733332)"></div>
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block281&dirtyAlias=46c340.JPG%3F1619733333)"></div>
+                                                    </div>
+                        <div class="col-xl-12 slider-control">
+                            <div class="slider-counts">
+                                <span class="current">02</span>
+                                <span class="count">/05</span></div>
+                            <div class="slider-arrows"></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 office-card">
+                        <div class="office-specification">
+                            <p><span>Этаж:</span><span>3 этаж</span></p>
+                            <p>
+                                <span>Арендуемая площадь:</span><span>159 <span> м<sup>2</sup></span></span>
+                            </p>
+                            <p><span>Готовность:</span><span>Готово к въезду</span></p>
+                            <p><span>Ставка аренды:</span><span>
+                                                                21 550 руб./м<sup>2</sup> в год                            </span>
+                            </p>
+                            <p><span>За помещение в месяц:</span><span>285 538 руб./м<sup>2</sup> в год</span></p>
+                            <p><span>Налогообложение:</span><span>Включая ндс</span></p>
+                        </div>
+                        <div class="office-order">
+                            <div class="call d-flex justify-content-between align-items-center flex-column flex-sm-row flex-lg-column flex-xl-row">
+                                 <span><a href="tel:+74952121799"><img src="/img/phone.png">+7 (495) 21-21-799</a></span>
+                                <div class="button call-request">Заказать звонок</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                <div class="col-lg-12 office-rent-modal-link">
+                    <a href="/block/rent/19783" class="button" target="_blank">Открыть в новом окне</a>
+                </div>
+                                    </div>
+            </div>
+        </div>
+                <div class="office-rent-modal office-id-rent-16105">
+            <div class="office-rent-modal-close">
+                <div class="close-office"><span></span><span></span></div>
+            </div>
+            <div class="office-rent-container container">
+                <div class="row">
+                    <div class="col-lg-6 office-card">
+                        <div class="office-page-slider slick-slider" data-block-id="16105" data-block-type="rent">
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block280&dirtyAlias=425c89.JPG%3F1619679141)"></div>
+                                                    </div>
+                        <div class="col-xl-12 slider-control">
+                            <div class="slider-counts">
+                                <span class="current">02</span>
+                                <span class="count">/05</span></div>
+                            <div class="slider-arrows"></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 office-card">
+                        <div class="office-specification">
+                            <p><span>Этаж:</span><span>4 этаж</span></p>
+                            <p>
+                                <span>Арендуемая площадь:</span><span>от 160 <span> м<sup>2</sup></span> до 3 418 <span> м<sup>2</sup></span></span>
+                            </p>
+                            <p><span>Готовность:</span><span>Под отделку</span></p>
+                            <p><span>Ставка аренды:</span><span>
+                                                                19 550 руб./м<sup>2</sup> в год                            </span>
+                            </p>
+                            <p><span>За помещение в месяц:</span><span>260 667 руб./м<sup>2</sup> в год</span></p>
+                            <p><span>Налогообложение:</span><span>Включая ндс</span></p>
+                        </div>
+                        <div class="office-order">
+                            <div class="call d-flex justify-content-between align-items-center flex-column flex-sm-row flex-lg-column flex-xl-row">
+                                 <span><a href="tel:+74952121799"><img src="/img/phone.png">+7 (495) 21-21-799</a></span>
+                                <div class="button call-request">Заказать звонок</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                <div class="col-lg-12 office-rent-modal-link">
+                    <a href="/block/rent/16105" class="button" target="_blank">Открыть в новом окне</a>
+                </div>
+                                    </div>
+            </div>
+        </div>
+                <div class="office-rent-modal office-id-rent-51386">
+            <div class="office-rent-modal-close">
+                <div class="close-office"><span></span><span></span></div>
+            </div>
+            <div class="office-rent-container container">
+                <div class="row">
+                    <div class="col-lg-6 office-card">
+                        <div class="office-page-slider slick-slider" data-block-id="51386" data-block-type="rent">
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block288&dirtyAlias=8bcec3.jpg%3F1619736426)"></div>
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block288&dirtyAlias=41b472.jpg%3F1619736428)"></div>
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block288&dirtyAlias=995137.jpg%3F1619736431)"></div>
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block288&dirtyAlias=391503.jpg%3F1619736433)"></div>
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block288&dirtyAlias=a65c37.jpg%3F1619738943)"></div>
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block288&dirtyAlias=ad9938.jpg%3F1619738943)"></div>
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block288&dirtyAlias=5eb64a.jpg%3F1619738944)"></div>
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block288&dirtyAlias=adf4e9.JPG%3F1619733331)"></div>
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block288&dirtyAlias=cd02c1.JPG%3F1619745376)"></div>
+                                                    </div>
+                        <div class="col-xl-12 slider-control">
+                            <div class="slider-counts">
+                                <span class="current">02</span>
+                                <span class="count">/05</span></div>
+                            <div class="slider-arrows"></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 office-card">
+                        <div class="office-specification">
+                            <p><span>Этаж:</span><span>4 этаж</span></p>
+                            <p>
+                                <span>Арендуемая площадь:</span><span>207 <span> м<sup>2</sup></span></span>
+                            </p>
+                            <p><span>Готовность:</span><span>Готово к въезду</span></p>
+                            <p><span>Ставка аренды:</span><span>
+                                                                23 550 руб./м<sup>2</sup> в год                            </span>
+                            </p>
+                            <p><span>За помещение в месяц:</span><span>406 238 руб./м<sup>2</sup> в год</span></p>
+                            <p><span>Налогообложение:</span><span>Включая ндс</span></p>
+                        </div>
+                        <div class="office-order">
+                            <div class="call d-flex justify-content-between align-items-center flex-column flex-sm-row flex-lg-column flex-xl-row">
+                                 <span><a href="tel:+74952121799"><img src="/img/phone.png">+7 (495) 21-21-799</a></span>
+                                <div class="button call-request">Заказать звонок</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                <div class="col-lg-12 office-rent-modal-link">
+                    <a href="/block/rent/51386" class="button" target="_blank">Открыть в новом окне</a>
+                </div>
+                                    </div>
+            </div>
+        </div>
+                <div class="office-rent-modal office-id-rent-51724">
+            <div class="office-rent-modal-close">
+                <div class="close-office"><span></span><span></span></div>
+            </div>
+            <div class="office-rent-container container">
+                <div class="row">
+                    <div class="col-lg-6 office-card">
+                        <div class="office-page-slider slick-slider" data-block-id="51724" data-block-type="rent">
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block289&dirtyAlias=bbd895.JPG%3F1619732933)"></div>
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block289&dirtyAlias=747ccf.JPG%3F1619732934)"></div>
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block289&dirtyAlias=d9ed8c.JPG%3F1619732935)"></div>
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block289&dirtyAlias=a74134.JPG%3F1619732935)"></div>
+                                                            <div class="slide"
+                                     style="background-image: url(/yii2images/images/image-by-item-and-alias?item=Block289&dirtyAlias=2ab609.JPG%3F1619732933)"></div>
+                                                    </div>
+                        <div class="col-xl-12 slider-control">
+                            <div class="slider-counts">
+                                <span class="current">02</span>
+                                <span class="count">/05</span></div>
+                            <div class="slider-arrows"></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 office-card">
+                        <div class="office-specification">
+                            <p><span>Этаж:</span><span>6 этаж</span></p>
+                            <p>
+                                <span>Арендуемая площадь:</span><span>1 186 <span> м<sup>2</sup></span></span>
+                            </p>
+                            <p><span>Готовность:</span><span>Готово к въезду</span></p>
+                            <p><span>Ставка аренды:</span><span>
+                                                                52 613 руб./м<sup>2</sup> в год                            </span>
+                            </p>
+                            <p><span>За помещение в месяц:</span><span>5 199 918 руб./м<sup>2</sup> в год</span></p>
+                            <p><span>Налогообложение:</span><span>Включая ндс</span></p>
+                        </div>
+                        <div class="office-order">
+                            <div class="call d-flex justify-content-between align-items-center flex-column flex-sm-row flex-lg-column flex-xl-row">
+                                 <span><a href="tel:+74952121799"><img src="/img/phone.png">+7 (495) 21-21-799</a></span>
+                                <div class="button call-request">Заказать звонок</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                <div class="col-lg-12 office-rent-modal-link">
+                    <a href="/block/rent/51724" class="button" target="_blank">Открыть в новом окне</a>
+                </div>
+                                    </div>
+            </div>
+        </div>
+        <div class="call-request-modal-overlay"></div>
+<div class="call-request-modal get-call_JS">
+    <div class="call-request-modal-container">
+        <div class="container modalcontent">
+            <div class="row">
+                <div class="col-12">
+                    <h3>Заказать звонок</h3>
+                </div>
+                <div class="col-12">
+                    
+<form action="/ajax/send-mail" method="post">
+    <input type="text" name="ContactForm[name]" class="default-input" placeholder="Имя" required="required">
+    <input type="text" name="ContactForm[telephon]" class="default-input" placeholder="Телефон" required="required">
+    <input type="hidden" id="w0" name="ContactForm[reCaptcha]">    <button class="button m-auto">Отправить<i class="icon icon-arrow-right-white"></i></button>
+</form>                </div>
+            </div>
+        </div>
+        <div class="close-modal"><span></span><span></span></div>
+    </div>
+</div><script src="https://www.google.com/recaptcha/api.js?render=6LfifM8aAAAAABnKfU9SyOYM0bS7HbCxXxrY-7lO"></script>
+<script src="//www.google.com/recaptcha/api.js?render=6LfifM8aAAAAABnKfU9SyOYM0bS7HbCxXxrY-7lO"></script>
+<script src="/assets/97d41972/jquery.js"></script>
+<script src="/assets/e8624193/yii.js"></script>
+<script src="/js/libs.min.js"></script>
+<script src="/js/jquery.fitvids.js"></script>
+<script src="/js/main.js"></script>
+<script>jQuery(function ($) {
+"use strict";
+grecaptcha.ready(function() {
+    grecaptcha.execute("6LfifM8aAAAAABnKfU9SyOYM0bS7HbCxXxrY-7lO", {action: "homepage"}).then(function(token) {
+        jQuery("#" + "w0").val(token);
+
+        const jsCallback = "";
+        if (jsCallback) {
+            eval("(" + jsCallback + ")(token)");
+        }
+    });
+});
+});</script>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript" >
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter49838485 = new Ya.Metrika2({
+                    id:49838485,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true,
+                    webvisor:true
+                });
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/tag.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks2");
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/49838485" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<script src="/js/fotorama.js"></script>
+</body>
+</html>
+

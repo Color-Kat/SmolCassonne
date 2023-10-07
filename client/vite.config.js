@@ -15,15 +15,15 @@ export default defineConfig({
     ],
     resolve: {
         alias: {
-            '@': path.resolve(__dirname, './resources/js'),
-            '@sass': path.resolve(__dirname, './resources/sass/'),
-            '@assets': path.resolve(__dirname, './resources/js/assets/'),
-            '@pages': path.resolve(__dirname, './resources/js/pages/'),
-            '@modules': path.resolve(__dirname, './resources/js/modules/'),
-            '@components': path.resolve(__dirname, './resources/js/components/'),
-            '@UI': path.resolve(__dirname, './resources/js/UI/'),
-            '@hooks': path.resolve(__dirname, './resources/js/hooks/'),
-            '@utils': path.resolve(__dirname, './resources/js/utils/')
+            '@': path.resolve(__dirname, './src'),
+            '@scss': path.resolve(__dirname, './src/scss/'),
+            '@assets': path.resolve(__dirname, './src/assets/'),
+            '@pages': path.resolve(__dirname, './src/pages/'),
+            '@modules': path.resolve(__dirname, './src/modules/'),
+            '@components': path.resolve(__dirname, './src/components/'),
+            '@UI': path.resolve(__dirname, './src/UI/'),
+            '@hooks': path.resolve(__dirname, './src/hooks/'),
+            '@utils': path.resolve(__dirname, './src/utils/')
         },
         extensions: ['.js', '.ts', '.tsx', '.jsx'],
     },

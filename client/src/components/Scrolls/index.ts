@@ -1,0 +1,1 @@
+export {FloatingScrollbar} from './FloatingScrollbar.tsx';

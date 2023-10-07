@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "./fonts.scss"; // Load fonts to classes
+@import "./scrollbar.scss"; // Custom scrollbar
+@import "./autofill.scss"; // Controls autofill style for forms
+@import "./tw-helpers.scss"; // Contains shorter representation of combined tailwind classes
+
+html, body {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+//@media only screen and (max-width: 1023px) {
+//}

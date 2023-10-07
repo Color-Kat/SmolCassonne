@@ -9,7 +9,7 @@
       "module": "ESNext",
       "jsx": "react-jsx",
       "skipLibCheck": true,
-      "rootDir": "./resources/js",
+      "rootDir": "./src",
 
       /* Bundler mode */
       "moduleResolution": "node",
@@ -29,32 +29,32 @@
       "baseUrl": "./",
       "paths": {
           "@/*": [
-              "./resources/js/*"
+              "./src/*"
           ],
-          "@sass/*": [
-              "./resources/sass/*"
+          "@scss/*": [
+              "./src/scss/*"
           ],
           "@assets/*": [
-              "./resources/js/assets/*"
+              "./src/assets/*"
           ],
           "@pages/*": [
-              "./resources/js/pages/*"
+              "./src/pages/*"
           ],
           "@modules/*": [
-              "./resources/js/modules/*"
+              "./src/modules/*"
           ],
           "@components/*": [
-              "./resources/js/components/*"
+              "./src/components/*"
           ],
           "@UI/*": [
-              "./resources/js/UI/*"
+              "./src/UI/*"
           ],
           "@hooks/*": [
-              "./resources/js/hooks/*"
+              "./src/hooks/*"
           ]
       }
   },
   "include": [
-      "resources/js"
+      "src"
   ]
 }
