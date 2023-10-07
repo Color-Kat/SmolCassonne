@@ -1,10 +1,11 @@
 import { Helmet } from "react-helmet";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Page } from "@modules/PageTemplates";
 import TilesDeck, { ITile } from "./classes/TilesDeck";
 import { Board } from "./modules/Board/Board";
 
 import tileBack from "@assets/tileBack.jpg"
+import { twJoin } from "tailwind-merge";
 
 export const GamePage = () => {
     // Get shuffled deck of tiles
@@ -18,7 +19,7 @@ export const GamePage = () => {
     const [tooltip, setTooltip] = useState("")
 
     const takeTile = () => {
-        if (deck.length == 0) return;
+        if (deck.length == 0 || currentTile) return;
 
         const deckCopy = [...deck];
         setCurrentTile(deckCopy.pop()); // Retrieve the last tile in the deck
@@ -40,6 +41,24 @@ export const GamePage = () => {
 
     const rotateTileLeft = () => rotateTile(-1);
     const rotateTileRight = () => rotateTile(1);
+
+    useEffect(() => {
+        function handleKeyPress(e: KeyboardEvent) {
+          if (e.keyCode === 37) {
+            // Arrow left
+            rotateTileLeft();
+          } else if (e.keyCode === 39) {
+            // Arrow right
+            rotateTileRight();
+          }
+        }
+    
+        document.addEventListener('keydown', handleKeyPress);
+    
+        return () => {
+          document.removeEventListener('keydown', handleKeyPress);
+        };
+      }, [rotateTileLeft, rotateTileRight]);
 
     const endOfTurn = () => {
         // Reset tooltip
@@ -67,16 +86,22 @@ export const GamePage = () => {
             <div className="flex">
                 {/* Control Panel */}
                 <div className="h-screen flex flex-col items-center px-3 py-5 bg-gray-300 w-56 relative">
-                    <div className="w-48 h-48 relative mb-16">
+                    <div className="w-48 h-48 relative mb-16  transition-all">
                         {/* Top tile */}
                         <img
                             src={currentTile ? `/tiles/${currentTile.design}.png` : tileBack}
+                            onClick={() => !currentTile ? takeTile() : null}
                             alt=""
-                            className="z-10 absolute top-2 hover:top-0 cursor-pointer w-full h-full"
+                            className="z-10 absolute top-2 hover:top-0 cursor-pointer w-full h-full rounded-md"
+                            style={{
+                                transform: currentTile ? `rotate(${90 * currentTile.rotation}deg)` : '',
+                                transition: 'transform 0.25s ease-in-out'
+                            }}
                         />
-                        <img src={tileBack} alt="" className="absolute w-full top-8" />
-                        <img src={tileBack} alt="" className="absolute w-full top-6" />
-                        <img src={tileBack} alt="" className="absolute w-full top-4" />
+
+                        <img src={tileBack} alt="" className="absolute w-full top-8  rounded-md" />
+                        <img src={tileBack} alt="" className="absolute w-full top-6  rounded-md" />
+                        <img src={tileBack} alt="" className="absolute w-full top-4  rounded-md" />
                     </div>
 
                     <button
