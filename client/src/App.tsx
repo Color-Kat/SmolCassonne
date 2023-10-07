@@ -10,6 +10,7 @@ import {Layout} from "@modules/Layout";
 import {AdminRoute, AuthRoute, NotAuthRoute} from "@components/Router";
 import {TestPage} from "@pages/TestPage/TestPage.tsx";
 import {Page404} from "@pages/Errors/Page404/Page404.tsx";
+import { GamePage } from "./pages/GamePage/GamePage";
 
 function App() {
     return (
@@ -17,6 +18,8 @@ function App() {
             <Routes>
                 <Route path="/" element={<HomePage/>}/>
                 <Route path="/test" element={<TestPage/>}/>
+
+                <Route path="/game" element={<GamePage/>}/>
 
                 {/*  Auth  */}
                 {/* <Route element={<NotAuthRoute/>}>
