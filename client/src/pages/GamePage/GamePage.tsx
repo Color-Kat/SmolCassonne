@@ -77,7 +77,7 @@ export const GamePage = () => {
     console.log(currentTile);
 
     return (
-        <div className="w-full">
+        <div className="w-full cursor-default">
             <Helmet>
                 <title>СмолКассон</title>
                 <link rel="canonical" href={import.meta.env.VITE_APP_URL + '/game'} />
@@ -85,7 +85,7 @@ export const GamePage = () => {
 
             <div className="flex">
                 {/* Control Panel */}
-                <div className="h-screen flex flex-col items-center px-3 py-5 bg-gray-300 w-56 relative">
+                <div className="h-screen flex flex-col items-center px-3 py-5 bg-gray-300 w-56 relative z-10">
                     <div className="w-48 h-48 relative mb-16  transition-all">
                         {/* Top tile */}
                         <img

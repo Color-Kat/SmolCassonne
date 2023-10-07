@@ -1,4 +1,4 @@
-import {shuffle} from '@/utils/arrays';
+import { shuffle } from '@/utils/arrays';
 
 export interface ITile {
     id: number;
