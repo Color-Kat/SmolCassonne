@@ -32,28 +32,29 @@ export const Layout: React.FC<{ children: React.ReactElement }> = memo(({childre
                 {/*<div className="relative flex h-32 w-full bg-red-500"></div>*/}
 
                 {/* Top banner */}
-                <Banner
+                {/* <Banner
                     text="Мы запустили нашу собственную игру!"
                     link="https://colorbit.ru"
                     show={!localStorage.getItem('hide-banner-1') ?? false}
                     callback={() => localStorage.setItem('hide-banner-1', '1')}
-                />
+                /> */}
 
                 <Header/>
 
                 <div
-                    className="scroll-container overflow-y-auto overflow-x-hidden flex flex-col flex-auto"> {/* Header at the top of the page */}
+                    className="scroll-container overflow-y-auto overflow-x-hidden flex flex-col flex-auto"
+                > {/* Header at the top of the page */}
                     <Main>
                         {children}
                     </Main>
 
-                    {showFooter && // Footer can be hide on page with full page scroll
+                    {/* {showFooter && // Footer can be hide on page with full page scroll
                         // <SimpleFooter/>
                         <Footer />
-                    }
+                    } */}
                 </div>
 
-                <MobileBottomMenu/>
+                {/* <MobileBottomMenu/> */}
 
             </div>
         </LayoutContext.Provider>

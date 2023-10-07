@@ -1,3 +1,5 @@
+import {shuffle} from '@/utils/arrays';
+
 export interface ITile {
     id: number;
     design: string;

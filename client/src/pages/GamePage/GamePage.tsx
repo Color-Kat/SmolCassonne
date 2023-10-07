@@ -4,10 +4,12 @@ import { Page } from "@modules/PageTemplates";
 import TilesDeck, { ITile } from "./classes/TilesDeck";
 import { Board } from "./modules/Board/Board";
 
+import tileBack from "@assets/tileBack.jpg"
+
 export const GamePage = () => {
     // Get shuffled deck of tiles
     const [deck, setDeck] = useState((new TilesDeck()).getShuffledDeck());
-    
+
     // State for current tile
     const [currentTile, setCurrentTile] = useState<ITile | undefined>(undefined);
 
@@ -31,17 +33,17 @@ export const GamePage = () => {
         setCurrentTile((tile) => (tile ?
             {
                 ...tile,
-                rotation: tile.rotation + rotateValue,
+                rotation: (tile.rotation + rotateValue) % 4,
             } : undefined
         ));
     }
 
     const rotateTileLeft = () => rotateTile(-1);
     const rotateTileRight = () => rotateTile(1);
-    
+
     const endOfTurn = () => {
         // Reset tooltip
-        setTooltip(""); 
+        setTooltip("");
 
         // Show information about placed tile
         setTitleInformation("Information");
@@ -53,20 +55,62 @@ export const GamePage = () => {
         // passTheTurn() 
     }
 
+    console.log(currentTile);
+
     return (
-        <Page
-            className="w-screen pt-0"
-        >
+        <div className="w-full">
             <Helmet>
                 <title>СмолКассон</title>
                 <link rel="canonical" href={import.meta.env.VITE_APP_URL + '/game'} />
             </Helmet>
 
-            <Board
-                currentTile={currentTile}
-                setTooltip={setTooltip}
-                endOfTurn={endOfTurn}
-            />
-        </Page>
+            <div className="flex">
+                {/* Control Panel */}
+                <div className="h-screen flex flex-col items-center px-3 py-5 bg-gray-300 w-56 relative">
+                    <div className="w-48 h-48 relative mb-16">
+                        {/* Top tile */}
+                        <img
+                            src={currentTile ? `/tiles/${currentTile.design}.png` : tileBack}
+                            alt=""
+                            className="z-10 absolute top-2 hover:top-0 cursor-pointer w-full h-full"
+                        />
+                        <img src={tileBack} alt="" className="absolute w-full top-8" />
+                        <img src={tileBack} alt="" className="absolute w-full top-6" />
+                        <img src={tileBack} alt="" className="absolute w-full top-4" />
+                    </div>
+
+                    <button
+                        className="w-full h-12 bg-zinc-500/70 hover:bg-zinc-500/50 rounded-md font-bold text-lg text-white mb-2"
+                        onClick={takeTile}
+                    >
+                        Взять тайл
+                    </button>
+
+                    <div className="flex justify-between w-full gap-3">
+                        <button onClick={rotateTileLeft} className="h-8 bg-zinc-500/70 hover:bg-zinc-500/50 rounded-md text-white flex-1">Влево</button>
+                        <button onClick={rotateTileRight} className="h-8 bg-zinc-500/70 hover:bg-zinc-500/50 rounded-md text-white flex-1">Вправо</button>
+                    </div>
+                </div>
+
+
+                {/* Board with map */}
+                <Board
+                    currentTile={currentTile}
+                    setTooltip={setTooltip}
+                    endOfTurn={endOfTurn}
+                />
+
+                {/* Information about placed tile */}
+                <div className="">
+
+                </div>
+
+                {/* User score */}
+                <div className="">
+
+                </div>
+
+            </div>
+        </div>
     );
 };
