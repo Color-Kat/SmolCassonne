@@ -44,21 +44,21 @@ export const GamePage = () => {
 
     useEffect(() => {
         function handleKeyPress(e: KeyboardEvent) {
-          if (e.keyCode === 37) {
-            // Arrow left
-            rotateTileLeft();
-          } else if (e.keyCode === 39) {
-            // Arrow right
-            rotateTileRight();
-          }
+            if (e.keyCode === 37) {
+                // Arrow left
+                rotateTileLeft();
+            } else if (e.keyCode === 39) {
+                // Arrow right
+                rotateTileRight();
+            }
         }
-    
+
         document.addEventListener('keydown', handleKeyPress);
-    
+
         return () => {
-          document.removeEventListener('keydown', handleKeyPress);
+            document.removeEventListener('keydown', handleKeyPress);
         };
-      }, [rotateTileLeft, rotateTileRight]);
+    }, [rotateTileLeft, rotateTileRight]);
 
     const endOfTurn = () => {
         // Reset tooltip
@@ -77,18 +77,18 @@ export const GamePage = () => {
     console.log(currentTile);
 
     return (
-        <div className="w-full cursor-default">
+        <div className="w-full h-full cursor-default">
             <Helmet>
                 <title>СмолКассон</title>
                 <link rel="canonical" href={import.meta.env.VITE_APP_URL + '/game'} />
             </Helmet>
 
-            <div className="flex">
+            <div className="flex h-full">
                 {/* Control Panel */}
-                <div className="h-screen flex flex-col items-center px-3 py-5 bg-gray-300 w-56 relative z-10">
+                <div className="h-full flex flex-col items-center px-3 py-5 bg-gray-300 w-56 relative z-10">
                     <div className="w-48 h-48 relative mb-16  transition-all">
                         {/* Top tile */}
-                        <img
+                        {deck.length > 0 && <img
                             src={currentTile ? `/tiles/${currentTile.design}.png` : tileBack}
                             onClick={() => !currentTile ? takeTile() : null}
                             alt=""
@@ -97,11 +97,11 @@ export const GamePage = () => {
                                 transform: currentTile ? `rotate(${90 * currentTile.rotation}deg)` : '',
                                 transition: 'transform 0.25s ease-in-out'
                             }}
-                        />
+                        />}
 
-                        <img src={tileBack} alt="" className="absolute w-full top-8  rounded-md" />
-                        <img src={tileBack} alt="" className="absolute w-full top-6  rounded-md" />
-                        <img src={tileBack} alt="" className="absolute w-full top-4  rounded-md" />
+                        {deck.length > 3 && <img src={tileBack} alt="" className="absolute w-full top-8  rounded-md" />}
+                        {deck.length > 2 && <img src={tileBack} alt="" className="absolute w-full top-6  rounded-md" />}
+                        {deck.length > 1 && <img src={tileBack} alt="" className="absolute w-full top-4  rounded-md" />}
                     </div>
 
                     <button

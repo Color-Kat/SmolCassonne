@@ -10,7 +10,7 @@ const Main: React.FC<{ children: React.ReactElement }> =
             <>
                 <main
                     className={twJoin(
-                        "relative w-full flex flex-auto justify-center",
+                        "relative w-full h-full flex flex-auto justify-center",
                         // theme == 'light' && "bg-app bg-gradient-to-r from-indigo-200 via-red-200 to-yellow-100 text-app-dark",
                         // theme == 'dark' && "bg-app bg-gradient-to-tr from-black via-gray-800 to-zinc-700 text-violet-50",
                     )}

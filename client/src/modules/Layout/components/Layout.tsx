@@ -24,7 +24,7 @@ export const Layout: React.FC<{ children: React.ReactElement }> = memo(({childre
 
                     // "md:h-screen h-[calc(100vh-4.4rem)]", // For MobileBottomMenu
                     // "pt-16",// For header
-                    "pb-[4.4rem] md:pb-0",// For MobileBottomMenu
+                    // "pb-[4.4rem] md:pb-0",// For MobileBottomMenu
                     "bg-app-dark font-inter"
                 )}
             >
