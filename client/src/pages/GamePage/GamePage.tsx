@@ -31,10 +31,12 @@ export const GamePage = () => {
     const rotateTile = (rotateValue: number) => {
         if (!currentTile) return;
 
+        if(rotateValue < 0) rotateValue = 4 + rotateValue;
+
         setCurrentTile((tile) => (tile ?
             {
                 ...tile,
-                rotation: (tile.rotation + rotateValue) % 4,
+                rotation: Math.abs((tile.rotation + rotateValue))  % 4,
             } : undefined
         ));
     }
@@ -74,7 +76,7 @@ export const GamePage = () => {
         // passTheTurn() 
     }
 
-    console.log(currentTile);
+    // console.log(currentTile);
 
     return (
         <div className="w-full h-full cursor-default">
