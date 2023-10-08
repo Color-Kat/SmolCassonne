@@ -25,7 +25,7 @@ export const Board: React.FC<BoardProps> = ({
     const [map, setMap] = useState<IMapTile[]>([]);
 
     /* ----- Map navigation ----- */
-    const mapSize = 2000;
+    const mapSize = tileSize * 70;
 
     const mapRef = useRef<HTMLDivElement>(null);
     const [isDragging, setIsDragging] = useState(false);
@@ -112,11 +112,7 @@ export const Board: React.FC<BoardProps> = ({
         }
 
         /* --- Check if tile can be placed on the map --- */
-
-        let isFit = checkIfFit(tile);
-
-        if (!isFit) {
-
+        if (!checkIfFit(tile)) {
             return false;
         }
 
@@ -132,7 +128,10 @@ export const Board: React.FC<BoardProps> = ({
     }
 
     const checkIfFit = (tile: IMapTile) => {
-        for (let mapTile of map) {
+        let neighborsCount = 0
+
+        for (const mapTile of map) {
+            // Skip tiles that is not a neighbor for the tile
             if (!(
                 (
                     Math.abs(tile.coords.x - mapTile.coords.x) <= tileSize &&
@@ -142,36 +141,34 @@ export const Board: React.FC<BoardProps> = ({
                     Math.abs(tile.coords.y - mapTile.coords.y) <= tileSize &&
                     Math.abs(tile.coords.x - mapTile.coords.x) == 0
                 )
-            )) {
-                // It's not a neighbor
-                continue;
-            }
+            )) continue;
 
-            // The map tile is a neighbor
+            // Increase count of neighbors
+            neighborsCount++;
+
+            // Get indexes of the tile and mapTile sides that is contacted
             let tileContactSide = 0; // 0 - top, 1 - right, 2 - bottom, 3 - left
             let mapTileContactSide = 0; // 0 - top, 1 - right, 2 - bottom, 3 - left
-            if(tile.coords.y > mapTile.coords.y) {tileContactSide = 2; mapTileContactSide = 0;}
-            if(tile.coords.y < mapTile.coords.y) {tileContactSide = 0; mapTileContactSide = 2;}
+            if(tile.coords.y < mapTile.coords.y) {tileContactSide = 2; mapTileContactSide = 0;}
+            if(tile.coords.y > mapTile.coords.y) {tileContactSide = 0; mapTileContactSide = 2;}
             if(tile.coords.x > mapTile.coords.x) {tileContactSide = 3; mapTileContactSide = 1;}
             if(tile.coords.x < mapTile.coords.x) {tileContactSide = 1; mapTileContactSide = 3;}
 
-            console.log(tileContactSide, tile.rotation);
-            console.log(mapTileContactSide, mapTile.rotation);
+            // Take into account the rotation
+            const tileBorderIndex = (4 + tileContactSide - tile.rotation) % 4;
+            const mapTileBorderIndex = (4 + mapTileContactSide - mapTile.rotation) % 4
 
-            const tileBorderIndex = (tileContactSide + tile.rotation) % 4;
-            const mapTileBorderIndex = (mapTileContactSide + mapTile.rotation) % 4;
-
+            // Get name of the contracted sides
             const tileBorder = tile.borders[tileBorderIndex];
             const mapTileBorder = mapTile.borders[mapTileBorderIndex];
-
-            // console.log((tileContactSide + tile.rotation) % 3, (mapTileContactSide + mapTile.rotation) % 3);
-            // console.log(tileBorder , mapTileBorder);
 
             // We can't place the tile when at least one neighbor is not equal by the side
             if(tileBorder !== mapTileBorder) return false;
         }
 
-        return true;
+        // We can place tile only by other tiles
+        if(neighborsCount > 0) return true;
+        else return false;
     }
 
     // const getClickPosition(e, spaces, tileSize) {
