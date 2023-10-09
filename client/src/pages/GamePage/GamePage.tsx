@@ -1,11 +1,9 @@
 import { Helmet } from "react-helmet";
 import React, { useState, useEffect } from "react";
-import { Page } from "@modules/PageTemplates";
 import TilesDeck, { ITile } from "./classes/TilesDeck";
 import { Board } from "./modules/Board/Board";
 
 import tileBack from "@assets/tileBack.jpg"
-import { twJoin } from "tailwind-merge";
 
 export const GamePage = () => {
     // Get shuffled deck of tiles

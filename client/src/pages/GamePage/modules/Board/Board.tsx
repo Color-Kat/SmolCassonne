@@ -1,7 +1,10 @@
-import {Helmet} from "react-helmet";
 import React, {MouseEvent, useRef, useState, useEffect} from "react";
-import TilesDeck, {ITile} from "../../classes/TilesDeck";
 import {twJoin} from "tailwind-merge";
+
+import {ITile} from "../../classes/TilesDeck";
+
+import tableImage from "./assets/table.png";
+import {MapNavigation} from "@modules/MapNavigation/MapNavigation.tsx";
 
 interface BoardProps {
     currentTile: ITile | undefined;
@@ -25,6 +28,7 @@ export const Board: React.FC<BoardProps> = ({
     const tileSize = 198;
     const mapSize = tileSize * 70;
     const mapCenter = mapSize / 2 - tileSize / 2;
+    const mapNavigationRef = useRef<HTMLUListElement>(null);
     const [map, setMap] = useState<IMapTile[]>([
         // Start tile
         {
@@ -38,52 +42,7 @@ export const Board: React.FC<BoardProps> = ({
         }
     ]);
 
-
     const [wrongAnimation, setWrongAnimation] = useState(false);
-
-
-    /* ----- Map navigation ----- */
-    const mapRef = useRef<HTMLDivElement>(null);
-    const [isDragging, setIsDragging] = useState(false);
-    const [startX, setStartX] = useState(0); // Start dragging click position x
-    const [startY, setStartY] = useState(0); // Start dragging click position y
-    const [scrollLeft, setScrollLeft] = useState(mapCenter);
-    const [scrollTop, setScrollTop] = useState(mapCenter);
-
-    useEffect(() => {
-        // Default scroll position - navigate map to the map center
-        if (mapRef.current) {
-            console.log(mapRef.current.offsetWidth, mapRef.current.offsetHeight);
-            mapRef.current.scrollLeft = mapCenter + -(mapRef.current.offsetWidth / 2);
-            mapRef.current.scrollTop = mapCenter + -(mapRef.current.offsetHeight / 2);
-        }
-    }, []);
-
-    const handleMouseDownOnMap = (e: React.MouseEvent) => {
-        if (!mapRef.current) return;
-
-        setIsDragging(true);
-        setStartX(e.pageX);
-        setStartY(e.pageY);
-        setScrollLeft(mapRef.current.scrollLeft);
-        setScrollTop(mapRef.current.scrollTop);
-    };
-
-    const handleMouseMoveOnMap = (e: React.MouseEvent) => {
-        if (!isDragging) return;
-
-        const x = e.clientX;
-        const y = e.clientY;
-        const walkX = (x - startX); // Adjust scroll speed here
-        const walkY = (y - startY); // Adjust scroll speed here
-        mapRef.current!.scrollLeft = scrollLeft - walkX;
-        mapRef.current!.scrollTop = scrollTop - walkY;
-    };
-
-    const handleMouseUpOnMap = () => {
-        setIsDragging(false);
-    };
-    /* ----- Map navigation ----- */
 
     /* ----- Tile cursor ----- */
     const [position, setPosition] = useState({x: 0, y: 0});
@@ -103,6 +62,7 @@ export const Board: React.FC<BoardProps> = ({
     };
     /* ----- Tile cursor ----- */
 
+
     /**
      * Place current tile on the map by click
      * @param e
@@ -115,11 +75,11 @@ export const Board: React.FC<BoardProps> = ({
         let {clientX: x, clientY: y} = e;
 
         // Get map rect
-        const rect = mapRef.current!.getBoundingClientRect();
+        const rect = mapNavigationRef.current!.getBoundingClientRect();
 
-        // Get coords ralative to the edges of the map
-        x += mapRef.current!.scrollLeft - rect.left;
-        y += mapRef.current!.scrollTop - rect.top;
+        // Get coords relative to the edges of the map
+        x += mapNavigationRef.current!.scrollLeft - rect.left;
+        y += mapNavigationRef.current!.scrollTop - rect.top;
 
         // Get the exact coords of the tile on the map
         const tile = {
@@ -146,6 +106,10 @@ export const Board: React.FC<BoardProps> = ({
         endOfTurn();
     };
 
+    /**
+     * Check if the tile can be placed on the map by the rules
+     * @param tile
+     */
     const checkIfFit = (tile: IMapTile) => {
         let neighborsCount = 0;
 
@@ -223,7 +187,7 @@ export const Board: React.FC<BoardProps> = ({
         <div
             className={twJoin(
                 "h-full w-full",
-                showTile && currentTile && "cursor-non"
+                showTile && currentTile && "cursor-none"
             )}
             onMouseMove={handleMouseMove}
             onMouseOver={handleMouseEnter}
@@ -250,55 +214,50 @@ export const Board: React.FC<BoardProps> = ({
             )}
 
             {/* Map */}
-            <div
-                className="relative select-none no-scrollbar flex-1"
-                style={{
-                    width: "100%",
-                    // maxHeight: "100%",
-                    height: "100%",
-                    overflow: "scroll",
-                    cursor: isDragging ? "grabbing" : "grab"
-                }}
-                ref={mapRef}
-                onMouseDown={handleMouseDownOnMap}
-                onMouseMove={handleMouseMoveOnMap}
-                onMouseUp={handleMouseUpOnMap}
-                onMouseLeave={handleMouseUpOnMap}
-                // onTouchStart={handleMouseDownOnMap}
-                // onTouchMove={handleMouseMoveOnMap}
-                onTouchEnd={handleMouseUpOnMap}
-            >
-                <ul style={{
-                    position: 'relative',
-                    width: mapSize + "px",
-                    height: mapSize + "px",
-                }}>
-                    {map.map(tile => {
-                        return (
-                            <li
-                                key={tile.id}
-                                style={{
-                                    position: 'absolute',
-                                    top: tile.coords.y,
-                                    left: tile.coords.x,
-                                }}
-                            >
-                                <img
-                                    className="rounded-sm"
-                                    src={`/tiles/${tile.design}.png`}
-                                    draggable="false"
-                                    alt=""
+                <MapNavigation
+                    tileSize={tileSize}
+                    mapSize={mapSize}
+                    mapCenter={mapCenter}
+                >
+                    <ul
+                        style={{
+                            position: 'relative',
+                            width: mapSize + "px",
+                            height: mapSize + "px",
+                            background: `url(${tableImage})`,
+                            backgroundRepeat: "repeat"
+                        }}
+                        ref={mapNavigationRef}
+                    >
+                        {map.map(tile => {
+                            return (
+                                <li
+                                    key={tile.id}
                                     style={{
-                                        width: tileSize + 'px',
-                                        height: tileSize + 'px',
-                                        transform: `rotate(${90 * tile.rotation}deg)`
+                                        position: 'absolute',
+                                        top: tile.coords.y,
+                                        left: tile.coords.x,
                                     }}
-                                />
-                            </li>
-                        );
-                    })}
-                </ul>
-            </div>
+                                >
+                                    <img
+                                        className="rounded-sm shadow-md"
+                                        src={`/tiles/${tile.design}.png`}
+                                        draggable="false"
+                                        alt=""
+                                        style={{
+                                            width: tileSize + 'px',
+                                            height: tileSize + 'px',
+                                            transform: `rotate(${90 * tile.rotation}deg)`
+                                        }}
+                                    />
+                                </li>
+                            );
+                        })}
+
+                    </ul>
+                </MapNavigation>
+
+
         </div>
     );
 };
