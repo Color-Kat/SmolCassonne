@@ -87,7 +87,7 @@ export const GamePage = () => {
 
             <div className="flex h-full w-full">
                 {/* Control Panel */}
-                <div className="h-full w-56 flex flex-col items-center px-3 py-5 bg-gray-300 absolute z-10">
+                <div className="h-full w-56 flex flex-col items-center px-3 py-5 bg-gray-300 absolute z-50">
                     <div className="w-48 h-48 relative mb-16  transition-all">
                         {/* Top tile */}
                         {deck.length > 0 && <img

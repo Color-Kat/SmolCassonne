@@ -50,6 +50,7 @@ export const Board: React.FC<BoardProps> = ({
     const [showTile, setShowTile] = useState(false);
 
     const handleMouseMove = (event: MouseEvent<HTMLDivElement>) => {
+        console.log(123123);
         const {clientX, clientY} = event;
         setPosition({x: clientX, y: clientY});
     };
@@ -65,7 +66,7 @@ export const Board: React.FC<BoardProps> = ({
 
 
     /**
-     * Place current tile on the map by click
+     * Place the current tile on the map by click
      * @param e
      * @returns
      */
@@ -190,7 +191,7 @@ export const Board: React.FC<BoardProps> = ({
     return (
         <div
             className={twJoin(
-                "h-full w-full",
+                "h-full w-full relative",
                 showTile && currentTile && "cursor-none"
             )}
             onMouseMove={handleMouseMove}
@@ -198,19 +199,20 @@ export const Board: React.FC<BoardProps> = ({
             onMouseOut={handleMouseLeave}
             onClick={placeTile}
         >
+
             {/* Show cursor with the current tile */}
             {showTile && currentTile && (
                 <img
-                    className=""
+                    className="pointer-events-none"
                     draggable="false"
                     src={`/tiles/${currentTile.design}.png`} // Укажите путь к вашей картинке
                     alt=""
                     style={{
                         position: 'absolute',
-                        left: position.x - tileSize*mapScale / 2 + 'px', // Смещение относительно курсора
-                        top: position.y - tileSize*mapScale / 2 - 50 + 'px',
-                        width: tileSize*mapScale + 'px',
-                        height: tileSize*mapScale + 'px',
+                        left: position.x - tileSize * mapScale / 2 + 'px', // Смещение относительно курсора
+                        top: position.y - tileSize * mapScale / 2 - 50 + 'px',
+                        width: tileSize * mapScale + 'px',
+                        height: tileSize * mapScale + 'px',
                         transform: `rotate(${90 * currentTile.rotation}deg)`,
                         zIndex: 100, // Задайте z-index, чтобы изображение было выше остальных элементов
                     }}
@@ -218,50 +220,49 @@ export const Board: React.FC<BoardProps> = ({
             )}
 
             {/* Map */}
-                <MapNavigation
-                    tileSize={tileSize}
-                    mapSize={mapSize}
-                    mapCenter={mapCenter}
-
-                    setForwardScale={setMapScale}
+            <MapNavigation
+                tileSize={tileSize}
+                mapSize={mapSize}
+                mapCenter={mapCenter}
+                setForwardScale={setMapScale}
+            >
+                <ul
+                    style={{
+                        position: 'relative',
+                        width: mapSize + "px",
+                        height: mapSize + "px",
+                        background: `url(${tableImage})`,
+                        backgroundRepeat: "repeat"
+                    }}
+                    ref={mapNavigationRef}
                 >
-                    <ul
-                        style={{
-                            position: 'relative',
-                            width: mapSize + "px",
-                            height: mapSize + "px",
-                            background: `url(${tableImage})`,
-                            backgroundRepeat: "repeat"
-                        }}
-                        ref={mapNavigationRef}
-                    >
-                        {map.map(tile => {
-                            return (
-                                <li
-                                    key={tile.id}
+                    {map.map(tile => {
+                        return (
+                            <li
+                                key={tile.id}
+                                style={{
+                                    position: 'absolute',
+                                    top: tile.coords.y,
+                                    left: tile.coords.x,
+                                }}
+                            >
+                                <img
+                                    className="rounded-sm shadow-md"
+                                    src={`/tiles/${tile.design}.png`}
+                                    draggable="false"
+                                    alt=""
                                     style={{
-                                        position: 'absolute',
-                                        top: tile.coords.y,
-                                        left: tile.coords.x,
+                                        width: tileSize + 'px',
+                                        height: tileSize + 'px',
+                                        transform: `rotate(${90 * tile.rotation}deg)`
                                     }}
-                                >
-                                    <img
-                                        className="rounded-sm shadow-md"
-                                        src={`/tiles/${tile.design}.png`}
-                                        draggable="false"
-                                        alt=""
-                                        style={{
-                                            width: tileSize + 'px',
-                                            height: tileSize + 'px',
-                                            transform: `rotate(${90 * tile.rotation}deg)`
-                                        }}
-                                    />
-                                </li>
-                            );
-                        })}
+                                />
+                            </li>
+                        );
+                    })}
 
-                    </ul>
-                </MapNavigation>
+                </ul>
+            </MapNavigation>
 
 
         </div>
