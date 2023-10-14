@@ -1,1 +1,1 @@
-export {Slider} from "./components/Slider/Slider.tsx";
+// export {Slider} from "./components/Slider/Slider.tsx";

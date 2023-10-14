@@ -1,5 +1,5 @@
 import React from 'react';
-import {PrivateRoutes} from "@components/router/PrivateRoutes.tsx";
+import {PrivateRoutes} from "@components/Router/PrivateRoutes.tsx";
 import {Roles} from "@/store/auth/auth.slice.ts";
 
 export const AdminRoute: React.FC = ({}) => {

@@ -1,5 +1,5 @@
 import React, {FormHTMLAttributes, InputHTMLAttributes, memo, useMemo} from 'react';
-import {IValidatorErrors} from "@/types/laravelEntities/IValidatorErrors.ts";
+// import {IValidatorErrors} from "@/types/laravelEntities/IValidatorErrors.ts";
 import {twMerge} from "tailwind-merge";
 import {Checkbox, FileInput, Input, SimpleInput, Textarea} from "@components/Inputs";
 import {StandardButton} from "@UI/Buttons";
@@ -19,7 +19,7 @@ interface FormProps extends FormHTMLAttributes<HTMLFormElement> {
     setData: React.Dispatch<React.SetStateAction<any>>;
     fields?: FormField[];
 
-    errors?: IValidatorErrors;
+    errors?: any;
 
     title?: string;
     buttonText?: string;

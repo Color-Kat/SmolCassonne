@@ -29,6 +29,7 @@ export const Board: React.FC<BoardProps> = ({
     const mapSize = tileSize * 70;
     const mapCenter = mapSize / 2 - tileSize / 2;
     const mapNavigationRef = useRef<HTMLUListElement>(null);
+    const [mapScale, setMapScale] = useState(1);
     const [map, setMap] = useState<IMapTile[]>([
         // Start tile
         {
@@ -80,6 +81,9 @@ export const Board: React.FC<BoardProps> = ({
         // Get coords relative to the edges of the map
         x += mapNavigationRef.current!.scrollLeft - rect.left;
         y += mapNavigationRef.current!.scrollTop - rect.top;
+
+        x /= mapScale;
+        y /= mapScale;
 
         // Get the exact coords of the tile on the map
         const tile = {
@@ -203,10 +207,10 @@ export const Board: React.FC<BoardProps> = ({
                     alt=""
                     style={{
                         position: 'absolute',
-                        left: position.x - tileSize / 2 + 'px', // Смещение относительно курсора
-                        top: position.y - tileSize / 2 - 50 + 'px',
-                        width: tileSize + 'px',
-                        height: tileSize + 'px',
+                        left: position.x - tileSize*mapScale / 2 + 'px', // Смещение относительно курсора
+                        top: position.y - tileSize*mapScale / 2 - 50 + 'px',
+                        width: tileSize*mapScale + 'px',
+                        height: tileSize*mapScale + 'px',
                         transform: `rotate(${90 * currentTile.rotation}deg)`,
                         zIndex: 100, // Задайте z-index, чтобы изображение было выше остальных элементов
                     }}
@@ -218,6 +222,8 @@ export const Board: React.FC<BoardProps> = ({
                     tileSize={tileSize}
                     mapSize={mapSize}
                     mapCenter={mapCenter}
+
+                    setForwardScale={setMapScale}
                 >
                     <ul
                         style={{

@@ -1,5 +1,5 @@
 import React, {ReactNode} from 'react';
-import {PrivateRoutes} from "@components/router/PrivateRoutes.tsx";
+import {PrivateRoutes} from "@components/Router/PrivateRoutes.tsx";
 import {Route} from "react-router-dom";
 
 

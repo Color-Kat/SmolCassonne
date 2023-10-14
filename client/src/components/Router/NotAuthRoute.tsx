@@ -1,6 +1,5 @@
 import React, {ReactNode} from 'react';
-import {PrivateRoutes} from "@components/router/PrivateRoutes.tsx";
-import {Route} from "react-router-dom";
+import {PrivateRoutes} from "@components/Router/PrivateRoutes.tsx";
 
 
 export const NotAuthRoute: React.FC = ({}) => {
