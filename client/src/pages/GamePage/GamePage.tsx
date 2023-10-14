@@ -124,6 +124,7 @@ export const GamePage = () => {
                     currentTile={currentTile}
                     setTooltip={setTooltip}
                     endOfTurn={endOfTurn}
+                    setCurrentTile={setCurrentTile}
                 />
 
                 {/* Information about placed tile */}

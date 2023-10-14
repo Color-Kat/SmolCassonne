@@ -1,4 +1,4 @@
-import React, {MouseEventHandler, ReactNode, useState} from "react";
+import React, {MouseEventHandler, ReactNode, useMemo, useState} from "react";
 import {ITile} from "@pages/GamePage/classes/TilesDeck.ts";
 import {IMapTile} from "@pages/GamePage/modules/Board/types.ts";
 import {twJoin} from "tailwind-merge";
@@ -32,12 +32,13 @@ export const useTileCursor = ({
                               }: ITileCursorParams) => {
     const [wrongAnimation, setWrongAnimation] = useState(false);
 
-    const [position, setPosition] = useState({x: 0, y: 0});
+    const [tilePosition, setTilePosition] = useState({x: 0, y: 0});
     const [showTile, setShowTile] = useState(false);
+    const [placedTile, setPlacedTile] = useState<ITile | null>(null);
 
     const handleMouseMove: MouseEventHandler<HTMLDivElement> = (event) => {
         const {clientX, clientY} = event;
-        setPosition({x: clientX, y: clientY});
+        setTilePosition({x: clientX, y: clientY});
     };
 
     const handleMouseEnter: MouseEventHandler<HTMLDivElement> = () => {
@@ -63,8 +64,6 @@ export const useTileCursor = ({
 
         // Get map rect
         const rect = mapNavigationRef.current!.getBoundingClientRect();
-
-        console.log(mapNavigationRef.current!.scrollLeft - rect.left);
 
         // Get coords relative to the edges of the map
         x += mapNavigationRef.current!.scrollLeft - rect.left;
@@ -94,6 +93,8 @@ export const useTileCursor = ({
             ...map,
             tile
         ]));
+
+        setPlacedTile(currentTile);
 
         placeTileCallback();
     };
@@ -175,43 +176,32 @@ export const useTileCursor = ({
         }
     };
 
-    const TileCursor = ({children}: { children: ReactNode }) => {
+    const PlacedTile = () => {
+        if(!placedTile) return null;
+
         return (
-            <div
-                className={twJoin(
-                    "h-full w-full relative",
-                    showTile && currentTile && "cursor-none"
-                )}
-                onMouseMove={handleMouseMove}
-                onMouseOver={handleMouseEnter}
-                onMouseOut={handleMouseLeave}
-                onClick={placeTile}
-            >
-
-                {/* Show cursor with the current tile */}
-                {showTile && currentTile && (
-                    <img
-                        className="pointer-events-none"
-                        draggable="false"
-                        src={`/tiles/${currentTile.design}.png`}
-                        alt=""
-                        style={{
-                            position: 'absolute',
-                            left: position.x - tileSize * mapScale / 2 + 'px',
-                            top: position.y - tileSize * mapScale / 2 - 50 + 'px',
-                            width: tileSize * mapScale + 'px',
-                            height: tileSize * mapScale + 'px',
-                            transform: `rotate(${90 * currentTile.rotation}deg)`,
-                            zIndex: 100,
-                        }}
-                    />
-                )}
-
-                {children}
-
-            </div>
+            <img
+                className="rounded-sm shadow-md"
+                src={`/tiles/${placedTile.design}.png`}
+                draggable="false"
+                alt=""
+                style={{
+                    width: tileSize + 'px',
+                    height: tileSize + 'px',
+                    transform: `rotate(${90 * placedTile.rotation}deg)`
+                }}
+            />
         );
-    };
+    }
 
-    return {TileCursor};
+    return {
+        showTile,
+        setShowTile,
+        tilePosition,
+        handleMouseMove,
+        handleMouseEnter,
+        handleMouseLeave,
+        placeTile,
+        PlacedTile
+    };
 };
