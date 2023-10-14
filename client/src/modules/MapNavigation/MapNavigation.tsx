@@ -108,11 +108,12 @@ export const MapNavigation: React.FC<MapNavigationProps> = memo(({
     };
     /* ----- Zooming ----- */
 
+
     return (
 
         <div
             // className="h-full w-full"
-            className="map-navigation absolute inset-0 select-none no-scrollbar w-full h-full "
+            className="map-navigation absolute inset-0 select-none no-scrollbar w-full h-full"
             ref={mapNavigationRef} // Добавьте ссылку на контейнер
             style={{
                 width: "100%",
