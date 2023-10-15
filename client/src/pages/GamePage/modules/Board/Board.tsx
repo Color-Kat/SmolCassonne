@@ -3,12 +3,13 @@ import {twJoin, twMerge} from "tailwind-merge";
 
 import {ITile} from "../../classes/TilesDeck";
 
-import tableImage from "./assets/table.png";
 import {MapNavigation} from "@modules/MapNavigation/MapNavigation.tsx";
 import {IMapTile} from "@pages/GamePage/modules/Board/types.ts";
 import {useTileCursor} from "./hooks/useTileCursor.tsx";
 import {Dialog, Transition} from "@headlessui/react";
-import {GrClose} from "react-icons/gr";
+
+import tableWoodImage from "@assets/textures/tableWood.png";
+
 
 interface BoardProps {
     currentTile: ITile | undefined;
@@ -124,12 +125,12 @@ export const Board: React.FC<BoardProps> = ({
                     className="transition-scale z-10 w-full h-full fixed inset-0"
                 >
 
-                    <div className="fixed inset-0 flex-center bg-black/30 backdrop-blur-sm cursor-pointer" onClick={handleOverlayClick}>
+                    <div className="fixed inset-0 flex-center bg-black/30 backdrop-blur-s cursor-pointer" onClick={handleOverlayClick}>
 
                         <div
                             className="bg-white p-4 rounded-xl shadow-xl max-w-sm w-full flex flex-col justify-center gap-5 cursor-default"
                             style={{
-                                background: `url(${tableImage})`,
+                                background: `url(${tableWoodImage})`,
                                 backgroundRepeat: "repeat"
                             }}
                         >
@@ -149,7 +150,7 @@ export const Board: React.FC<BoardProps> = ({
                             <div
                                 className="max-w-4xl w-full h-full mx-auto rounded-t-xl"
                                 style={{
-                                    background: `url(${tableImage})`,
+                                    background: `url(${tableWoodImage})`,
                                     backgroundRepeat: "repeat"
                                 }}
                             >
@@ -173,7 +174,7 @@ export const Board: React.FC<BoardProps> = ({
                         position: 'relative',
                         width: mapSize + "px",
                         height: mapSize + "px",
-                        background: `url(${tableImage})`,
+                        background: `url(${tableWoodImage})`,
                         backgroundRepeat: "repeat"
                     }}
                     ref={mapNavigationRef}

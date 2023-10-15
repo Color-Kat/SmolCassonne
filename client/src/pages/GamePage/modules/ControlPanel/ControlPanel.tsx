@@ -1,6 +1,7 @@
 import React, {memo, useEffect} from 'react';
 import tileBack from "@assets/tileBack.jpg";
 import {ITile} from "@pages/GamePage/classes/TilesDeck.ts";
+import {Unit} from "@pages/GamePage/classes/Units.ts";
 
 interface ControlPanelProps {
     currentTile: ITile | undefined;

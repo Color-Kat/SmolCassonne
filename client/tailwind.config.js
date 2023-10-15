@@ -15,11 +15,11 @@ module.exports = {
                   'app':
                       '#f7f5ff',
                   'app-dark':
-                      '#e7e7ff',
+                      '#632816',
+                  'app-light':
+                      '#d79740',
                   'app-gray':
                       '#777777',
-                  'app-light':
-                      '#f1f1f1',
                   'app-primary':
                       '#818cf8',
                   'app-secondary':
