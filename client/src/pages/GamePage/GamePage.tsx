@@ -8,13 +8,18 @@ import tileBack from "@assets/tileBack.jpg";
 import {ControlPanel} from "@pages/GamePage/modules/ControlPanel/ControlPanel.tsx";
 import {set} from "js-cookie";
 import {Teams} from "@pages/GamePage/modules/Teams/Teams.tsx";
+import {IMapTile} from "@pages/GamePage/modules/Board/types.ts";
 
 export const GamePage = () => {
+    const myTeam = 'blue';
+    const teams = ['blue'];
+
+
     // Get shuffled deck of tiles
     const [deck, setDeck] = useState((new TilesDeck()).getShuffledDeck());
     const [units, setUnits] = useState(listOfUnits);
 
-    const teams = ['blue'];
+    const [map, setMap] = useState<IMapTile[]>([]);
 
     // State for current tile
     const [currentTile, setCurrentTile] = useState<ITile | undefined>(undefined);
@@ -58,6 +63,7 @@ export const GamePage = () => {
 
                 {/* Users list and score */}
                 <Teams
+                    myTeam={myTeam}
                     teams={teams}
                     units={units}
                     setUnitInformation={setUnitInformation}
@@ -65,10 +71,18 @@ export const GamePage = () => {
 
                 {/* Board with the map */}
                 <Board
+                    map={map}
+                    setMap={setMap}
+
                     currentTile={currentTile}
-                    setTooltip={setTooltip}
-                    endOfTurn={endOfTurn}
                     setCurrentTile={setCurrentTile}
+
+                    myTeam={myTeam}
+                    units={units}
+
+                    setTooltip={setTooltip}
+
+                    endOfTurn={endOfTurn}
                 />
 
                 {/* Information about placed tile */}

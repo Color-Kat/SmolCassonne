@@ -5,6 +5,7 @@ import oldWoodBg from "@assets/textures/oldWood.png";
 import {twJoin} from "tailwind-merge";
 
 interface TeamsProps {
+    myTeam: string;
     teams: string[];
     units: {
         [key: string]: Unit[]
@@ -41,10 +42,10 @@ const UnitCard: React.FC<UnitProps> = memo(({unit, setUnitInformation}) => {
 
 export const Teams: React.FC<TeamsProps> = memo(({
                                                      teams,
+                                                     myTeam,
                                                      units,
                                                      setUnitInformation
                                                  }) => {
-    const myTeam = 'blue';
     const myName = 'Player-1';
 
     const handleUnitClick = useCallback(() => {
