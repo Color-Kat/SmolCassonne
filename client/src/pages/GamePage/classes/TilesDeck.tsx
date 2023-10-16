@@ -8,6 +8,9 @@ export interface ITile {
     pennant: boolean;
     borders: ('field' | 'road' | 'wall' | 'water' | 'city')[];
     rotation: number;
+
+    roadEnd: boolean;
+
     units: (Unit | null)[];
     coords: { x: number, y: number };
 }
@@ -21,8 +24,8 @@ export interface IMapTile extends ITile {
 
 class TilesDeck {
     private deck = ([
-        {id: 1, design: "A", borders: ['field', 'field', 'road', 'field'], pennant: false, rotation: 0},
-        {id: 2, design: "A", borders: ['field', 'field', 'road', 'field'], pennant: false, rotation: 0},
+        {id: 1, design: "A", borders: ['field', 'field', 'road', 'field'], pennant: false, rotation: 0, roadEnd: true},
+        {id: 2, design: "A", borders: ['field', 'field', 'road', 'field'], pennant: false, rotation: 0, roadEnd: true},
         {id: 3, design: "B", borders: ['field', 'field', 'field', 'field'], pennant: false, rotation: 0},
         {id: 4, design: "B", borders: ['field', 'field', 'field', 'field'], pennant: false, rotation: 0},
         {id: 5, design: "B", borders: ['field', 'field', 'field', 'field'], pennant: false, rotation: 0},
@@ -50,9 +53,9 @@ class TilesDeck {
         {id: 27, design: "K", borders: ['city', 'field', 'road', 'road'], pennant: false, rotation: 0},
         {id: 28, design: "K", borders: ['city', 'field', 'road', 'road'], pennant: false, rotation: 0},
         {id: 29, design: "K", borders: ['city', 'field', 'road', 'road'], pennant: false, rotation: 0},
-        {id: 30, design: "L", borders: ['city', 'road', 'road', 'road'], pennant: false, rotation: 0},
-        {id: 31, design: "L", borders: ['city', 'road', 'road', 'road'], pennant: false, rotation: 0},
-        {id: 32, design: "L", borders: ['city', 'road', 'road', 'road'], pennant: false, rotation: 0},
+        {id: 30, design: "L", borders: ['city', 'road', 'road', 'road'], pennant: false, rotation: 0, roadEnd: true},
+        {id: 31, design: "L", borders: ['city', 'road', 'road', 'road'], pennant: false, rotation: 0, roadEnd: true},
+        {id: 32, design: "L", borders: ['city', 'road', 'road', 'road'], pennant: false, rotation: 0, roadEnd: true},
         {id: 33, design: "M", borders: ['city', 'field', 'field', 'city'], pennant: true, rotation: 0},
         {id: 34, design: "M", borders: ['city', 'field', 'field', 'city'], pennant: true, rotation: 0},
         {id: 35, design: "N", borders: ['city', 'city', 'field', 'field'], pennant: false, rotation: 0},
@@ -87,11 +90,11 @@ class TilesDeck {
         {id: 64, design: "V", borders: ['field', 'field', 'road', 'road'], pennant: false, rotation: 0},
         {id: 65, design: "V", borders: ['field', 'field', 'road', 'road'], pennant: false, rotation: 0},
         {id: 66, design: "V", borders: ['field', 'field', 'road', 'road'], pennant: false, rotation: 0},
-        {id: 67, design: "W", borders: ['field', 'road', 'road', 'road'], pennant: false, rotation: 0},
-        {id: 68, design: "W", borders: ['field', 'road', 'road', 'road'], pennant: false, rotation: 0},
-        {id: 69, design: "W", borders: ['field', 'road', 'road', 'road'], pennant: false, rotation: 0},
-        {id: 70, design: "W", borders: ['field', 'road', 'road', 'road'], pennant: false, rotation: 0},
-        {id: 71, design: "X", borders: ['road', 'road', 'road', 'road'], pennant: false, rotation: 0}
+        {id: 67, design: "W", borders: ['field', 'road', 'road', 'road'], pennant: false, rotation: 0, roadEnd: true},
+        {id: 68, design: "W", borders: ['field', 'road', 'road', 'road'], pennant: false, rotation: 0, roadEnd: true},
+        {id: 69, design: "W", borders: ['field', 'road', 'road', 'road'], pennant: false, rotation: 0, roadEnd: true},
+        {id: 70, design: "W", borders: ['field', 'road', 'road', 'road'], pennant: false, rotation: 0, roadEnd: true},
+        {id: 71, design: "X", borders: ['road', 'road', 'road', 'road'], pennant: false, rotation: 0, roadEnd: true}
     ] as ITile[]).map((tile) => (
         new Tile(tile)
     ));
@@ -108,13 +111,15 @@ export class Tile implements ITile {
     public rotation: number;           //
     public units: (Unit | null)[];     // 0 - top, 1 - right, 2 - bottom, 3 - left
     public pennant: boolean;
+    public roadEnd: boolean;
     public coords: { x: number, y: number };
 
-    constructor(tile: Tile | Omit<ITile, 'units' | 'rotation'> ) {
+    constructor(tile: Tile | (Partial<ITile> & Omit<ITile, 'units' | 'rotation' | 'roadEnd'>) ) {
         this.id = tile.id;
         this.pennant = tile.pennant;
         this.design = tile.design;
         this.borders = tile.borders;
+        this.roadEnd = tile.roadEnd ?? false;
         this.coords = tile.coords ?? {x: -999, y: -999};
 
         // Default common values that doesn't depend on tile
@@ -125,7 +130,6 @@ export class Tile implements ITile {
             this.rotation = 0;
             this.units = [null, null, null, null];
         }
-
     }
 
     // Rotate the tile by rotateValue.

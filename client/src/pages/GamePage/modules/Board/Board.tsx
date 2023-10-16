@@ -45,7 +45,7 @@ export const Board: React.FC<BoardProps> = ({
                                                 endOfTurn
                                             }) => {
 
-    const tileSize = 198;
+    const tileSize = 192;
     const mapSize = tileSize * 70;
     const mapCenter = mapSize / 2 - tileSize / 2;
     const mapNavigationRef = useRef<HTMLUListElement>(null);
