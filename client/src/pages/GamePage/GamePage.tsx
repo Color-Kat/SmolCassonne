@@ -21,7 +21,7 @@ export const GamePage = () => {
     const [currentTile, setCurrentTile] = useState<Tile | undefined>(undefined);
 
     // States for information about current tile and moves
-    const [tileInformation, setTitleInformation] = useState<Tile|null>(null);
+    const [tileInformation, setTileInformation] = useState<Tile|null>(null);
     const [unitInformation, setUnitInformation] = useState<Unit|null>(null);
     const [tooltip, setTooltip] = useState("");
 
@@ -29,8 +29,9 @@ export const GamePage = () => {
         // Reset tooltip
         setTooltip("");
 
-        // Show information about placed tile
-        setTitleInformation(null);
+        // Hide information about placed tile and unit
+        setTileInformation(null);
+        setUnitInformation(null);
 
         // Clear current tile
         setCurrentTile(undefined);
@@ -74,6 +75,8 @@ export const GamePage = () => {
                     myTeam={myTeam}
                     units={units}
 
+                    setUnitInformation={setUnitInformation}
+                    setTileInformation={setTileInformation}
                     setTooltip={setTooltip}
 
                     endOfTurn={endOfTurn}

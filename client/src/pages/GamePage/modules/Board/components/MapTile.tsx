@@ -6,11 +6,14 @@ import {Unit} from "@pages/GamePage/classes/Units.ts";
 interface MapTileProps {
     tile: Tile;
     tileSize: number;
+    setUnitInformation: React.Dispatch<React.SetStateAction<Unit | null>>;
+    setTileInformation: React.Dispatch<React.SetStateAction<Tile | null>>;
 }
 
 interface UnitOnTileProps {
     unit: Unit;
     position: 0 | 1 | 2 | 3;
+    setUnitInformation: React.Dispatch<React.SetStateAction<Unit | null>>;
 }
 
 function getCommandColor(team: string): string {
@@ -23,10 +26,12 @@ function getCommandColor(team: string): string {
 
 const UnitOnTile: React.FC<UnitOnTileProps> = memo(({
                                                         unit,
-                                                        position
+                                                        position,
+                                                        setUnitInformation
                                                     }) => {
     return (
         <img
+            onClick={() => setUnitInformation(unit)}
             className={twJoin(
                 "rounded-md h-20 absolute z-10 cursor-pointer object-contain",
                 "border-4",
@@ -47,7 +52,9 @@ const UnitOnTile: React.FC<UnitOnTileProps> = memo(({
 
 export const MapTile: React.FC<MapTileProps> = memo(({
                                                          tile,
-                                                         tileSize
+                                                         tileSize,
+                                                         setUnitInformation,
+                                                         setTileInformation
                                                      }) => {
 
     if (!tile.coords) return null;
@@ -60,12 +67,13 @@ export const MapTile: React.FC<MapTileProps> = memo(({
                 top: tile.coords.y,
                 left: tile.coords.x,
             }}
+            onClick={() => setTileInformation(tile)}
         >
             <div className="relative w-full h-full">
-                {tile.units[0] && <UnitOnTile position={0} unit={tile.units[0]}/>}
-                {tile.units[1] && <UnitOnTile position={1} unit={tile.units[1]}/>}
-                {tile.units[2] && <UnitOnTile position={2} unit={tile.units[2]}/>}
-                {tile.units[3] && <UnitOnTile position={3} unit={tile.units[3]}/>}
+                {tile.units[0] && <UnitOnTile position={0} unit={tile.units[0]} setUnitInformation={setUnitInformation}/>}
+                {tile.units[1] && <UnitOnTile position={1} unit={tile.units[1]} setUnitInformation={setUnitInformation}/>}
+                {tile.units[2] && <UnitOnTile position={2} unit={tile.units[2]} setUnitInformation={setUnitInformation}/>}
+                {tile.units[3] && <UnitOnTile position={3} unit={tile.units[3]} setUnitInformation={setUnitInformation}/>}
 
                 {tile.Image(tileSize)}
             </div>
