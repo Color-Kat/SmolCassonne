@@ -1,10 +1,9 @@
 import React, {MouseEvent, useRef, useState, useEffect, Fragment, useCallback} from "react";
 import {twJoin, twMerge} from "tailwind-merge";
 
-import {ITile} from "../../classes/TilesDeck";
+import {ITile, Tile} from "../../classes/TilesDeck";
 
 import {MapNavigation} from "@modules/MapNavigation/MapNavigation.tsx";
-import {IMapTile} from "@pages/GamePage/modules/Board/types.ts";
 import {useTileCursor} from "./hooks/useTileCursor.tsx";
 import {Dialog, Transition} from "@headlessui/react";
 
@@ -14,11 +13,11 @@ import {Unit, units} from "@pages/GamePage/classes/Units.ts";
 
 
 interface BoardProps {
-    map: IMapTile[];
-    setMap: React.Dispatch<React.SetStateAction<IMapTile[]>>;
+    map: Tile[];
+    setMap: React.Dispatch<React.SetStateAction<Tile[]>>;
 
-    currentTile: ITile | undefined;
-    setCurrentTile: React.Dispatch<React.SetStateAction<ITile | undefined>>;
+    currentTile: Tile | undefined;
+    setCurrentTile: React.Dispatch<React.SetStateAction<Tile | undefined>>;
 
     units: {[key: string]: Unit[]};
     myTeam: string;
@@ -47,15 +46,13 @@ export const Board: React.FC<BoardProps> = ({
 
     useEffect(() => {
         // Set start tile
-        setMap([{
+        setMap([new Tile({
             id: 0,
             design: "D",
             borders: ['city', 'road', 'field', 'road'],
-            neighbors: [false, false, false, false],
             pennant: false,
-            rotation: 0,
             coords: {x: mapCenter - mapCenter % tileSize, y: mapCenter - mapCenter % tileSize}
-        }]);
+        })]);
     }, []);
 
     const [isSelectingUnit, setIsSelectingUnit] = useState(false);
@@ -125,8 +122,10 @@ export const Board: React.FC<BoardProps> = ({
             <UnitSelector
                 isSelectingUnit={isSelectingUnit}
                 setIsSelectingUnit={setIsSelectingUnit}
-                units={units[myTeam]}
                 PlacedTile={PlacedTile}
+
+                units={units[myTeam]}
+                setMap={setMap}
             />
 
             {/* Map */}
@@ -147,6 +146,8 @@ export const Board: React.FC<BoardProps> = ({
                     ref={mapNavigationRef}
                 >
                     {map.map(tile => {
+                        if(!tile.coords) return null;
+
                         return (
                             <li
                                 key={tile.id}

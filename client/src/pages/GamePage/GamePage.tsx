@@ -1,31 +1,27 @@
 import {Helmet} from "react-helmet";
 import React, {useState, useEffect} from "react";
-import TilesDeck, {ITile} from "./classes/TilesDeck";
+import TilesDeck, {IMapTile, ITile, Tile} from "./classes/TilesDeck";
 import {Unit, units as listOfUnits} from "./classes/Units.ts";
 import {Board} from "./modules/Board/Board";
 
-import tileBack from "@assets/tileBack.jpg";
 import {ControlPanel} from "@pages/GamePage/modules/ControlPanel/ControlPanel.tsx";
-import {set} from "js-cookie";
 import {Teams} from "@pages/GamePage/modules/Teams/Teams.tsx";
-import {IMapTile} from "@pages/GamePage/modules/Board/types.ts";
 
 export const GamePage = () => {
     const myTeam = 'blue';
     const teams = ['blue'];
 
-
     // Get shuffled deck of tiles
     const [deck, setDeck] = useState((new TilesDeck()).getShuffledDeck());
     const [units, setUnits] = useState(listOfUnits);
 
-    const [map, setMap] = useState<IMapTile[]>([]);
+    const [map, setMap] = useState<Tile[]>([]);
 
     // State for current tile
-    const [currentTile, setCurrentTile] = useState<ITile | undefined>(undefined);
+    const [currentTile, setCurrentTile] = useState<Tile | undefined>(undefined);
 
     // States for information about current tile and moves
-    const [tileInformation, setTitleInformation] = useState<ITile|null>(null);
+    const [tileInformation, setTitleInformation] = useState<Tile|null>(null);
     const [unitInformation, setUnitInformation] = useState<Unit|null>(null);
     const [tooltip, setTooltip] = useState("");
 
@@ -43,7 +39,7 @@ export const GamePage = () => {
         // passTheTurn() 
     };
 
-    // console.log(currentTile);
+    console.log(currentTile);
 
     return (
         <div className="w-full h-full cursor-default">
@@ -53,7 +49,7 @@ export const GamePage = () => {
             </Helmet>
 
             <div className="flex h-full w-full relative">
-                {/* Control panel with buttons and tiles deck */}
+                {/* Control panel with buttons and the deck of tiles */}
                 <ControlPanel
                     currentTile={currentTile}
                     setCurrentTile={setCurrentTile}
@@ -89,8 +85,6 @@ export const GamePage = () => {
                 <div className="">
 
                 </div>
-
-
             </div>
         </div>
     );

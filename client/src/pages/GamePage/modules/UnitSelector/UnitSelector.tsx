@@ -7,19 +7,23 @@ import {Unit} from "@pages/GamePage/classes/Units.ts";
 import {PlaceSelector} from "@pages/GamePage/modules/UnitSelector/components/PlaceSelector.tsx";
 import {SelectedUnit} from "@pages/GamePage/modules/UnitSelector/components/SelectedUnit.tsx";
 import {ListOfUnits} from "@pages/GamePage/modules/UnitSelector/components/ListOfUnits.tsx";
+import {Tile} from "@pages/GamePage/classes/TilesDeck.tsx";
 
 interface UnitSelectorProps {
     isSelectingUnit: boolean;
     setIsSelectingUnit: React.Dispatch<React.SetStateAction<boolean>>;
+
     units: Unit[];
     PlacedTile: any;
+    setMap: React.Dispatch<React.SetStateAction<Tile[]>>;
 }
 
 export const UnitSelector: React.FC<UnitSelectorProps> = memo(({
                                                                    isSelectingUnit,
                                                                    setIsSelectingUnit,
                                                                    units,
-                                                                   PlacedTile
+                                                                   PlacedTile,
+                                                                   setMap
                                                                }) => {
     // Close modal
     const closeSelectingUnit = useCallback(() => setIsSelectingUnit(false), []);
@@ -52,6 +56,9 @@ export const UnitSelector: React.FC<UnitSelectorProps> = memo(({
                     <PlaceSelector
                         PlacedTile={PlacedTile}
                         closeSelectingUnit={closeSelectingUnit}
+
+                        selectedUnit={selectedUnit}
+                        setMap={setMap}
                     />
 
                     {/* Selected Unit */}

@@ -15,9 +15,9 @@ module.exports = {
                   'app':
                       '#f7f5ff',
                   'app-dark':
-                      '#632816',
+                      '#e7e7ff',
                   'app-light':
-                      '#d79740',
+                      '#f1f1f1',
                   'app-gray':
                       '#777777',
                   'app-primary':

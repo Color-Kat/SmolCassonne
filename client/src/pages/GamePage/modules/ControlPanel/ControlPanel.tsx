@@ -1,13 +1,12 @@
 import React, {memo, useEffect} from 'react';
 import tileBack from "@assets/tileBack.jpg";
-import {ITile} from "@pages/GamePage/classes/TilesDeck.ts";
-import {Unit} from "@pages/GamePage/classes/Units.ts";
+import {IMapTile, Tile} from "@pages/GamePage/classes/TilesDeck.tsx";
 
 interface ControlPanelProps {
-    currentTile: ITile | undefined;
-    setCurrentTile: React.Dispatch<React.SetStateAction<ITile | undefined>>;
-    deck: ITile[];
-    setDeck: React.Dispatch<React.SetStateAction<ITile[]>>;
+    currentTile: Tile | undefined;
+    setCurrentTile: React.Dispatch<React.SetStateAction<Tile | undefined>>;
+    deck: Tile[];
+    setDeck: React.Dispatch<React.SetStateAction<Tile[]>>;
 }
 
 export const ControlPanel: React.FC<ControlPanelProps> = memo(({
@@ -30,14 +29,22 @@ export const ControlPanel: React.FC<ControlPanelProps> = memo(({
     const rotateTile = (rotateValue: number) => {
         if (!currentTile) return;
 
-        if (rotateValue < 0) rotateValue = 4 + rotateValue;
+        // if (rotateValue < 0) rotateValue = 4 + rotateValue;
+        //
+        // setCurrentTile((tile) => (tile ?
+        //     {
+        //         ...tile,
+        //         rotation: Math.abs((tile.rotation + rotateValue)) % 4
+        //     } : undefined
+        // ));
 
-        setCurrentTile((tile) => (tile ?
-                {
-                    ...tile,
-                    rotation: Math.abs((tile.rotation + rotateValue)) % 4,
-                } : undefined
-        ));
+       setCurrentTile(tile => {
+           if(!tile) return undefined;
+           const newTile = new Tile(tile);
+           return newTile.rotate(rotateValue);
+       })
+
+        console.log(currentTile);
     };
 
     const rotateTileLeft = () => rotateTile(-1);

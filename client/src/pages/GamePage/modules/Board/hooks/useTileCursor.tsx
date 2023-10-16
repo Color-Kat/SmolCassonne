@@ -1,17 +1,16 @@
 import React, {MouseEventHandler, ReactNode, useMemo, useState} from "react";
 import {ITile} from "@pages/GamePage/classes/TilesDeck.ts";
-import {IMapTile} from "@pages/GamePage/modules/Board/types.ts";
-import {twJoin} from "tailwind-merge";
+import {Tile} from "@pages/GamePage/classes/TilesDeck.tsx";
 
 
 interface ITileCursorParams {
     tileSize: number;
     mapScale: number;
     mapNavigationRef: React.RefObject<HTMLUListElement>;
-    map: IMapTile[];
-    setMap: React.Dispatch<React.SetStateAction<IMapTile[]>>;
+    map: Tile[];
+    setMap: React.Dispatch<React.SetStateAction<Tile[]>>;
 
-    currentTile: ITile | undefined;
+    currentTile: Tile | undefined;
 
     placeTileCallback: () => void;
     setTooltip: React.Dispatch<React.SetStateAction<string>>;
@@ -34,7 +33,7 @@ export const useTileCursor = ({
 
     const [tilePosition, setTilePosition] = useState({x: 0, y: 0});
     const [showTile, setShowTile] = useState(false);
-    const [placedTile, setPlacedTile] = useState<ITile | null>(null);
+    const [placedTile, setPlacedTile] = useState<Tile | null>(null);
 
     const handleMouseMove: MouseEventHandler<HTMLDivElement> = (event) => {
         const {clientX, clientY} = event;
@@ -73,13 +72,8 @@ export const useTileCursor = ({
         y /= mapScale;
 
         // Get the exact coords of the tile on the map
-        const tile = {
-            ...currentTile,
-            coords: {
-                x: x - x % tileSize,
-                y: y - y % tileSize
-            }
-        };
+        const tile: Tile = currentTile;
+        tile.setCoords(x - x % tileSize, y - y % tileSize);
 
         /* --- Check if tile can be placed on the map --- */
         if (!checkIfFit(tile)) {
@@ -103,21 +97,24 @@ export const useTileCursor = ({
      * Check if the tile can be placed on the map according to the rules
      * @param tile
      */
-    const checkIfFit = (tile: IMapTile) => {
+    const checkIfFit = (tile: Tile) => {
+        if(!tile.coords) return false;
+
         let neighborsCount = 0;
 
         for (const mapTile of map) {
             // Skip tiles that is not a neighbor for the tile
-            if (!(
-                (
+            if (
+                !mapTile.coords ||
+                !((
                     Math.abs(tile.coords.x - mapTile.coords.x) <= tileSize &&
                     Math.abs(tile.coords.y - mapTile.coords.y) == 0
                 ) ||
                 (
                     Math.abs(tile.coords.y - mapTile.coords.y) <= tileSize &&
                     Math.abs(tile.coords.x - mapTile.coords.x) == 0
-                )
-            )) continue;
+                ))
+            ) continue;
 
             // Increase count of neighbors
             neighborsCount++;
