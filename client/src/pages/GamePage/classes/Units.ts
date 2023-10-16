@@ -29,6 +29,7 @@ export class Unit implements IUnit {
 
     public setTeam(team: string) {
         this.team = team;
+        return this;
     }
 
     public getRole() {
@@ -65,8 +66,8 @@ const listOfUnits = [
 
 function getUnitsByTeam(team: string) {
     return listOfUnits.map(unit => {
-        unit.setTeam(team);
-        return unit;
+        const teamUnit = new Unit(unit);
+        return teamUnit.setTeam(team);
     });
 }
 
@@ -74,3 +75,5 @@ export const units = {
     blue: getUnitsByTeam('blue'),
     red: getUnitsByTeam('red'),
 };
+
+console.log(units);

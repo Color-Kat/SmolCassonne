@@ -10,6 +10,7 @@ import {Dialog, Transition} from "@headlessui/react";
 import tableWoodImage from "@assets/textures/tableWood.png";
 import {UnitSelector} from "@pages/GamePage/modules/UnitSelector/UnitSelector.tsx";
 import {Unit, units} from "@pages/GamePage/classes/Units.ts";
+import {MapTile} from "@pages/GamePage/modules/Board/components/MapTile.tsx";
 
 
 interface BoardProps {
@@ -111,7 +112,7 @@ export const Board: React.FC<BoardProps> = ({
                         top: tilePosition.y - tileSize * mapScale / 2 - 50 + 'px',
                         width: tileSize * mapScale + 'px',
                         height: tileSize * mapScale + 'px',
-                        // transition: "width 0.3s ease-in-out, height 0.3s ease-in-out",
+                        transition: "transform 0.2s ease-in-out",
                         transform: `rotate(${90 * currentTile.rotation}deg)`,
                         zIndex: 100,
                     }}
@@ -145,22 +146,13 @@ export const Board: React.FC<BoardProps> = ({
                     }}
                     ref={mapNavigationRef}
                 >
-                    {map.map(tile => {
-                        if(!tile.coords) return null;
-
-                        return (
-                            <li
-                                key={tile.id}
-                                style={{
-                                    position: 'absolute',
-                                    top: tile.coords.y,
-                                    left: tile.coords.x,
-                                }}
-                            >
-                                {tile.Image(tileSize)}
-                            </li>
-                        );
-                    })}
+                    {map.map(tile => (
+                        <MapTile
+                            key={tile.id}
+                            tile={tile}
+                            tileSize={tileSize}
+                        />
+                    ))}
 
                 </ul>
             </MapNavigation>

@@ -32,7 +32,7 @@ const UnitPlace: React.FC<UnitPlaceProps> = memo(({
             // Add unit to the tile on the map
             setMap(prev => {
                 const newMap = [...prev];
-                newMap[newMap.length - 1].setUnit(selectedUnit, position);
+                newMap[newMap.length - 1] = (new Tile(newMap[newMap.length - 1])).setUnit(selectedUnit, position);
                 return newMap;
             });
 
