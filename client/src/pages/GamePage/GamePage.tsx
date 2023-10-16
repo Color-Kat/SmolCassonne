@@ -1,6 +1,6 @@
 import {Helmet} from "react-helmet";
-import React, {useState, useEffect} from "react";
-import TilesDeck, {IMapTile, ITile, Tile} from "./classes/TilesDeck";
+import React, {useState} from "react";
+import TilesDeck, {Tile} from "./classes/TilesDeck";
 import {Unit, units as listOfUnits} from "./classes/Units.ts";
 import {Board} from "./modules/Board/Board";
 
@@ -38,8 +38,7 @@ export const GamePage = () => {
         // Pass the turn to the next player
         // passTheTurn() 
     };
-
-    console.log(currentTile);
+    console.log(map);
 
     return (
         <div className="w-full h-full cursor-default">

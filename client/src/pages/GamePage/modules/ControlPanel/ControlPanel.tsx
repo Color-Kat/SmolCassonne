@@ -30,7 +30,6 @@ export const ControlPanel: React.FC<ControlPanelProps> = memo(({
         if (!currentTile) return;
 
         // if (rotateValue < 0) rotateValue = 4 + rotateValue;
-        //
         // setCurrentTile((tile) => (tile ?
         //     {
         //         ...tile,
@@ -43,8 +42,6 @@ export const ControlPanel: React.FC<ControlPanelProps> = memo(({
            const newTile = new Tile(tile);
            return newTile.rotate(rotateValue);
        })
-
-        console.log(currentTile);
     };
 
     const rotateTileLeft = () => rotateTile(-1);

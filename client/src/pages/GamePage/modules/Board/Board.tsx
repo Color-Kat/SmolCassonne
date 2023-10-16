@@ -157,17 +157,7 @@ export const Board: React.FC<BoardProps> = ({
                                     left: tile.coords.x,
                                 }}
                             >
-                                <img
-                                    className="rounded-sm shadow-md"
-                                    src={`/tiles/${tile.design}.png`}
-                                    draggable="false"
-                                    alt=""
-                                    style={{
-                                        width: tileSize + 'px',
-                                        height: tileSize + 'px',
-                                        transform: `rotate(${90 * tile.rotation}deg)`
-                                    }}
-                                />
+                                {tile.Image(tileSize)}
                             </li>
                         );
                     })}

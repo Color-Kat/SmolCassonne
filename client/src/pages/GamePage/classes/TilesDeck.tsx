@@ -97,7 +97,6 @@ class TilesDeck {
     ));
 
     public getShuffledDeck() {
-        console.log(this.deck);
         return shuffle(this.deck);
     }
 }

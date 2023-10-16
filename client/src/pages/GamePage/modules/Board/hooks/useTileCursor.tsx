@@ -143,7 +143,7 @@ export const useTileCursor = ({
             const tileBorderIndex = (4 + tileContactSide - tile.rotation) % 4;
             const mapTileBorderIndex = (4 + mapTileContactSide - mapTile.rotation) % 4;
 
-            // Get name of the contracted sides
+            // Get a name of the contracted sides
             const tileBorder = tile.borders[tileBorderIndex];
             const mapTileBorder = mapTile.borders[mapTileBorderIndex];
 
@@ -176,19 +176,7 @@ export const useTileCursor = ({
     const PlacedTile = () => {
         if(!placedTile) return null;
 
-        return (
-            <img
-                className="rounded-sm shadow-md"
-                src={`/tiles/${placedTile.design}.png`}
-                draggable="false"
-                alt=""
-                style={{
-                    width: tileSize + 'px',
-                    height: tileSize + 'px',
-                    transform: `rotate(${90 * placedTile.rotation}deg)`
-                }}
-            />
-        );
+        return placedTile.Image(tileSize);
     }
 
     return {
