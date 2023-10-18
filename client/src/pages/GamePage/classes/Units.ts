@@ -75,15 +75,17 @@ export class Unit implements IUnit {
             if(side === 2) mapSide = 0;
             if(side === 3) mapSide = 1;
 
-            console.log('mapSIde: ',mapSide);
+            console.log('map side:', mapSide);
 
             for (const mapTile of map) {
+                // Skip the same tile
+                if(mapTile.id === tile.id) continue;
+
+                console.log('ids',mapTile.id, tile.id);
+
                 // Skip already checked tiles
                 if (checkedIds.includes(mapTile.id)) continue;
                 checkedIds.push(mapTile.id); // Skip this tile the next iteration
-
-                // Skip the same tile
-                if(mapTile.id === tile.id) continue;
 
                 if(
                     mapTile.borders[mapTile.getSideIndexWithRotation(mapSide)] == borderName && // The same border
@@ -97,13 +99,22 @@ export class Unit implements IUnit {
                         Math.abs(tile.coords.x - mapTile.coords.x) == tileSize                    // Delta x = tileSize -> it's neighbor
                     ))
                 ) {
-                    console.log('counted: ', mapTile.id);
-                    result++;
+                    console.log('connected: ', mapTile.id, mapTile.coords);
+
+                    // This tile is connected to our tile
+                    result += 1;
+
+                    if(borderName == mapTile.borders[mapTile.getSideIndexWithRotation(mapSide + 1)])
+                        result += countUnits(mapTile, mapSide + 1);
+                    if(borderName == mapTile.borders[mapTile.getSideIndexWithRotation(mapSide + 2)])
+                        result += countUnits(mapTile, mapSide + 2);
+                    if(borderName == mapTile.borders[mapTile.getSideIndexWithRotation(mapSide + 3)])
+                        result += countUnits(mapTile, mapSide + 3);
                 }
 
             }
 
-            checkedIds = [];
+            // checkedIds = [];
 
             return result;
         }

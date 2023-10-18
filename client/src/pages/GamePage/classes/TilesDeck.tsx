@@ -115,6 +115,8 @@ export class Tile implements ITile {
     public roadEnd: boolean;
     public coords: { x: number, y: number };
 
+    private sidesCount = 4;
+
     constructor(tile: Tile | (Partial<ITile> & Omit<ITile, 'units' | 'rotation' | 'roadEnd'>) ) {
         this.id = tile.id;
         this.pennant = tile.pennant;
@@ -133,12 +135,49 @@ export class Tile implements ITile {
         }
     }
 
+    /**
+     * Move tile entities that are connected to borders.
+     * When we rotate tile, we need to shift borders and units.
+     * @param steps
+     * @private
+     */
+    private shiftAll(steps: number) {
+        const shiftAmount = steps % this.sidesCount;
+
+        if (shiftAmount === 0) return ;
+
+        if (shiftAmount > 0) {
+            // Shift right
+            let removedElements = [];
+
+            // Shift borders
+            removedElements = this.borders.splice(-shiftAmount);
+            this.borders.unshift(...removedElements);
+
+            // Shift units
+            removedElements = this.units.splice(-shiftAmount);
+            this.units.unshift(...removedElements);
+        } else {
+            // Shift left
+            let removedElements = [];
+
+            // Shift borders
+            removedElements = this.borders.splice(0, -shiftAmount);
+            this.borders.push(...removedElements);
+
+            // Shift units
+            removedElements = this.units.splice(0, -shiftAmount);
+            this.units.push(...removedElements);
+        }
+    }
+
     // Rotate the tile by rotateValue.
     // 0 - top, 1 - right, 2 - bottom, 3 - left
     public rotate(rotateValue: number) {
         if (rotateValue < 0) rotateValue = 4 + rotateValue;
-
         this.rotation = Math.abs((this.rotation + rotateValue)) % 4;
+
+        this.shiftAll(rotateValue);
 
         return this;
     }
