@@ -46,15 +46,26 @@ export class Unit implements IUnit {
     }
 
     public canBePlacedOnMap(
-        contactSide: 0 | 1 | 2 | 3,
+        position: 0 | 1 | 2 | 3,
         map: Tile[],
         tileSize: number
     ): boolean {
-        let lastTile = map.at(-1);
+        let lastTile = map.at(-1) as Tile;
+
+        const borderName = lastTile.borders[lastTile.getSideIndexWithRotation(position)];
+        console.log(borderName, lastTile.getSideIndexWithRotation(position), );
+    }
+
+    public canBePlacedOnMap2(
+        position: 0 | 1 | 2 | 3,
+        map: Tile[],
+        tileSize: number
+    ): boolean {
+        let lastTile: Tile = map.at(-1) as Tile;
         const checkedIds: number[] = [];
 
         // Return true if the neighbors
-        const recursiveCheckTileForUnit = (currentTile: Tile): boolean => {
+        const recursiveCheckTileForUnit = (currentTile: Tile, contactSide: 0 | 1 | 2 | 3): boolean => {
             const stack = [];
 
             for (const mapTile of map) {
@@ -107,20 +118,55 @@ export class Unit implements IUnit {
                 // The contact side contains a unit! We can't place unit here!
                 if(mapTile.units[neighborContactSide]) return true;
 
-                // If the contact sides are the same, check mapTile for units
-                stack.push(recursiveCheckTileForUnit(mapTile));
+                // Here the contact sides are the same, and we need to check other neighbors for unit
+
+                // Map tile is the end of the road
+                if(tileBorder === 'road' && mapTile.roadEnd) return false;
+
+                const nextPosition = (rotation: number): any => (4 - neighborContactSide + mapTile.rotation + rotation) % 4;
+
+                console.log(neighborContactSide, nextPosition(0), nextPosition(1), nextPosition(2), nextPosition(3));
+
+                // Now we need to find all contact sides for the map tile and check them
+                // If the next position for check is the same
+                if(tileBorder == mapTile.borders[nextPosition(0)])
+                    stack.push(recursiveCheckTileForUnit(mapTile, nextPosition(0))); // This side contacts with current contact side
+                if(tileBorder == mapTile.borders[nextPosition(1)])
+                    stack.push(recursiveCheckTileForUnit(mapTile, nextPosition(1)));
+                if(tileBorder == mapTile.borders[nextPosition(2)])
+                    stack.push(recursiveCheckTileForUnit(mapTile, nextPosition(2))); //
+                if(tileBorder == mapTile.borders[nextPosition(3)])
+                    stack.push(recursiveCheckTileForUnit(mapTile, nextPosition(3))); //
+
+
 
                 // If the contact sides are the same
                 // if (tileBorder !== mapTileBorder) return true;
                 //
                 // if (mapTileBorder == 'road' && mapTile.roadEnd)
+                // TODO contactSide
+
             }
 
             // If at least one tile in the stack is true, then return true, else return false
             return stack.some(item => item == true);
         }
 
-        return !recursiveCheckTileForUnit(lastTile as Tile);
+        const nextPosition = (rotation: number): any => (4 - position + lastTile!.rotation + rotation) % 4;
+        const tileBorder = lastTile!.borders[(4 - position + lastTile!.rotation) % 4];
+
+        const stack = [];
+
+        if(tileBorder == lastTile!.borders[nextPosition(0)])
+            stack.push(recursiveCheckTileForUnit(lastTile, nextPosition(0))); // This side contacts with current contact side
+        if(tileBorder == lastTile!.borders[nextPosition(1)])
+            stack.push(recursiveCheckTileForUnit(lastTile, nextPosition(1)));
+        if(tileBorder == lastTile!.borders[nextPosition(2)])
+            stack.push(recursiveCheckTileForUnit(lastTile, nextPosition(2))); //
+        if(tileBorder == lastTile!.borders[nextPosition(3)])
+            stack.push(recursiveCheckTileForUnit(lastTile, nextPosition(3))); //
+
+        return !stack.some(item => item == true);
     }
 }
 

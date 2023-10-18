@@ -7,6 +7,7 @@ export interface ITile {
     design: string;
     pennant: boolean;
     borders: ('field' | 'road' | 'wall' | 'water' | 'city')[];
+    // objects: {city: number, road: number}[];
     rotation: number;
 
     roadEnd: boolean;
@@ -169,6 +170,15 @@ export class Tile implements ITile {
         this.coords = {x, y};
 
         return this;
+    }
+
+    /**
+     * Return index of side at position (0, 1, 2, 3) with rotation.
+     *
+     * @param position
+     */
+    public getSideIndexWithRotation(position: number) {
+        return ( 4 + position - this.rotation) % 4;
     }
 }
 

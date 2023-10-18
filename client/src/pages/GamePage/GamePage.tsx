@@ -41,6 +41,7 @@ export const GamePage = () => {
         // Pass the turn to the next player
         // passTheTurn() 
     };
+    // console.log(map);
 
     return (
         <div className="w-full h-full cursor-default">
