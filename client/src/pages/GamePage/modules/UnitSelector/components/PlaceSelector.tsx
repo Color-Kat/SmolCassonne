@@ -32,7 +32,7 @@ const UnitPlace: React.FC<UnitPlaceProps> = memo(({
 
     // Place unit on the placed tile
     const placeUnit = () => {
-        console.log(selectedUnit?.canBePlacedOnMap(position, map, tileSize));
+        // console.log(selectedUnit?.canBePlacedOnMap(position, map, tileSize));
 
         if (selectedUnit && selectedUnit.canBePlacedOnMap(position, map, tileSize)) {
             // Add unit to the tile on the map

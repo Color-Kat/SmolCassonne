@@ -50,10 +50,76 @@ export class Unit implements IUnit {
         map: Tile[],
         tileSize: number
     ): boolean {
-        let lastTile = map.at(-1) as Tile;
 
+        console.log(map);
+
+        // Get just placed tile
+        let lastTile = map.at(-1) as Tile;
+        // The border name where the unit was placed
         const borderName = lastTile.borders[lastTile.getSideIndexWithRotation(position)];
-        console.log(borderName, lastTile.getSideIndexWithRotation(position), );
+
+        // Algorithm
+        // We will count units on the map.
+        // If it is more than 0, we can't place a unit on this border.
+        // We need to count the units on all the same borders.
+        // If it's a city at the top and a city at the bottom - check top and bottom tiles.
+
+        let checkedIds: number[] = [];
+
+        const countUnits = (tile: Tile, side: number) => {
+            let result = 0;
+
+            let mapSide = 0;
+            if(side === 0) mapSide = 2;
+            if(side === 1) mapSide = 3;
+            if(side === 2) mapSide = 0;
+            if(side === 3) mapSide = 1;
+
+            console.log('mapSIde: ',mapSide);
+
+            for (const mapTile of map) {
+                // Skip already checked tiles
+                if (checkedIds.includes(mapTile.id)) continue;
+                checkedIds.push(mapTile.id); // Skip this tile the next iteration
+
+                // Skip the same tile
+                if(mapTile.id === tile.id) continue;
+
+                if(
+                    mapTile.borders[mapTile.getSideIndexWithRotation(mapSide)] == borderName && // The same border
+                    ((
+                        (side === 0 || side === 2) &&                                               // Top and bottom
+                        tile.coords.x === mapTile.coords.x &&                                       // Coords x the same
+                        Math.abs(tile.coords.y - mapTile.coords.y) == tileSize                    // Delta y = tileSize -> it's neighbor
+                    ) || (
+                        (side === 1 || side === 3) &&                                               // Left and Right
+                        tile.coords.y === mapTile.coords.y &&                                       // Coords y the same
+                        Math.abs(tile.coords.x - mapTile.coords.x) == tileSize                    // Delta x = tileSize -> it's neighbor
+                    ))
+                ) {
+                    console.log('counted: ', mapTile.id);
+                    result++;
+                }
+
+            }
+
+            checkedIds = [];
+
+            return result;
+        }
+
+        let result = 0;
+        if(borderName == lastTile.borders[lastTile.getSideIndexWithRotation(position + 0)])
+            result += countUnits(lastTile, position + 0);
+        if(borderName == lastTile.borders[lastTile.getSideIndexWithRotation(position + 1)])
+            result += countUnits(lastTile, position + 1);
+        if(borderName == lastTile.borders[lastTile.getSideIndexWithRotation(position + 2)])
+            result += countUnits(lastTile, position + 2);
+        if(borderName == lastTile.borders[lastTile.getSideIndexWithRotation(position + 3)])
+            result += countUnits(lastTile, position + 3);
+
+        console.log(result);
+        return result === 0;
     }
 
     public canBePlacedOnMap2(
