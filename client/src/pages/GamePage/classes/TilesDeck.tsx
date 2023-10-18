@@ -216,9 +216,9 @@ export class Tile implements ITile {
      *
      * @param position
      */
-    public getSideIndexWithRotation(position: number) {
-        return ( 4 + position - this.rotation) % 4;
-    }
+    // public getSideIndexWithRotation(position: number) {
+    //     return ( 4 + position) % 4;
+    // }
 }
 
 export default TilesDeck;

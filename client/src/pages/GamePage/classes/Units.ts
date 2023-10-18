@@ -55,8 +55,9 @@ export class Unit implements IUnit {
 
         // Get just placed tile
         let lastTile = map.at(-1) as Tile;
+
         // The border name where the unit was placed
-        const borderName = lastTile.borders[lastTile.getSideIndexWithRotation(position)];
+        const borderName = lastTile.borders[position];
 
         // Algorithm
         // We will count units on the map.
@@ -75,59 +76,61 @@ export class Unit implements IUnit {
             if(side === 2) mapSide = 0;
             if(side === 3) mapSide = 1;
 
-            console.log('map side:', mapSide);
-
             for (const mapTile of map) {
-                // Skip the same tile
-                if(mapTile.id === tile.id) continue;
-
-                console.log('ids',mapTile.id, tile.id);
-
-                // Skip already checked tiles
-                if (checkedIds.includes(mapTile.id)) continue;
-                checkedIds.push(mapTile.id); // Skip this tile the next iteration
+                if(checkedIds.includes(mapTile.id)) continue; // Skip checked tiles
+                if(tile.id == mapTile.id) continue; // Skip the same tile
+                if(mapTile.borders[mapSide] != borderName) continue; // Skip tiles that are not connected to our
 
                 if(
-                    mapTile.borders[mapTile.getSideIndexWithRotation(mapSide)] == borderName && // The same border
-                    ((
-                        (side === 0 || side === 2) &&                                               // Top and bottom
-                        tile.coords.x === mapTile.coords.x &&                                       // Coords x the same
-                        Math.abs(tile.coords.y - mapTile.coords.y) == tileSize                    // Delta y = tileSize -> it's neighbor
-                    ) || (
-                        (side === 1 || side === 3) &&                                               // Left and Right
-                        tile.coords.y === mapTile.coords.y &&                                       // Coords y the same
-                        Math.abs(tile.coords.x - mapTile.coords.x) == tileSize                    // Delta x = tileSize -> it's neighbor
-                    ))
-                ) {
-                    console.log('connected: ', mapTile.id, mapTile.coords);
+                    (side == 0 || side == 2) &&
+                    (
+                        mapTile.coords.x != tile.coords.x ||
+                        Math.abs(mapTile.coords.y - tile.coords.y) > tileSize
+                    )
+                ) continue; // It is not a vertical neighbor
 
-                    // This tile is connected to our tile
-                    result += 1;
+                if(
+                    (side == 1 || side == 3) &&
+                    (
+                        Math.abs(mapTile.coords.x - tile.coords.x) > tileSize ||
+                        mapTile.coords.y != tile.coords.y
+                    )
+                ) continue; // It is not a horizontal neighbor
 
-                    if(borderName == mapTile.borders[mapTile.getSideIndexWithRotation(mapSide + 1)])
-                        result += countUnits(mapTile, mapSide + 1);
-                    if(borderName == mapTile.borders[mapTile.getSideIndexWithRotation(mapSide + 2)])
-                        result += countUnits(mapTile, mapSide + 2);
-                    if(borderName == mapTile.borders[mapTile.getSideIndexWithRotation(mapSide + 3)])
-                        result += countUnits(mapTile, mapSide + 3);
-                }
+                // We have checked this tile
+                checkedIds.push(mapTile.id);
 
+                // This tile is a neighbor
+                result += 1;
+
+                console.log((mapSide + 1) % 4, (mapSide + 2) % 4, (mapSide + 3) % 4, );
+
+                // Check other sides of the neighbor
+                if(mapTile.borders[(mapSide + 1) % 4])
+                    result += countUnits(mapTile, (mapSide + 1) % 4);
+
+                if(mapTile.borders[(mapSide + 2) % 4])
+                    result += countUnits(mapTile, (mapSide + 2) % 4);
+
+                if(mapTile.borders[(mapSide + 3) % 4])
+                    result += countUnits(mapTile, (mapSide + 3) % 4);
             }
-
-            // checkedIds = [];
 
             return result;
         }
 
         let result = 0;
-        if(borderName == lastTile.borders[lastTile.getSideIndexWithRotation(position + 0)])
-            result += countUnits(lastTile, position + 0);
-        if(borderName == lastTile.borders[lastTile.getSideIndexWithRotation(position + 1)])
-            result += countUnits(lastTile, position + 1);
-        if(borderName == lastTile.borders[lastTile.getSideIndexWithRotation(position + 2)])
-            result += countUnits(lastTile, position + 2);
-        if(borderName == lastTile.borders[lastTile.getSideIndexWithRotation(position + 3)])
-            result += countUnits(lastTile, position + 3);
+        if(borderName == lastTile.borders[position % 4])
+            result += countUnits(lastTile, position % 4);
+
+        if(borderName == lastTile.borders[(position + 1) % 4])
+            result += countUnits(lastTile, (position + 1) % 4);
+
+        if(borderName == lastTile.borders[(position + 2) % 4])
+            result += countUnits(lastTile, (position + 2) % 4);
+
+        if(borderName == lastTile.borders[(position + 3) % 4])
+            result += countUnits(lastTile, (position + 3) % 4);
 
         console.log(result);
         return result === 0;
