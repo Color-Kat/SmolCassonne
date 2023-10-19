@@ -65,9 +65,10 @@ export class Unit implements IUnit {
         // We need to count the units on all the same borders.
         // If it's a city at the top and a city at the bottom - check top and bottom tiles.
 
-        let checkedIds: number[] = [];
+        let checkedIds: number[] = [lastTile.id];
 
         const countUnits = (tile: Tile, side: number) => {
+            console.log('----------- countUnits -----------');
             let count = 0;
 
             // A unit stays on this tile side, increase count
@@ -82,9 +83,18 @@ export class Unit implements IUnit {
 
             // Iterate all map tiles and search for the neighbors that are connected by the same border
             for (const mapTile of map) {
-                if(checkedIds.includes(mapTile.id)) continue; // Skip checked tiles
-                if(tile.id == mapTile.id) continue; // Skip the same tile
-                if(mapTile.borders[mapSide] != borderName) continue; // Skip tiles that are not connected to our
+                if(checkedIds.includes(mapTile.id)) {
+                    // console.log('Already checked', mapTile.borders);
+                    continue; // Skip checked tiles
+                }
+                if(tile.id == mapTile.id) {
+                    // console.log('tile.id == mapTile.id');
+                    continue; // Skip the same tile
+                }
+                if(mapTile.borders[mapSide] != borderName) {
+                    // console.log('mapTile.borders[mapSide] != borderName');
+                    continue; // Skip tiles that are not connected to our
+                }
 
                 if(
                     (side == 0 || side == 2) &&
@@ -92,7 +102,10 @@ export class Unit implements IUnit {
                         mapTile.coords.x != tile.coords.x ||
                         Math.abs(mapTile.coords.y - tile.coords.y) > tileSize
                     )
-                ) continue; // It is not a vertical neighbor
+                ) {
+                    // console.log('It is not a vertical neighbor');
+                    continue; // It is not a vertical neighbor
+                }
 
                 if(
                     (side == 1 || side == 3) &&
@@ -100,36 +113,36 @@ export class Unit implements IUnit {
                         Math.abs(mapTile.coords.x - tile.coords.x) > tileSize ||
                         mapTile.coords.y != tile.coords.y
                     )
-                ) continue; // It is not a horizontal neighbor
+                ) {
+                    // console.log('It is not a horizontal neighbor');
+                    continue; // It is not a horizontal neighbor
+                }
 
-                // We have checked this tile
-                checkedIds.push(mapTile.id);
-                console.log('checked ids: ', checkedIds);
+                console.log(mapTile.borders);
 
                 // --- This tile is a neighbor --- //
 
-                // Check if there is a unit on the neighbor
-                // if(mapTile.units[mapSide])
-                //     count += 1;
+                // We have checked this tile
+                checkedIds.push(mapTile.id);
+                // console.log('We have checked this tile', mapTile.borders);
+
+                if(mapTile.units[mapSide]) count++;
 
                 // Check other sides of the neighbor that is the same border (check all cities, fields, etc)
 
                 mapSide = (mapSide + 1) % 4;
                 if(borderName == mapTile.borders[mapSide]) {
                     count += countUnits(mapTile, mapSide); // Calculate units on this side
-                    // if(mapTile.units[mapSide]) count += 1; // If this side has a unit
                 }
 
                 mapSide = (mapSide + 2) % 4;
                 if(borderName == mapTile.borders[mapSide]){
                     count += countUnits(mapTile, mapSide);
-                    // if(mapTile.units[mapSide]) count += 1;
                 }
 
                 mapSide = (mapSide + 3) % 4;
                 if(borderName == mapTile.borders[mapSide]){
                     count += countUnits(mapTile, mapSide);
-                    // if(mapTile.units[mapSide]) count += 1;
                 }
             }
 
