@@ -7,6 +7,7 @@ import {Board} from "./modules/Board/Board";
 import {ControlPanel} from "@pages/GamePage/modules/ControlPanel/ControlPanel.tsx";
 import {Teams} from "@pages/GamePage/modules/Teams/Teams.tsx";
 import {MapContext} from "@pages/GamePage/mapContext.ts";
+import {Information} from "@pages/GamePage/modules/Inforamtion/Information.tsx";
 
 export const GamePage = () => {
     const myTeam = 'blue';
@@ -58,7 +59,8 @@ export const GamePage = () => {
                 currentTile,
                 setTooltip,
                 setTileInformation,
-                setUnitInformation
+                setUnitInformation,
+                endOfTurn
             }}>
                 <div className="flex h-full w-full relative">
                     {/* Control panel with buttons and the deck of tiles */}
@@ -90,9 +92,11 @@ export const GamePage = () => {
                     />
 
                     {/* Information about placed tile */}
-                    <div className="">
-
-                    </div>
+                    <Information
+                        tileInformation={tileInformation}
+                        unitInformation={unitInformation}
+                        tooltip={tooltip}
+                    />
                 </div>
             </MapContext.Provider>
         </div>

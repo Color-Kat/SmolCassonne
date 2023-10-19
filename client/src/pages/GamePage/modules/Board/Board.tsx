@@ -11,6 +11,7 @@ import tableWoodImage from "@assets/textures/tableWood.png";
 import {UnitSelector} from "@pages/GamePage/modules/UnitSelector/UnitSelector.tsx";
 import {Unit, units} from "@pages/GamePage/classes/Units.ts";
 import {MapTile} from "@pages/GamePage/modules/Board/components/MapTile.tsx";
+import {MapContext} from "@pages/GamePage/mapContext.ts";
 
 
 interface BoardProps {
@@ -36,6 +37,7 @@ export const Board: React.FC<BoardProps> = ({
 
                                                 endOfTurn
                                             }) => {
+    const {setTooltip} = React.useContext(MapContext);
 
     const tileSize = 192;
     const mapSize = tileSize * 70;
@@ -56,11 +58,10 @@ export const Board: React.FC<BoardProps> = ({
 
     const [isSelectingUnit, setIsSelectingUnit] = useState(false);
     const openUnitSelectorModal = () => {
-
+        setTooltip('');
         setCurrentTile(undefined);
-        setIsSelectingUnit(true);
 
-        // endOfTurn();
+        setIsSelectingUnit(true);
     };
 
     const {
@@ -121,7 +122,6 @@ export const Board: React.FC<BoardProps> = ({
                 isSelectingUnit={isSelectingUnit}
                 setIsSelectingUnit={setIsSelectingUnit}
                 PlacedTile={PlacedTile}
-
                 units={units[myTeam]}
             />
 

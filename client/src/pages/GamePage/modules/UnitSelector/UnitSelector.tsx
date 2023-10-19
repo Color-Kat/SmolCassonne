@@ -24,11 +24,13 @@ export const UnitSelector: React.FC<UnitSelectorProps> = memo(({
                                                                    units,
                                                                    PlacedTile,
                                                                }) => {
-    const {setMap} = React.useContext(MapContext);
-
+    const {setMap, endOfTurn} = React.useContext(MapContext);
 
     // Close modal
-    const closeSelectingUnit = useCallback(() => setIsSelectingUnit(false), []);
+    const closeSelectingUnit = useCallback(() => {
+        endOfTurn();
+        setIsSelectingUnit(false);
+    }, []);
     const handleOverlayClick = (e: MouseEvent) => {
         // Only close the modal if the click target is the outer div
         if (e.target === e.currentTarget) closeSelectingUnit();

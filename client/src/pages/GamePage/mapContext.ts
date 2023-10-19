@@ -12,4 +12,6 @@ export const MapContext = React.createContext<{
     setTooltip: React.Dispatch<React.SetStateAction<string>>,
     setTileInformation: React.Dispatch<React.SetStateAction<Tile | null>>,
     setUnitInformation: React.Dispatch<React.SetStateAction<Unit | null>>,
+
+    endOfTurn: () => void;
 }>({} as any);
