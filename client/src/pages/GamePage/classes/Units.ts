@@ -68,14 +68,19 @@ export class Unit implements IUnit {
         let checkedIds: number[] = [];
 
         const countUnits = (tile: Tile, side: number) => {
-            let result = 0;
+            let count = 0;
 
+            // A unit stays on this tile side, increase count
+            if(tile.units[side]) count += 1;
+
+            // The map side is opposite to the tile side ][
             let mapSide = 0;
             if(side === 0) mapSide = 2;
             if(side === 1) mapSide = 3;
             if(side === 2) mapSide = 0;
             if(side === 3) mapSide = 1;
 
+            // Iterate all map tiles and search for the neighbors that are connected by the same border
             for (const mapTile of map) {
                 if(checkedIds.includes(mapTile.id)) continue; // Skip checked tiles
                 if(tile.id == mapTile.id) continue; // Skip the same tile
@@ -99,48 +104,58 @@ export class Unit implements IUnit {
 
                 // We have checked this tile
                 checkedIds.push(mapTile.id);
+                console.log('checked ids: ', checkedIds);
 
                 // --- This tile is a neighbor --- //
 
                 // Check if there is a unit on the neighbor
-                if(mapTile.units[(mapSide + 0) % 4])
-                    result += 1;
-                if(mapTile.units[(mapSide + 1) % 4])
-                    result += 1;
-                if(mapTile.units[(mapSide + 2) % 4])
-                    result += 1;
-                if(mapTile.units[(mapSide + 3) % 4])
-                    result += 1;
+                // if(mapTile.units[mapSide])
+                //     count += 1;
 
                 // Check other sides of the neighbor that is the same border (check all cities, fields, etc)
-                if(mapTile.borders[(mapSide + 1) % 4])
-                    result += countUnits(mapTile, (mapSide + 1) % 4);
 
-                if(mapTile.borders[(mapSide + 2) % 4])
-                    result += countUnits(mapTile, (mapSide + 2) % 4);
+                mapSide = (mapSide + 1) % 4;
+                if(borderName == mapTile.borders[mapSide]) {
+                    count += countUnits(mapTile, mapSide); // Calculate units on this side
+                    // if(mapTile.units[mapSide]) count += 1; // If this side has a unit
+                }
 
-                if(mapTile.borders[(mapSide + 3) % 4])
-                    result += countUnits(mapTile, (mapSide + 3) % 4);
+                mapSide = (mapSide + 2) % 4;
+                if(borderName == mapTile.borders[mapSide]){
+                    count += countUnits(mapTile, mapSide);
+                    // if(mapTile.units[mapSide]) count += 1;
+                }
+
+                mapSide = (mapSide + 3) % 4;
+                if(borderName == mapTile.borders[mapSide]){
+                    count += countUnits(mapTile, mapSide);
+                    // if(mapTile.units[mapSide]) count += 1;
+                }
             }
 
-            return result;
+            return count;
         }
 
-        let result = 0;
-        if(borderName == lastTile.borders[position % 4])
-            result += countUnits(lastTile, position % 4);
 
-        if(borderName == lastTile.borders[(position + 1) % 4])
-            result += countUnits(lastTile, (position + 1) % 4);
+        // Count units at the same borders on four sides
+        let count = 0;
+        if(borderName == lastTile.borders[position])
+            count += countUnits(lastTile, position);
 
-        if(borderName == lastTile.borders[(position + 2) % 4])
-            result += countUnits(lastTile, (position + 2) % 4);
+        position = (position + 1) % 4 as any;
+        if(borderName == lastTile.borders[position])
+            count += countUnits(lastTile, position);
 
-        if(borderName == lastTile.borders[(position + 3) % 4])
-            result += countUnits(lastTile, (position + 3) % 4);
+        position = (position + 2) % 4 as any;
+        if(borderName == lastTile.borders[position])
+            count += countUnits(lastTile, position);
 
-        console.log(result);
-        return result === 0;
+        position = (position + 3) % 4 as any;
+        if(borderName == lastTile.borders[position])
+            count += countUnits(lastTile, position);
+
+        console.log(count);
+        return count === 0;
     }
 
     public canBePlacedOnMap2(
