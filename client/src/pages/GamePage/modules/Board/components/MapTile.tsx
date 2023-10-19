@@ -66,6 +66,7 @@ export const MapTile: React.FC<MapTileProps> = memo(({
                 top: tile.coords.y,
                 left: tile.coords.x,
             }}
+            className={tile.className ?? ""}
             onClick={() => setTileInformation(tile)}
         >
             <div className="relative w-full h-full">

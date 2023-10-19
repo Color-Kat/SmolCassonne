@@ -29,6 +29,19 @@ export class Unit implements IUnit {
         this.role = unitData.role;
     }
 
+    private debug(...args: any[]) {
+        // console.log(...args);
+    }
+
+    private getSideName (side: 0 | 1 | 2 | 3) {
+        return {
+            0: 't',
+            1: 'r',
+            2: 'b',
+            3: 'l',
+        }[side];
+    }
+
     public setTeam(team: string) {
         this.team = team;
         return this;
@@ -68,14 +81,14 @@ export class Unit implements IUnit {
         let checkedIds: number[] = [lastTile.id];
 
         const countUnits = (tile: Tile, side: number) => {
-            console.log('----------- countUnits -----------');
+            this.debug('----------- countUnits -----------');
             let count = 0;
 
             // A unit stays on this tile side, increase count
             if(tile.units[side]) count += 1;
 
             // The map side is opposite to the tile side ][
-            let mapSide = 0;
+            let mapSide: any = 0;
             if(side === 0) mapSide = 2;
             if(side === 1) mapSide = 3;
             if(side === 2) mapSide = 0;
@@ -83,16 +96,19 @@ export class Unit implements IUnit {
 
             // Iterate all map tiles and search for the neighbors that are connected by the same border
             for (const mapTile of map) {
+                let className = 'border-red-600 scale-90';
+
                 if(checkedIds.includes(mapTile.id)) {
-                    // console.log('Already checked', mapTile.borders);
+                    this.debug('Already checked', mapTile.borders);
                     continue; // Skip checked tiles
                 }
                 if(tile.id == mapTile.id) {
-                    // console.log('tile.id == mapTile.id');
+                    this.debug('tile.id == mapTile.id');
                     continue; // Skip the same tile
                 }
                 if(mapTile.borders[mapSide] != borderName) {
-                    // console.log('mapTile.borders[mapSide] != borderName');
+                    mapTile.className = 'opacity-50';
+                    this.debug('mapTile.borders[mapSide] != borderName');
                     continue; // Skip tiles that are not connected to our
                 }
 
@@ -103,7 +119,8 @@ export class Unit implements IUnit {
                         Math.abs(mapTile.coords.y - tile.coords.y) > tileSize
                     )
                 ) {
-                    // console.log('It is not a vertical neighbor');
+                    mapTile.className = 'opacity-50';
+                    this.debug('It is not a vertical neighbor');
                     continue; // It is not a vertical neighbor
                 }
 
@@ -114,11 +131,12 @@ export class Unit implements IUnit {
                         mapTile.coords.y != tile.coords.y
                     )
                 ) {
-                    // console.log('It is not a horizontal neighbor');
+                    mapTile.className = 'opacity-50';
+                    this.debug('It is not a horizontal neighbor');
                     continue; // It is not a horizontal neighbor
                 }
 
-                console.log(mapTile.borders);
+                this.debug(mapTile.borders);
 
                 // --- This tile is a neighbor --- //
 
@@ -130,20 +148,38 @@ export class Unit implements IUnit {
 
                 // Check other sides of the neighbor that is the same border (check all cities, fields, etc)
 
-                mapSide = (mapSide + 1) % 4;
+                // Business logic for a field that cannot go through the tile center
+                if(
+                    borderName == 'field' &&
+                    mapTile.borders[(mapSide + 1) % 4] != 'field' &&
+                    mapTile.borders[(mapSide + 3) % 4] != 'field'
+                ) continue;
+
+                mapSide = (mapSide + 1) % 4
                 if(borderName == mapTile.borders[mapSide]) {
+                    className += ` border-${this.getSideName(mapSide)}-4`;
+                    this.debug('go to ', mapSide);
                     count += countUnits(mapTile, mapSide); // Calculate units on this side
                 }
 
                 mapSide = (mapSide + 2) % 4;
                 if(borderName == mapTile.borders[mapSide]){
+                    className += ` border-${this.getSideName(mapSide)}-4`;
+                    this.debug('go to ', mapSide);
                     count += countUnits(mapTile, mapSide);
+
                 }
 
                 mapSide = (mapSide + 3) % 4;
                 if(borderName == mapTile.borders[mapSide]){
+                    className += ` border-${this.getSideName(mapSide)}-4`;
+                    this.debug('go to ', mapSide);
                     count += countUnits(mapTile, mapSide);
                 }
+
+                console.log(className);
+
+                mapTile.className = className;
             }
 
             return count;
@@ -154,6 +190,16 @@ export class Unit implements IUnit {
         let count = 0;
         if(borderName == lastTile.borders[position])
             count += countUnits(lastTile, position);
+
+        // Business logic for a field that cannot go through the tile center
+        if(
+            borderName == 'field' &&
+            lastTile.borders[(position + 1) % 4] != 'field' &&
+            lastTile.borders[(position + 3) % 4] != 'field'
+        ) {
+            console.log('THIS TILE IS DOUBLE FIELD');
+            return count === 0;
+        }
 
         position = (position + 1) % 4 as any;
         if(borderName == lastTile.borders[position])
@@ -167,121 +213,8 @@ export class Unit implements IUnit {
         if(borderName == lastTile.borders[position])
             count += countUnits(lastTile, position);
 
-        console.log(count);
+        this.debug('Units count: ' + count);
         return count === 0;
-    }
-
-    public canBePlacedOnMap2(
-        position: 0 | 1 | 2 | 3,
-        map: Tile[],
-        tileSize: number
-    ): boolean {
-        let lastTile: Tile = map.at(-1) as Tile;
-        const checkedIds: number[] = [];
-
-        // Return true if the neighbors
-        const recursiveCheckTileForUnit = (currentTile: Tile, contactSide: 0 | 1 | 2 | 3): boolean => {
-            const stack = [];
-
-            for (const mapTile of map) {
-                // Skip already checked tiles
-                if (checkedIds.includes(mapTile.id)) continue;
-                checkedIds.push(mapTile.id); // Skip this tile the next iteration
-
-                // Skip current tile
-                if (mapTile.id == currentTile.id) continue;
-
-                // Skip tiles that is not a neighbor for the current tile
-                if (
-                    !mapTile.coords ||
-                    !((
-                            Math.abs(currentTile.coords.x - mapTile.coords.x) <= tileSize &&
-                            Math.abs(currentTile.coords.y - mapTile.coords.y) == 0
-                        ) ||
-                        (
-                            Math.abs(currentTile.coords.y - mapTile.coords.y) <= tileSize &&
-                            Math.abs(currentTile.coords.x - mapTile.coords.x) == 0
-                        ))
-                ) continue;
-
-                // Skip tiles that are the wrong neighbor for the current tile
-                if (
-                    (contactSide == 0 && currentTile.coords.y < mapTile.coords.y) ||
-                    (contactSide == 1 && currentTile.coords.x < mapTile.coords.x) ||
-                    (contactSide == 2 && currentTile.coords.y > mapTile.coords.y) ||
-                    (contactSide == 3 && currentTile.coords.x > mapTile.coords.x)
-                ) continue;
-
-                // Get contact side index for neighbor tile
-                let neighborContactSide = 0;
-                if (contactSide == 0) neighborContactSide = 2;
-                if (contactSide == 1) neighborContactSide = 3;
-                if (contactSide == 2) neighborContactSide = 0;
-                if (contactSide == 3) neighborContactSide = 1;
-
-                // Take into account the rotation
-                const tileBorderIndex = (4 - contactSide + currentTile.rotation) % 4;
-                const mapTileBorderIndex = (4 - neighborContactSide + mapTile.rotation) % 4;
-
-                // Get a name of the contracted sides
-                const tileBorder = currentTile.borders[tileBorderIndex];
-                const mapTileBorder = mapTile.borders[mapTileBorderIndex];
-
-                // Skip tiles that are not with the same sides
-                if(tileBorder != mapTileBorder) continue;
-
-                // The contact side contains a unit! We can't place unit here!
-                if(mapTile.units[neighborContactSide]) return true;
-
-                // Here the contact sides are the same, and we need to check other neighbors for unit
-
-                // Map tile is the end of the road
-                if(tileBorder === 'road' && mapTile.roadEnd) return false;
-
-                const nextPosition = (rotation: number): any => (4 - neighborContactSide + mapTile.rotation + rotation) % 4;
-
-                console.log(neighborContactSide, nextPosition(0), nextPosition(1), nextPosition(2), nextPosition(3));
-
-                // Now we need to find all contact sides for the map tile and check them
-                // If the next position for check is the same
-                if(tileBorder == mapTile.borders[nextPosition(0)])
-                    stack.push(recursiveCheckTileForUnit(mapTile, nextPosition(0))); // This side contacts with current contact side
-                if(tileBorder == mapTile.borders[nextPosition(1)])
-                    stack.push(recursiveCheckTileForUnit(mapTile, nextPosition(1)));
-                if(tileBorder == mapTile.borders[nextPosition(2)])
-                    stack.push(recursiveCheckTileForUnit(mapTile, nextPosition(2))); //
-                if(tileBorder == mapTile.borders[nextPosition(3)])
-                    stack.push(recursiveCheckTileForUnit(mapTile, nextPosition(3))); //
-
-
-
-                // If the contact sides are the same
-                // if (tileBorder !== mapTileBorder) return true;
-                //
-                // if (mapTileBorder == 'road' && mapTile.roadEnd)
-                // TODO contactSide
-
-            }
-
-            // If at least one tile in the stack is true, then return true, else return false
-            return stack.some(item => item == true);
-        }
-
-        const nextPosition = (rotation: number): any => (4 - position + lastTile!.rotation + rotation) % 4;
-        const tileBorder = lastTile!.borders[(4 - position + lastTile!.rotation) % 4];
-
-        const stack = [];
-
-        if(tileBorder == lastTile!.borders[nextPosition(0)])
-            stack.push(recursiveCheckTileForUnit(lastTile, nextPosition(0))); // This side contacts with current contact side
-        if(tileBorder == lastTile!.borders[nextPosition(1)])
-            stack.push(recursiveCheckTileForUnit(lastTile, nextPosition(1)));
-        if(tileBorder == lastTile!.borders[nextPosition(2)])
-            stack.push(recursiveCheckTileForUnit(lastTile, nextPosition(2))); //
-        if(tileBorder == lastTile!.borders[nextPosition(3)])
-            stack.push(recursiveCheckTileForUnit(lastTile, nextPosition(3))); //
-
-        return !stack.some(item => item == true);
     }
 }
 

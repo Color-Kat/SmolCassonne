@@ -125,6 +125,8 @@ export const Board: React.FC<BoardProps> = ({
                 units={units[myTeam]}
             />
 
+            <div className="border-r-4 border-b-4 border-t-4 border-l-4 border-red-500"></div>
+
             {/* Map */}
             <MapNavigation
                 tileSize={tileSize}
