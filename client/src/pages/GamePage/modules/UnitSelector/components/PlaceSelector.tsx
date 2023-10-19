@@ -25,26 +25,26 @@ const UnitPlace: React.FC<UnitPlaceProps> = memo(({
                                                       selectedUnit,
                                                       position,
                                                       setMap,
-                                                      closeSelectingUnit
+                                                      closeSelectingUnit,
                                                   }) => {
-
-    const {map, tileSize} = React.useContext(MapContext);
+    const {map, tileSize, setTooltip} = React.useContext(MapContext);
 
     // Place unit on the placed tile
     const placeUnit = () => {
-        // console.log(selectedUnit?.canBePlacedOnMap(position, map, tileSize));
+        const canBePlaced = selectedUnit?.canBePlacedOnMap(position, map, tileSize)
 
-        if (selectedUnit && selectedUnit.canBePlacedOnMap(position, map, tileSize)) {
+        if (selectedUnit && canBePlaced) {
             // Add unit to the tile on the map
             setMap(prev => {
                 const newMap = [...prev];
                 newMap[newMap.length - 1] = (new Tile(newMap[newMap.length - 1])).setUnit(selectedUnit, position);
                 return newMap;
             });
+
+            closeSelectingUnit(); // Close unit selecting modal
         }
 
-        // Close unit selecting modal
-        closeSelectingUnit();
+        if(!canBePlaced) setTooltip("На этом объекте уже стоит другая фишка");
     };
 
     return (

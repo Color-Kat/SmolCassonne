@@ -55,7 +55,10 @@ export const GamePage = () => {
                 tileSize,
                 map,
                 setMap,
-                currentTile
+                currentTile,
+                setTooltip,
+                setTileInformation,
+                setUnitInformation
             }}>
                 <div className="flex h-full w-full relative">
                     {/* Control panel with buttons and the deck of tiles */}
@@ -68,10 +71,8 @@ export const GamePage = () => {
 
                     {/* Users list and score */}
                     <Teams
-                        myTeam={myTeam}
                         teams={teams}
                         units={units}
-                        setUnitInformation={setUnitInformation}
                     />
 
                     {/* Board with the map */}
@@ -84,10 +85,6 @@ export const GamePage = () => {
 
                         myTeam={myTeam}
                         units={units}
-
-                        setUnitInformation={setUnitInformation}
-                        setTileInformation={setTileInformation}
-                        setTooltip={setTooltip}
 
                         endOfTurn={endOfTurn}
                     />

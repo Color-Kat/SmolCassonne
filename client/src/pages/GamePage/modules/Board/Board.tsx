@@ -23,10 +23,6 @@ interface BoardProps {
     units: { [key: string]: Unit[] };
     myTeam: string;
 
-    setUnitInformation: React.Dispatch<React.SetStateAction<Unit | null>>;
-    setTileInformation: React.Dispatch<React.SetStateAction<Tile | null>>;
-    setTooltip: React.Dispatch<React.SetStateAction<string>>;
-
     endOfTurn: () => void;
 }
 
@@ -37,10 +33,6 @@ export const Board: React.FC<BoardProps> = ({
                                                 setCurrentTile,
 
                                                 units, myTeam,
-
-                                                setUnitInformation,
-                                                setTileInformation,
-                                                setTooltip,
 
                                                 endOfTurn
                                             }) => {
@@ -87,7 +79,6 @@ export const Board: React.FC<BoardProps> = ({
         setMap,
 
         currentTile,
-        setTooltip,
 
         placeTileCallback: openUnitSelectorModal
     });
@@ -132,7 +123,6 @@ export const Board: React.FC<BoardProps> = ({
                 PlacedTile={PlacedTile}
 
                 units={units[myTeam]}
-                setMap={setMap}
             />
 
             {/* Map */}
@@ -157,8 +147,6 @@ export const Board: React.FC<BoardProps> = ({
                             key={tile.id}
                             tile={tile}
                             tileSize={tileSize}
-                            setUnitInformation={setUnitInformation}
-                            setTileInformation={setTileInformation}
                         />
                     ))}
 

@@ -1,6 +1,7 @@
 import React, {MouseEventHandler, ReactNode, useMemo, useState} from "react";
 import {ITile} from "@pages/GamePage/classes/TilesDeck.ts";
 import {Tile} from "@pages/GamePage/classes/TilesDeck.tsx";
+import {MapContext} from "@pages/GamePage/mapContext.ts";
 
 
 interface ITileCursorParams {
@@ -13,7 +14,6 @@ interface ITileCursorParams {
     currentTile: Tile | undefined;
 
     placeTileCallback: () => void;
-    setTooltip: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const useTileCursor = ({
@@ -25,10 +25,11 @@ export const useTileCursor = ({
 
                                   currentTile,
 
-                                  placeTileCallback,
-                                  setTooltip
+                                  placeTileCallback
 
                               }: ITileCursorParams) => {
+    const {setTooltip} = React.useContext(MapContext);
+
     const [wrongAnimation, setWrongAnimation] = useState(false);
 
     const [tilePosition, setTilePosition] = useState({x: 0, y: 0});

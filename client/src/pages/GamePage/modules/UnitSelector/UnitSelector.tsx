@@ -8,6 +8,7 @@ import {PlaceSelector} from "@pages/GamePage/modules/UnitSelector/components/Pla
 import {SelectedUnit} from "@pages/GamePage/modules/UnitSelector/components/SelectedUnit.tsx";
 import {ListOfUnits} from "@pages/GamePage/modules/UnitSelector/components/ListOfUnits.tsx";
 import {Tile} from "@pages/GamePage/classes/TilesDeck.tsx";
+import {MapContext} from "@pages/GamePage/mapContext.ts";
 
 interface UnitSelectorProps {
     isSelectingUnit: boolean;
@@ -15,7 +16,6 @@ interface UnitSelectorProps {
 
     units: Unit[];
     PlacedTile: any;
-    setMap: React.Dispatch<React.SetStateAction<Tile[]>>;
 }
 
 export const UnitSelector: React.FC<UnitSelectorProps> = memo(({
@@ -23,8 +23,10 @@ export const UnitSelector: React.FC<UnitSelectorProps> = memo(({
                                                                    setIsSelectingUnit,
                                                                    units,
                                                                    PlacedTile,
-                                                                   setMap
                                                                }) => {
+    const {setMap} = React.useContext(MapContext);
+
+
     // Close modal
     const closeSelectingUnit = useCallback(() => setIsSelectingUnit(false), []);
     const handleOverlayClick = (e: MouseEvent) => {

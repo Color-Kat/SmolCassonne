@@ -100,12 +100,19 @@ export class Unit implements IUnit {
                 // We have checked this tile
                 checkedIds.push(mapTile.id);
 
-                // This tile is a neighbor
-                result += 1;
+                // --- This tile is a neighbor --- //
 
-                console.log((mapSide + 1) % 4, (mapSide + 2) % 4, (mapSide + 3) % 4, );
+                // Check if there is a unit on the neighbor
+                if(mapTile.units[(mapSide + 0) % 4])
+                    result += 1;
+                if(mapTile.units[(mapSide + 1) % 4])
+                    result += 1;
+                if(mapTile.units[(mapSide + 2) % 4])
+                    result += 1;
+                if(mapTile.units[(mapSide + 3) % 4])
+                    result += 1;
 
-                // Check other sides of the neighbor
+                // Check other sides of the neighbor that is the same border (check all cities, fields, etc)
                 if(mapTile.borders[(mapSide + 1) % 4])
                     result += countUnits(mapTile, (mapSide + 1) % 4);
 

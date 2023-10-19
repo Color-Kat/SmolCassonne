@@ -2,18 +2,16 @@ import React, {memo} from 'react';
 import {twJoin} from "tailwind-merge";
 import {Tile} from "@pages/GamePage/classes/TilesDeck.tsx";
 import {Unit} from "@pages/GamePage/classes/Units.ts";
+import {MapContext} from "@pages/GamePage/mapContext.ts";
 
 interface MapTileProps {
     tile: Tile;
     tileSize: number;
-    setUnitInformation: React.Dispatch<React.SetStateAction<Unit | null>>;
-    setTileInformation: React.Dispatch<React.SetStateAction<Tile | null>>;
 }
 
 interface UnitOnTileProps {
     unit: Unit;
     position: 0 | 1 | 2 | 3;
-    setUnitInformation: React.Dispatch<React.SetStateAction<Unit | null>>;
 }
 
 function getCommandColor(team: string): string {
@@ -26,9 +24,10 @@ function getCommandColor(team: string): string {
 
 const UnitOnTile: React.FC<UnitOnTileProps> = memo(({
                                                         unit,
-                                                        position,
-                                                        setUnitInformation
+                                                        position
                                                     }) => {
+    const {setUnitInformation} = React.useContext(MapContext);
+
     return (
         <img
             onClick={() => setUnitInformation(unit)}
@@ -53,9 +52,9 @@ const UnitOnTile: React.FC<UnitOnTileProps> = memo(({
 export const MapTile: React.FC<MapTileProps> = memo(({
                                                          tile,
                                                          tileSize,
-                                                         setUnitInformation,
-                                                         setTileInformation
                                                      }) => {
+
+    const {setTileInformation} = React.useContext(MapContext);
 
     if (!tile.coords) return null;
 
@@ -70,10 +69,10 @@ export const MapTile: React.FC<MapTileProps> = memo(({
             onClick={() => setTileInformation(tile)}
         >
             <div className="relative w-full h-full">
-                {tile.units[0] && <UnitOnTile position={0} unit={tile.units[0]} setUnitInformation={setUnitInformation}/>}
-                {tile.units[1] && <UnitOnTile position={1} unit={tile.units[1]} setUnitInformation={setUnitInformation}/>}
-                {tile.units[2] && <UnitOnTile position={2} unit={tile.units[2]} setUnitInformation={setUnitInformation}/>}
-                {tile.units[3] && <UnitOnTile position={3} unit={tile.units[3]} setUnitInformation={setUnitInformation}/>}
+                {tile.units[0] && <UnitOnTile position={0} unit={tile.units[0]} />}
+                {tile.units[1] && <UnitOnTile position={1} unit={tile.units[1]} />}
+                {tile.units[2] && <UnitOnTile position={2} unit={tile.units[2]} />}
+                {tile.units[3] && <UnitOnTile position={3} unit={tile.units[3]} />}
 
                 {tile.Image(tileSize)}
             </div>

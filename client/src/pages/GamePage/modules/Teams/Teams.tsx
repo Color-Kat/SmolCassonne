@@ -3,22 +3,22 @@ import {Unit} from "@pages/GamePage/classes/Units.ts";
 
 import oldWoodBg from "@assets/textures/oldWood.png";
 import {twJoin} from "tailwind-merge";
+import {MapContext} from "@pages/GamePage/mapContext.ts";
 
 interface TeamsProps {
-    myTeam: string;
     teams: string[];
     units: {
         [key: string]: Unit[]
     };
-    setUnitInformation: React.Dispatch<React.SetStateAction<Unit | null>>;
 }
 
 interface UnitProps {
     unit: Unit;
-    setUnitInformation: React.Dispatch<React.SetStateAction<Unit | null>>;
 }
 
-const UnitCard: React.FC<UnitProps> = memo(({unit, setUnitInformation}) => {
+const UnitCard: React.FC<UnitProps> = memo(({unit}) => {
+    const {setUnitInformation} = React.useContext(MapContext);
+
     const handleUnitClick = useCallback(() => {
         setUnitInformation(unit);
     }, []);
@@ -42,11 +42,11 @@ const UnitCard: React.FC<UnitProps> = memo(({unit, setUnitInformation}) => {
 
 export const Teams: React.FC<TeamsProps> = memo(({
                                                      teams,
-                                                     myTeam,
-                                                     units,
-                                                     setUnitInformation
+                                                     units
                                                  }) => {
+    const {myTeam} = React.useContext(MapContext);
     const myName = 'Player-1';
+
 
     const handleUnitClick = useCallback(() => {
 
@@ -76,7 +76,7 @@ export const Teams: React.FC<TeamsProps> = memo(({
                             </div>
                             <ul className="flex gap-1.5">
                                 {teamUnits.map((unit) => (
-                                    <UnitCard key={unit.id} unit={unit} setUnitInformation={setUnitInformation}/>
+                                    <UnitCard key={unit.id} unit={unit} />
                                 ))}
                             </ul>
                         </div>
