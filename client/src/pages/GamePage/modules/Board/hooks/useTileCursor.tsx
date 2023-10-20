@@ -156,6 +156,10 @@ export const useTileCursor = ({
         placeTile,
         PlacedTile,
 
+        tilePosition,
+        showTile,
+        wrongAnimation,
+
         TileCursor
     };
 };
