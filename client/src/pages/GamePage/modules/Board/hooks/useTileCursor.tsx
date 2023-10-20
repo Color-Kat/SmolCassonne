@@ -77,7 +77,14 @@ export const useTileCursor = ({
         tile.setCoords(x - x % tileSize, y - y % tileSize);
 
         /* --- Check if tile can be placed on the map --- */
-        if (!checkIfFit(tile)) {
+        if (!tile.checkIfFit(
+            tileSize,
+            map,
+            setTooltip
+        )) {
+            setWrongAnimation(true);
+            setTimeout(() => setWrongAnimation(false), 1000);
+
             return;
         }
 
@@ -95,87 +102,9 @@ export const useTileCursor = ({
     };
 
     /**
-     * Check if the tile can be placed on the map according to the rules
-     * @param tile
+     *
+     * @constructor
      */
-    const checkIfFit = (tile: Tile) => {
-        if(!tile.coords) return false;
-
-        let neighborsCount = 0;
-
-        for (const mapTile of map) {
-            // Skip tiles that is not a neighbor for the tile
-            if (
-                !mapTile.coords ||
-                !((
-                    Math.abs(tile.coords.x - mapTile.coords.x) <= tileSize &&
-                    Math.abs(tile.coords.y - mapTile.coords.y) == 0
-                ) ||
-                (
-                    Math.abs(tile.coords.y - mapTile.coords.y) <= tileSize &&
-                    Math.abs(tile.coords.x - mapTile.coords.x) == 0
-                ))
-            ) continue;
-
-            // This place is already occupied
-            if(tile.coords.y == mapTile.coords.y && tile.coords.x == mapTile.coords.x) {
-                setTooltip('Это место уже занято');
-                return false;
-            }
-
-            // Increase count of neighbors
-            neighborsCount++;
-
-            // Get indexes of the tile and mapTile sides that is contacted
-            let tileContactSide = 0; // 0 - top, 1 - right, 2 - bottom, 3 - left
-            let mapTileContactSide = 0; // 0 - top, 1 - right, 2 - bottom, 3 - left
-            if (tile.coords.y < mapTile.coords.y) {
-                tileContactSide = 2;
-                mapTileContactSide = 0;
-            }
-            if (tile.coords.y > mapTile.coords.y) {
-                tileContactSide = 0;
-                mapTileContactSide = 2;
-            }
-            if (tile.coords.x > mapTile.coords.x) {
-                tileContactSide = 3;
-                mapTileContactSide = 1;
-            }
-            if (tile.coords.x < mapTile.coords.x) {
-                tileContactSide = 1;
-                mapTileContactSide = 3;
-            }
-
-            // Get a name of the contracted sides
-            const tileBorder = tile.borders[tileContactSide];
-            const mapTileBorder = mapTile.borders[mapTileContactSide];
-
-            // We can't place the tile when at least one neighbor is not equal by the side
-            if (tileBorder !== mapTileBorder) {
-                setTooltip('Границы тайлов не совместимы. Найдите другое место для тайла');
-
-                // Display tile animation
-                setWrongAnimation(true);
-                setTimeout(() => setWrongAnimation(false), 1000);
-
-                return false;
-            }
-        }
-
-        // We can place tile only by other tiles
-        if (neighborsCount > 0) return true;
-        else {
-            setTooltip('Вы можете ставить тайлы только рядом с другими тайлами');
-
-            // Display tile animation
-            setWrongAnimation(true);
-            setTimeout(() => setWrongAnimation(false), 1000);
-
-            // We can't place the tile
-            return false;
-        }
-    };
-
     const PlacedTile = () => {
         if(!placedTile) return null;
 
@@ -186,10 +115,13 @@ export const useTileCursor = ({
         showTile,
         setShowTile,
         tilePosition,
+
         handleMouseMove,
         handleMouseEnter,
         handleMouseLeave,
+
         placeTile,
-        PlacedTile
+        PlacedTile,
+        wrongAnimation
     };
 };

@@ -37,6 +37,7 @@ module.exports = {
                   'wave': 'wave 1.2s linear infinite',
                   'slow-fade': 'slow-fade 2.2s ease-in-out',
                   'scale-pulse': 'scale-pulse infinite 1.2s ease-in-out',
+                  'shake': 'shake 0.1s ',
               },
               keyframes: {
                   'slow-fade': {
@@ -68,6 +69,11 @@ module.exports = {
                       '0%': {transform: 'scale(1)'},
                       '50%': {transform: 'scale(1.13)'},
                       '100%': {transform: 'scale(1)'},
+                  },
+                  'shake': {
+                      '0%, 100%': { transform: 'translateX(0)' },
+                      '10%, 30%, 50%, 70%, 90%': { transform: 'translateX(-10px)' },
+                      '20%, 40%, 60%, 80%': { transform: 'translateX(10px)' },
                   },
               },
               screens: {
