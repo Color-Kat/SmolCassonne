@@ -96,6 +96,11 @@ export class Unit implements IUnit {
 
             // Iterate all map tiles and search for the neighbors that are connected by the same border
             for (const mapTile of map) {
+
+
+                // TODO Проверка начинается с другой стороны тайла, если mapSide = этой стороне, и эта сторона подходит по объекту.
+
+
                 let className = 'border-red-600 scale-90';
 
                 if(checkedIds.includes(mapTile.id)) {
@@ -154,6 +159,8 @@ export class Unit implements IUnit {
                     mapTile.borders[(mapSide + 1) % 4] != 'field' &&
                     mapTile.borders[(mapSide + 3) % 4] != 'field'
                 ) continue;
+
+                className += ` border-${this.getSideName(mapSide)}-8`;
 
                 mapSide = (mapSide + 1) % 4
                 if(borderName == mapTile.borders[mapSide]) {
