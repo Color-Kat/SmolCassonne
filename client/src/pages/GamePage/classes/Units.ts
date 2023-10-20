@@ -29,8 +29,10 @@ export class Unit implements IUnit {
         this.role = unitData.role;
     }
 
+    private isDebug = false;
     private debug(...args: any[]) {
-        // console.log(...args);
+        if(this.isDebug)
+            console.log(...args);
     }
 
     private getSideName (side: 0 | 1 | 2 | 3) {
@@ -103,55 +105,50 @@ export class Unit implements IUnit {
 
                 let className = 'border-red-600 scale-90';
 
+                // Skip already checked tiles
                 if(checkedIds.includes(mapTile.id)) {
                     this.debug('Already checked', mapTile.borders);
                     continue; // Skip checked tiles
                 }
+
+                // Skip current tile
                 if(tile.id == mapTile.id) {
                     this.debug('tile.id == mapTile.id');
                     continue; // Skip the same tile
                 }
+
+                // Skip tiles that are not connected to our border
                 if(mapTile.borders[mapSide] != borderName) {
-                    mapTile.className = 'opacity-50';
+                    if(this.isDebug) mapTile.className = 'opacity-50';
                     this.debug('mapTile.borders[mapSide] != borderName');
                     continue; // Skip tiles that are not connected to our
                 }
 
+                // Skip tiles that are not corresponding to the current tile side
+                // If we check the left side of the current tile,
+                // then we need to check only one neighbor that is on the left side
                 if(
-                    (side == 0 || side == 2) &&
-                    (
-                        mapTile.coords.x != tile.coords.x ||
-                        Math.abs(mapTile.coords.y - tile.coords.y) > tileSize
-                    )
+                    (side == 0 && (mapTile.coords.x != tile.coords.x || mapTile.coords.y - tile.coords.y != -tileSize)) ||
+                    (side == 2 && (mapTile.coords.x != tile.coords.x || mapTile.coords.y - tile.coords.y != tileSize) ) ||
+                    (side == 1 && (mapTile.coords.x - tile.coords.x != tileSize ||mapTile.coords.y != tile.coords.y)) ||
+                    (side == 3 && (mapTile.coords.x - tile.coords.x != -tileSize || mapTile.coords.y != tile.coords.y))
                 ) {
-                    mapTile.className = 'opacity-50';
-                    this.debug('It is not a vertical neighbor');
-                    continue; // It is not a vertical neighbor
-                }
-
-                if(
-                    (side == 1 || side == 3) &&
-                    (
-                        Math.abs(mapTile.coords.x - tile.coords.x) > tileSize ||
-                        mapTile.coords.y != tile.coords.y
-                    )
-                ) {
-                    mapTile.className = 'opacity-50';
-                    this.debug('It is not a horizontal neighbor');
-                    continue; // It is not a horizontal neighbor
+                    if(this.isDebug) mapTile.className = 'opacity-50';
+                    this.debug('It a right neighbor');
+                    continue; // It a right neighbor
                 }
 
                 this.debug(mapTile.borders);
 
-                // --- This tile is a neighbor --- //
+                // --- This tile is a right neighbor --- //
 
                 // We have checked this tile
                 checkedIds.push(mapTile.id);
-                // console.log('We have checked this tile', mapTile.borders);
 
+                // Check if there is a unit on this side
                 if(mapTile.units[mapSide]) count++;
 
-                // Check other sides of the neighbor that is the same border (check all cities, fields, etc)
+                // Check for units on other sides of the neighbor that matches the border (check all cities, fields, etc)
 
                 // Business logic for a field that cannot go through the tile center
                 if(
@@ -184,9 +181,8 @@ export class Unit implements IUnit {
                     count += countUnits(mapTile, mapSide);
                 }
 
-                console.log(className);
-
-                mapTile.className = className;
+                // For debug visualize algorithm
+                if(this.isDebug) mapTile.className = className;
             }
 
             return count;

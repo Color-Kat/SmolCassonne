@@ -22,11 +22,11 @@ export const MapNavigation: React.FC<MapNavigationProps> = memo(({
     const mapNavigationRef = useRef<HTMLDivElement | null>(null);
 
     /* ----- Map navigation ----- */
-    const [isDragging, setIsDragging] = useState(false);
     const [startX, setStartX] = useState(0); // Start dragging click position x
     const [startY, setStartY] = useState(0); // Start dragging click position y
     const [scrollLeft, setScrollLeft] = useState(0);
     const [scrollTop, setScrollTop] = useState(0);
+    const [isDragging, setIsDragging] = useState(false);
 
     useEffect(() => {
         // Default scroll position - navigate map to the map center
@@ -90,7 +90,7 @@ export const MapNavigation: React.FC<MapNavigationProps> = memo(({
         if (!mapNavigationRef.current) return;
 
         // Get scale
-        const zoomFactor = e.deltaY > 0 ?  0.8 : 1.2;
+        const zoomFactor = e.deltaY > 0 ? 0.8 : 1.2;
         const newScale = scale * zoomFactor;
         const minScale = 0.5;
         const maxScale = 2.0;
@@ -113,7 +113,9 @@ export const MapNavigation: React.FC<MapNavigationProps> = memo(({
 
         <div
             // className="h-full w-full"
-            className="map-navigation absolute inset-0 select-none no-scrollbar w-full h-full"
+            className={twJoin(
+                "map-navigation absolute inset-0 select-none no-scrollbar w-full h-full",
+            )}
             ref={mapNavigationRef} // Добавьте ссылку на контейнер
             style={{
                 width: "100%",

@@ -53,14 +53,14 @@ export const Teams: React.FC<TeamsProps> = memo(({
     }, []);
 
     return (
-        <ul className="absolute top-0 left-0 right-0 w-full h-25 flex justify-end gap-8 px-6 z-10">
+        <ul className="absolute top-0 left-0 right-0 w-full h-25 flex justify-end gap-8 px-6 z-10 pointer-events-none">
             {teams.map((team, index) => {
                 const teamUnits = units[team];
 
                 return (
                     <li
                         key={team}
-                        className="flex justify-between gap-32 h-full rounded-b-xl shadow-lg p-3 pt-1 min-w-[250px]"
+                        className="flex justify-between gap-32 h-full rounded-b-xl shadow-lg p-3 pt-1 min-w-[250px] pointer-events-auto"
                         style={{
                             background: `url(${oldWoodBg})`,
                             // backgroundRepeat: "repeat"
