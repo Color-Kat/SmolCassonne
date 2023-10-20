@@ -65,9 +65,6 @@ export class Unit implements IUnit {
         map: Tile[],
         tileSize: number
     ): boolean {
-
-        console.log(map);
-
         // Get just placed tile
         let lastTile = map.at(-1) as Tile;
 
@@ -200,7 +197,6 @@ export class Unit implements IUnit {
             lastTile.borders[(position + 1) % 4] != 'field' &&
             lastTile.borders[(position + 3) % 4] != 'field'
         ) {
-            console.log('THIS TILE IS DOUBLE FIELD');
             return count === 0;
         }
 
@@ -255,5 +251,3 @@ export const units = {
     blue: getUnitsByTeam('blue'),
     red: getUnitsByTeam('red'),
 };
-
-console.log(units);
