@@ -124,9 +124,12 @@ export const useTileCursor = ({
                 )}
                 style={{
                     position: 'absolute',
+                    width: tileSize * mapScale + 'px',
+                    height: tileSize * mapScale + 'px',
                     left: tilePosition.x - tileSize * mapScale / 2 + 'px',
                     top: tilePosition.y - tileSize * mapScale / 2 - 50 + 'px',
                     zIndex: 100,
+
                 }}
             >
                 <img
@@ -135,10 +138,10 @@ export const useTileCursor = ({
                     src={`/tiles/${currentTile.design}.png`}
                     alt=""
                     style={{
-                        width: tileSize * mapScale + 'px',
-                        height: tileSize * mapScale + 'px',
-                        transition: "transform 0.2s ease-in-out",
+                        width: '100%',
+                        height: '100%',
                         transform: `rotate(${90 * currentTile.rotation}deg)`,
+                        transition: "transform 0.2s ease-in-out",
                     }}
                 />
             </div>
