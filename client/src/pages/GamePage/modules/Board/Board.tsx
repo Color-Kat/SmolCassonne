@@ -65,14 +65,14 @@ export const Board: React.FC<BoardProps> = ({
     };
 
     const {
-        showTile,
-        tilePosition,
         handleMouseMove,
         handleMouseEnter,
         handleMouseLeave,
+
         placeTile,
         PlacedTile,
-        wrongAnimation,
+
+        TileCursor,
     } = useTileCursor({
         tileSize,
         mapScale,
@@ -98,27 +98,7 @@ export const Board: React.FC<BoardProps> = ({
         >
 
             {/* Show cursor with the current tile */}
-            {showTile && currentTile && (
-                <img
-                    className={twJoin(
-                        "pointer-events-none",
-                        wrongAnimation && "animate-shake"
-                    )}
-                    draggable="false"
-                    src={`/tiles/${currentTile.design}.png`}
-                    alt=""
-                    style={{
-                        position: 'absolute',
-                        left: tilePosition.x - tileSize * mapScale / 2 + 'px',
-                        top: tilePosition.y - tileSize * mapScale / 2 - 50 + 'px',
-                        width: tileSize * mapScale + 'px',
-                        height: tileSize * mapScale + 'px',
-                        transition: "transform 0.2s ease-in-out",
-                        transform: `rotate(${90 * currentTile.rotation}deg)`,
-                        zIndex: 100,
-                    }}
-                />
-            )}
+            <TileCursor />
 
             {/* Unit Selector */}
             <UnitSelector

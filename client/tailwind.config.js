@@ -37,7 +37,7 @@ module.exports = {
                   'wave': 'wave 1.2s linear infinite',
                   'slow-fade': 'slow-fade 2.2s ease-in-out',
                   'scale-pulse': 'scale-pulse infinite 1.2s ease-in-out',
-                  'shake': 'shake 0.1s ',
+                  'shake': 'shake 0.1s',
               },
               keyframes: {
                   'slow-fade': {

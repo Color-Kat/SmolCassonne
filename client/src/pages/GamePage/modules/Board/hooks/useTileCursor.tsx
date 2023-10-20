@@ -2,6 +2,8 @@ import React, {MouseEventHandler, ReactNode, useMemo, useState} from "react";
 import {ITile} from "@pages/GamePage/classes/TilesDeck.ts";
 import {Tile} from "@pages/GamePage/classes/TilesDeck.tsx";
 import {MapContext} from "@pages/GamePage/mapContext.ts";
+import {twJoin} from "tailwind-merge";
+import {current} from "@reduxjs/toolkit";
 
 
 interface ITileCursorParams {
@@ -83,7 +85,7 @@ export const useTileCursor = ({
             setTooltip
         )) {
             setWrongAnimation(true);
-            setTimeout(() => setWrongAnimation(false), 1000);
+            setTimeout(() => setWrongAnimation(false), 100);
 
             return;
         }
@@ -106,22 +108,51 @@ export const useTileCursor = ({
      * @constructor
      */
     const PlacedTile = () => {
-        if(!placedTile) return null;
+        if (!placedTile) return null;
 
         return placedTile.Image(tileSize);
     }
 
-    return {
-        showTile,
-        setShowTile,
-        tilePosition,
+    const TileCursor = () => {
+        if (!(currentTile && showTile)) return null;
 
+        return (
+            <div
+                className={twJoin(
+                    "pointer-events-none",
+                    wrongAnimation && "animate-shake"
+                )}
+                style={{
+                    position: 'absolute',
+                    left: tilePosition.x - tileSize * mapScale / 2 + 'px',
+                    top: tilePosition.y - tileSize * mapScale / 2 - 50 + 'px',
+                    zIndex: 100,
+                }}
+            >
+                <img
+                    className=""
+                    draggable="false"
+                    src={`/tiles/${currentTile.design}.png`}
+                    alt=""
+                    style={{
+                        width: tileSize * mapScale + 'px',
+                        height: tileSize * mapScale + 'px',
+                        transition: "transform 0.2s ease-in-out",
+                        transform: `rotate(${90 * currentTile.rotation}deg)`,
+                    }}
+                />
+            </div>
+        );
+    }
+
+    return {
         handleMouseMove,
         handleMouseEnter,
         handleMouseLeave,
 
         placeTile,
         PlacedTile,
-        wrongAnimation
+
+        TileCursor
     };
 };
