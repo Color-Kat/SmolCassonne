@@ -47,20 +47,13 @@ export const Board: React.FC<BoardProps> = ({
     const mapNavigationRef = useRef<HTMLUListElement>(null);
     const [mapScale, setMapScale] = useState(1);
 
+    // Set starting map with one default tile (Empty map - stage )
     useEffect(() => {
-        // Set starting map with one default tile
         setMap((new TilesMap())
             .getStartingMap(mapCenter, tileSize));
     }, []);
 
-    const [isSelectingUnit, setIsSelectingUnit] = useState(false);
-    const openUnitSelectorModal = () => {
-        setTooltip('');
-        setCurrentTile(undefined);
-
-        setIsSelectingUnit(true);
-    };
-
+    // Tile cursor (Place tile - stage 1)
     const {
         handleMouseMove,
         handleMouseEnter,
@@ -83,8 +76,23 @@ export const Board: React.FC<BoardProps> = ({
 
         currentTile,
 
-        placeTileCallback: openUnitSelectorModal
+        placeTileCallback: () => {
+            setTooltip('');
+            setCurrentTile(undefined);
+            setIsSelectingUnit(true);
+        }
     });
+
+    // Unit selector (Unit selection - stage 2)
+    const [isSelectingUnit, setIsSelectingUnit] = useState(false);
+
+    // Score calculation (Scoring - Stage 3)
+    const scoring = () => {
+        console.log(123)
+        // const score = (new TilesMap(map)).calculateScore();
+
+        endOfTurn();
+    }
 
     return (
         <div
@@ -133,10 +141,13 @@ export const Board: React.FC<BoardProps> = ({
 
             {/* Unit Selector */}
             <UnitSelector
+                units={units[myTeam]}
+                PlacedTile={PlacedTile}
+
                 isSelectingUnit={isSelectingUnit}
                 setIsSelectingUnit={setIsSelectingUnit}
-                PlacedTile={PlacedTile}
-                units={units[myTeam]}
+
+                placeUnitCallback={scoring}
             />
 
             {/* Class loader for debug */}

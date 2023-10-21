@@ -150,8 +150,6 @@ export class Tile implements ITile {
     private shiftAll(steps: number) {
         const shiftAmount = steps % this.sidesCount;
 
-        console.trace(123)
-
         if (shiftAmount === 0) return;
 
         if (shiftAmount > 0) {

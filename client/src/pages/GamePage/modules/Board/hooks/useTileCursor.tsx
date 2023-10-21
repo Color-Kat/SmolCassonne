@@ -91,7 +91,7 @@ export const useTileCursor = ({
             return;
         }
 
-        /* --- ====================================== --- */
+        /* --- ================= CORRECT ================= --- */
 
         // Add tile to the map
         setMap(map => ([
@@ -99,14 +99,13 @@ export const useTileCursor = ({
             tile
         ]));
 
-        setPlacedTile(currentTile);
+        setPlacedTile(currentTile); // Save copy of the placed tile
 
-        placeTileCallback();
+        placeTileCallback(); // Place tile
     };
 
     /**
-     *
-     * @constructor
+     * Return the placed tile component.
      */
     const PlacedTile = () => {
         if (!placedTile) return null;
@@ -114,6 +113,9 @@ export const useTileCursor = ({
         return placedTile.Image(tileSize);
     }
 
+    /**
+     * Tile Cursor component
+     */
     const TileCursor = () => {
         if (!(currentTile && showTile)) return null;
 

@@ -11,25 +11,30 @@ import {Tile} from "@pages/GamePage/classes/TilesDeck.tsx";
 import {MapContext} from "@pages/GamePage/mapContext.ts";
 
 interface UnitSelectorProps {
+    units: Unit[];
+    PlacedTile: any;
+
     isSelectingUnit: boolean;
     setIsSelectingUnit: React.Dispatch<React.SetStateAction<boolean>>;
 
-    units: Unit[];
-    PlacedTile: any;
+    placeUnitCallback: () => void;
 }
 
 export const UnitSelector: React.FC<UnitSelectorProps> = memo(({
-                                                                   isSelectingUnit,
-                                                                   setIsSelectingUnit,
                                                                    units,
                                                                    PlacedTile,
+
+                                                                   isSelectingUnit,
+                                                                   setIsSelectingUnit,
+
+                                                                   placeUnitCallback
                                                                }) => {
-    const {setMap, endOfTurn} = React.useContext(MapContext);
+    const {setMap} = React.useContext(MapContext);
 
     // Close modal
     const closeSelectingUnit = useCallback(() => {
-        endOfTurn();
         setIsSelectingUnit(false);
+        placeUnitCallback(); // Runs scoring
     }, []);
 
     const handleOverlayClick = (e: MouseEvent) => {
