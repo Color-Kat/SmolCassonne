@@ -16,6 +16,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = memo(({
                                                                    setDeck
                                                                }) => {
 
+    // Get the top tile from the deck
     const takeTile = () => {
         if (deck.length == 0 || currentTile) return;
 
@@ -68,7 +69,6 @@ export const ControlPanel: React.FC<ControlPanelProps> = memo(({
     return (
         <div className="h-full w-56 flex flex-col items-center px-3 py-5 bg-gray-300 absolute z-50">
             <div className="w-48 h-48 relative mb-16  transition-all">
-                 Top tile
                 {deck.length > 0 && <img
                     src={currentTile ? `/tiles/${currentTile.design}.png` : tileBack}
                     onClick={() => !currentTile ? takeTile() : null}
