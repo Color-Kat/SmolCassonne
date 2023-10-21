@@ -31,6 +31,7 @@ export const UnitSelector: React.FC<UnitSelectorProps> = memo(({
         endOfTurn();
         setIsSelectingUnit(false);
     }, []);
+
     const handleOverlayClick = (e: MouseEvent) => {
         // Only close the modal if the click target is the outer div
         if (e.target === e.currentTarget) closeSelectingUnit();

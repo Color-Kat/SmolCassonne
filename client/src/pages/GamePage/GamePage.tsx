@@ -9,24 +9,30 @@ import {Teams} from "@pages/GamePage/modules/Teams/Teams.tsx";
 import {MapContext} from "@pages/GamePage/mapContext.ts";
 import {Information} from "@pages/GamePage/modules/Inforamtion/Information.tsx";
 
+/**
+ * This component renders the game page.
+ * It is responsible for global state of the game,
+ * and it provides an interface for multiplayer realization.
+ *
+ * @constructor
+ */
 export const GamePage = () => {
     const myTeam = 'blue';
     const teams = ['blue'];
+    const tileSize = 192;
+
+    // States for information about current tile, unit and tooltip.
+    const [tileInformation, setTileInformation] = useState<Tile | null>(null);
+    const [unitInformation, setUnitInformation] = useState<Unit | null>(null);
+    const [tooltip, setTooltip] = useState("");
 
     // Get shuffled deck of tiles
     const [deck, setDeck] = useState((new TilesDeck()).getShuffledDeck());
     const [units, setUnits] = useState(listOfUnits);
-
-    const tileSize = 192;
     const [map, setMap] = useState<Tile[]>([]);
 
     // State for current tile
     const [currentTile, setCurrentTile] = useState<Tile | undefined>(undefined);
-
-    // States for information about current tile and moves
-    const [tileInformation, setTileInformation] = useState<Tile | null>(null);
-    const [unitInformation, setUnitInformation] = useState<Unit | null>(null);
-    const [tooltip, setTooltip] = useState("");
 
     const endOfTurn = () => {
         // Reset tooltip
@@ -79,9 +85,6 @@ export const GamePage = () => {
 
                     {/* Board with the map */}
                     <Board
-                        map={map}
-                        setMap={setMap}
-
                         currentTile={currentTile}
                         setCurrentTile={setCurrentTile}
 

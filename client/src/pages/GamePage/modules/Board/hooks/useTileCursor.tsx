@@ -4,6 +4,7 @@ import {Tile} from "@pages/GamePage/classes/TilesDeck.tsx";
 import {MapContext} from "@pages/GamePage/mapContext.ts";
 import {twJoin} from "tailwind-merge";
 import {current} from "@reduxjs/toolkit";
+import {TilesMap} from "@pages/GamePage/classes/TilesMap.ts";
 
 
 interface ITileCursorParams {
@@ -79,9 +80,9 @@ export const useTileCursor = ({
         tile.setCoords(x - x % tileSize, y - y % tileSize);
 
         /* --- Check if tile can be placed on the map --- */
-        if (!tile.checkIfFit(
+        if (!(new TilesMap(map)).checkIfFit(
+            tile,
             tileSize,
-            map,
             setTooltip
         )) {
             setWrongAnimation(true);

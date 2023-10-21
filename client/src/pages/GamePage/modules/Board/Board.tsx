@@ -12,12 +12,10 @@ import {UnitSelector} from "@pages/GamePage/modules/UnitSelector/UnitSelector.ts
 import {Unit, units} from "@pages/GamePage/classes/Units.ts";
 import {MapTile} from "@pages/GamePage/modules/Board/components/MapTile.tsx";
 import {MapContext} from "@pages/GamePage/mapContext.ts";
+import {TilesMap} from "@pages/GamePage/classes/TilesMap.ts";
 
 
 interface BoardProps {
-    map: Tile[];
-    setMap: React.Dispatch<React.SetStateAction<Tile[]>>;
-
     currentTile: Tile | undefined;
     setCurrentTile: React.Dispatch<React.SetStateAction<Tile | undefined>>;
 
@@ -27,9 +25,14 @@ interface BoardProps {
     endOfTurn: () => void;
 }
 
-export const Board: React.FC<BoardProps> = ({
-                                                map, setMap,
 
+/**
+ * This component renders the board: tile cursor, map with tile, units, unit selector.
+ * And Board component is responsible for game mechanics realization
+ * and the game stage management (Place tile, Place Unit, Calculate score).
+ *
+ */
+export const Board: React.FC<BoardProps> = ({
                                                 currentTile,
                                                 setCurrentTile,
 
@@ -37,23 +40,17 @@ export const Board: React.FC<BoardProps> = ({
 
                                                 endOfTurn
                                             }) => {
-    const {setTooltip} = React.useContext(MapContext);
+    const {map, setMap, tileSize, setTooltip} = React.useContext(MapContext);
 
-    const tileSize = 192;
     const mapSize = tileSize * 70;
     const mapCenter = mapSize / 2 - tileSize / 2;
     const mapNavigationRef = useRef<HTMLUListElement>(null);
     const [mapScale, setMapScale] = useState(1);
 
     useEffect(() => {
-        // Set start tile
-        setMap([new Tile({
-            id: 0,
-            design: "D",
-            borders: ['city', 'road', 'field', 'road'],
-            pennant: false,
-            coords: {x: mapCenter - mapCenter % tileSize, y: mapCenter - mapCenter % tileSize}
-        })]);
+        // Set starting map with one default tile
+        setMap((new TilesMap())
+            .getStartingMap(mapCenter, tileSize));
     }, []);
 
     const [isSelectingUnit, setIsSelectingUnit] = useState(false);
@@ -103,34 +100,34 @@ export const Board: React.FC<BoardProps> = ({
 
             {/* Show cursor with the current tile */}
             {showTile && currentTile &&
-            <div
-                className={twJoin(
-                    "pointer-events-none",
-                    wrongAnimation && "animate-shake"
-                )}
-                style={{
-                    position: 'absolute',
-                    width: tileSize * mapScale + 'px',
-                    height: tileSize * mapScale + 'px',
-                    left: tilePosition.x - tileSize * mapScale / 2 + 'px',
-                    top: tilePosition.y - tileSize * mapScale / 2 - 50 + 'px',
-                    zIndex: 100,
-
-                }}
-            >
-                <img
-                    className=""
-                    draggable="false"
-                    src={`/tiles/${currentTile.design}.png`}
-                    alt=""
+                <div
+                    className={twJoin(
+                        "pointer-events-none",
+                        wrongAnimation && "animate-shake"
+                    )}
                     style={{
-                        width: '100%',
-                        height: '100%',
-                        transform: `rotate(${90 * currentTile.rotation}deg)`,
-                        transition: "transform 0.2s ease-in-out",
+                        position: 'absolute',
+                        width: tileSize * mapScale + 'px',
+                        height: tileSize * mapScale + 'px',
+                        left: tilePosition.x - tileSize * mapScale / 2 + 'px',
+                        top: tilePosition.y - tileSize * mapScale / 2 - 50 + 'px',
+                        zIndex: 100,
+
                     }}
-                />
-            </div>
+                >
+                    <img
+                        className=""
+                        draggable="false"
+                        src={`/tiles/${currentTile.design}.png`}
+                        alt=""
+                        style={{
+                            width: '100%',
+                            height: '100%',
+                            transform: `rotate(${90 * currentTile.rotation}deg)`,
+                            transition: "transform 0.2s ease-in-out",
+                        }}
+                    />
+                </div>
             }
             {/*<TileCursor />*/}
 
