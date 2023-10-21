@@ -15,3 +15,10 @@ export const MapContext = React.createContext<{
 
     endOfTurn: () => void;
 }>({} as any);
+
+export type GameStagesType = 'emptyMap' | 'tilePlaced' | 'unitPlaced' | 'scoring' | 'endOfTurn' | 'wait';
+export const GameStageContext = React.createContext<{
+    stage: GameStagesType,
+    setStage: React.Dispatch<React.SetStateAction<GameStagesType>>,
+}>({} as any);
+

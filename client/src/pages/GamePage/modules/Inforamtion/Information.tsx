@@ -1,7 +1,7 @@
 import React, {memo, useCallback} from 'react';
 import {Tile} from "@pages/GamePage/classes/TilesDeck.tsx";
 import {Unit} from "@pages/GamePage/classes/Units.ts";
-import {MapContext} from "@pages/GamePage/mapContext.ts";
+import {MapContext} from "@pages/GamePage/gameContext.ts";
 
 interface InformationProps {
     tileInformation: Tile | null;

@@ -65,17 +65,17 @@ export class Unit implements IUnit {
         map: Tile[],
         tileSize: number
     ): boolean {
-        // Get just placed tile
-        let lastTile = map.at(-1) as Tile;
-
-        // The border name where the unit was placed
-        const borderName = lastTile.borders[position];
-
         // Algorithm
         // We will count units on the map.
         // If it is more than 0, we can't place a unit on this border.
         // We need to count the units on all the same borders.
         // If it's a city at the top and a city at the bottom - check top and bottom tiles.
+
+        // Get just placed tile
+        let lastTile = map.at(-1) as Tile;
+
+        // The border name where the unit was placed
+        const borderName = lastTile.borders[position];
 
         let checkedIds: number[] = [lastTile.id];
 
@@ -95,11 +95,6 @@ export class Unit implements IUnit {
 
             // Iterate all map tiles and search for the neighbors that are connected by the same border
             for (const mapTile of map) {
-
-
-                // TODO Проверка начинается с другой стороны тайла, если mapSide = этой стороне, и эта сторона подходит по объекту.
-
-
                 let className = 'border-red-600 scale-90';
 
                 // Skip already checked tiles
@@ -185,7 +180,6 @@ export class Unit implements IUnit {
             return count;
         }
 
-
         // Count units at the same borders on four sides
         let count = 0;
         if(borderName == lastTile.borders[position])
@@ -213,10 +207,13 @@ export class Unit implements IUnit {
             count += countUnits(lastTile, position);
 
         this.debug('Units count: ' + count);
+
+        // If there is no units on this border type, we can place unit here - return true
         return count === 0;
     }
 }
 
+/* ----- Units definition ----- */
 const traveler = new Unit({
     id: 0,
     name: 'Николай Михайлович Пржевальский',
@@ -234,12 +231,18 @@ const scientist = new Unit({
     occupied: false,
     role: 'scientist'
 });
+/* ----- Units definition ----- */
 
+// Set of units
 const listOfUnits = [
     traveler,
     scientist
 ];
 
+/**
+ * Get list of units and set a team for every unit.
+ * @param team
+ */
 function getUnitsByTeam(team: string) {
     return listOfUnits.map(unit => {
         const teamUnit = new Unit(unit);
@@ -247,6 +250,7 @@ function getUnitsByTeam(team: string) {
     });
 }
 
+// Units divided by teams
 export const units = {
     blue: getUnitsByTeam('blue'),
     red: getUnitsByTeam('red'),

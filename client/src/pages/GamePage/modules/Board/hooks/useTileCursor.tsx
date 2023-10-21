@@ -1,7 +1,7 @@
-import React, {MouseEventHandler, ReactNode, useMemo, useState} from "react";
+import React, {MouseEventHandler, ReactNode, useContext, useMemo, useState} from "react";
 import {ITile} from "@pages/GamePage/classes/TilesDeck.ts";
 import {Tile} from "@pages/GamePage/classes/TilesDeck.tsx";
-import {MapContext} from "@pages/GamePage/mapContext.ts";
+import {GameStageContext, MapContext} from "@pages/GamePage/gameContext.ts";
 import {twJoin} from "tailwind-merge";
 import {current} from "@reduxjs/toolkit";
 import {TilesMap} from "@pages/GamePage/classes/TilesMap.ts";
@@ -15,8 +15,6 @@ interface ITileCursorParams {
     setMap: React.Dispatch<React.SetStateAction<Tile[]>>;
 
     currentTile: Tile | undefined;
-
-    placeTileCallback: () => void;
 }
 
 export const useTileCursor = ({
@@ -28,10 +26,9 @@ export const useTileCursor = ({
 
                                   currentTile,
 
-                                  placeTileCallback
-
                               }: ITileCursorParams) => {
-    const {setTooltip} = React.useContext(MapContext);
+    const {setTooltip} = useContext(MapContext);
+    const {setStage, stage} = useContext(GameStageContext);
 
     const [wrongAnimation, setWrongAnimation] = useState(false);
 
@@ -93,15 +90,13 @@ export const useTileCursor = ({
 
         /* --- ================= CORRECT ================= --- */
 
+        // Save copy of the placed tile
+        setPlacedTile(currentTile);
+
         // Add tile to the map
-        setMap(map => ([
-            ...map,
-            tile
-        ]));
+        setMap(map => ([...map,tile]));
 
-        setPlacedTile(currentTile); // Save copy of the placed tile
-
-        placeTileCallback(); // Place tile
+        setStage('tilePlaced');
     };
 
     /**

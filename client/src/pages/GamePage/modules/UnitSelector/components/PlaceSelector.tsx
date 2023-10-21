@@ -4,7 +4,7 @@ import {twJoin} from "tailwind-merge";
 import {Unit} from "@pages/GamePage/classes/Units.ts";
 import {Tile} from "@pages/GamePage/classes/TilesDeck.tsx";
 
-import {MapContext} from '@pages/GamePage/mapContext.ts';
+import {MapContext} from '@pages/GamePage/gameContext.ts';
 
 interface PlaceSelectorProps {
     selectedUnit: Unit | null;

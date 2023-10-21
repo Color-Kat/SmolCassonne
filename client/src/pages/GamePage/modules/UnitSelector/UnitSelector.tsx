@@ -8,7 +8,7 @@ import {PlaceSelector} from "@pages/GamePage/modules/UnitSelector/components/Pla
 import {SelectedUnit} from "@pages/GamePage/modules/UnitSelector/components/SelectedUnit.tsx";
 import {ListOfUnits} from "@pages/GamePage/modules/UnitSelector/components/ListOfUnits.tsx";
 import {Tile} from "@pages/GamePage/classes/TilesDeck.tsx";
-import {MapContext} from "@pages/GamePage/mapContext.ts";
+import {GameStageContext, MapContext} from "@pages/GamePage/gameContext.ts";
 
 interface UnitSelectorProps {
     units: Unit[];
@@ -30,11 +30,12 @@ export const UnitSelector: React.FC<UnitSelectorProps> = memo(({
                                                                    placeUnitCallback
                                                                }) => {
     const {setMap} = React.useContext(MapContext);
+    const {setStage} = React.useContext(GameStageContext);
 
     // Close modal
     const closeSelectingUnit = useCallback(() => {
         setIsSelectingUnit(false);
-        placeUnitCallback(); // Runs scoring
+        setStage('unitPlaced');
     }, []);
 
     const handleOverlayClick = (e: MouseEvent) => {

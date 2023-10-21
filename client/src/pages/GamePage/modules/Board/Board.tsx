@@ -1,17 +1,16 @@
-import React, {MouseEvent, useRef, useState, useEffect, Fragment, useCallback} from "react";
-import {twJoin, twMerge} from "tailwind-merge";
+import React, {useRef, useState, useEffect, Fragment, useCallback, useContext} from "react";
+import {twJoin} from "tailwind-merge";
 
-import {ITile, Tile} from "../../classes/TilesDeck";
+import {Tile} from "../../classes/TilesDeck";
 
 import {MapNavigation} from "@modules/MapNavigation/MapNavigation.tsx";
 import {useTileCursor} from "./hooks/useTileCursor.tsx";
-import {Dialog, Transition} from "@headlessui/react";
 
 import tableWoodImage from "@assets/textures/tableWood.png";
 import {UnitSelector} from "@pages/GamePage/modules/UnitSelector/UnitSelector.tsx";
-import {Unit, units} from "@pages/GamePage/classes/Units.ts";
+import {Unit} from "@pages/GamePage/classes/Units.ts";
 import {MapTile} from "@pages/GamePage/modules/Board/components/MapTile.tsx";
-import {MapContext} from "@pages/GamePage/mapContext.ts";
+import {GameStageContext, GameStagesType, MapContext} from "@pages/GamePage/gameContext.ts";
 import {TilesMap} from "@pages/GamePage/classes/TilesMap.ts";
 
 
@@ -41,19 +40,30 @@ export const Board: React.FC<BoardProps> = ({
                                                 endOfTurn
                                             }) => {
     const {map, setMap, tileSize, setTooltip} = React.useContext(MapContext);
+    const {setStage, stage} = useContext(GameStageContext);
 
     const mapSize = tileSize * 70;
     const mapCenter = mapSize / 2 - tileSize / 2;
     const mapNavigationRef = useRef<HTMLUListElement>(null);
     const [mapScale, setMapScale] = useState(1);
 
-    // Set starting map with one default tile (Empty map - stage )
+    // Management of game turn stages
     useEffect(() => {
-        setMap((new TilesMap())
-            .getStartingMap(mapCenter, tileSize));
-    }, []);
+        // Set starting map with one default tile (Empty map - stage 0)
+        if (stage === 'emptyMap')
+            setMap((new TilesMap()).getStartingMap(mapCenter, tileSize));
 
-    // Tile cursor (Place tile - stage 1)
+        if (stage == 'tilePlaced') placeTileCallback();
+
+        if (stage == 'unitPlaced') scoring();
+
+        if (stage == 'endOfTurn') {
+            setStage('wait');
+            endOfTurn();
+        }
+    }, [stage]);
+
+    // Tile cursor (Place tile stage)
     const {
         handleMouseMove,
         handleMouseEnter,
@@ -75,26 +85,25 @@ export const Board: React.FC<BoardProps> = ({
         setMap,
 
         currentTile,
-
-        placeTileCallback: () => {
-            setTooltip('');
-            setCurrentTile(undefined);
-            setIsSelectingUnit(true);
-        }
     });
 
-    // Unit selector (Unit selection - stage 2)
+    // Unit selector (Unit selection stage)
     const [isSelectingUnit, setIsSelectingUnit] = useState(false);
+    const placeTileCallback = () => {
+        setTooltip('');
+        setCurrentTile(undefined);
+        setIsSelectingUnit(true);
+    }
 
-    // Score calculation (Scoring - Stage 3)
+    // Score calculation (Scoring Stage)
     const scoring = () => {
-        console.log(123)
-        // const score = (new TilesMap(map)).calculateScore();
+        const score = (new TilesMap(map)).calculateScore();
 
-        endOfTurn();
+        setStage('endOfTurn');
     }
 
     return (
+
         <div
             className={twJoin(
                 "h-full w-full relative"

@@ -3,7 +3,7 @@ import {Unit} from "@pages/GamePage/classes/Units.ts";
 
 import oldWoodBg from "@assets/textures/oldWood.png";
 import {twJoin} from "tailwind-merge";
-import {MapContext} from "@pages/GamePage/mapContext.ts";
+import {MapContext} from "@pages/GamePage/gameContext.ts";
 
 interface TeamsProps {
     teams: string[];
