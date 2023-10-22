@@ -38,10 +38,8 @@ export const GamePage = () => {
     const [currentTile, setCurrentTile] = useState<Tile | undefined>(undefined);
 
     const endOfTurn = () => {
-        // Reset tooltip
+        // Hide tooltip, tile and unit information
         setTooltip("");
-
-        // Hide information about placed tile and unit
         setTileInformation(null);
         setUnitInformation(null);
 

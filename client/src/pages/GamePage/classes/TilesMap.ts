@@ -1,4 +1,7 @@
 import {Tile} from "@pages/GamePage/classes/TilesDeck.tsx";
+import {Unit} from "@pages/GamePage/classes/Units.ts";
+import React from "react";
+import {MapContext} from "@pages/GamePage/gameContext.ts";
 
 /**
  * TilesMap class provides methods for working with tiles on the map.
@@ -12,10 +15,15 @@ export class TilesMap {
         this.tiles = tiles ?? [];
     }
 
-    private isDebug = false;
+    private isDebug = true;
+
     private debug(...args: any[]) {
-        if(this.isDebug)
+        if (this.isDebug)
             console.log(...args);
+    }
+
+    private getSideName(side: 0 | 1 | 2 | 3) {
+        return {0: 't', 1: 'r', 2: 'b', 3: 'l'}[side];
     }
 
     /**
@@ -116,7 +124,10 @@ export class TilesMap {
         }
     };
 
-    public calculateScore() {
+    public calculateScore(
+        tileSize: number
+    ) {
+
         // Algorithm
         // o through all objects that are connected to all 4 sides of the just placed tile.
         // Count all types of objects that are connected to the tile.
@@ -130,141 +141,157 @@ export class TilesMap {
         // Data about objects (road, city, field) that are connected to just placed tile
         // This data includes count of tiles of this object
         // and units that are placed on this type of object
-        let objectsData = {
-            road: {
-                count: 0,
-                units: []
-            },
-            field: {
-                count: 0,
-                units: []
-            },
-            city: {
-                count: 0,
-                units: []
-            }
+        // If it's false, It means that this object is no finished yet
+        let objectsData: { [key: string]: ({ count: number, units: Unit[] } | false) } = {
+            road: {count: 0, units: []},
+            city: {count: 0, units: []},
+            field: {count: 0, units: []},
+            field2: {count: 0, units: []}, // There's tiles with 2 fields
         }
 
         // List of checked tiles
         let checkedIds: number[] = [lastTile.id];
 
-        // const checkTile = (tile: Tile, side: number) => {
-        //     this.debug('-------- check tile for score --------');
-        //     let count = 0;
-        //
-        //     // A unit stays on this tile side, increase count
-        //     if(tile.units[side]) count += 1;
-        //
-        //     // The map side is opposite to the tile side ][
-        //     let mapSide: any = 0;
-        //     if(side === 0) mapSide = 2;
-        //     if(side === 1) mapSide = 3;
-        //     if(side === 2) mapSide = 0;
-        //     if(side === 3) mapSide = 1;
-        //
-        //     // Iterate all map tiles and search for the neighbors that are connected by the same border
-        //     for (const mapTile of this.tiles) {
-        //
-        //
-        //         // TODO Проверка начинается с другой стороны тайла, если mapSide = этой стороне, и эта сторона подходит по объекту.
-        //
-        //
-        //         let className = 'border-red-600 scale-90';
-        //
-        //         // Skip already checked tiles
-        //         if(checkedIds.includes(mapTile.id)) {
-        //             this.debug('Already checked', mapTile.borders);
-        //             continue; // Skip checked tiles
-        //         }
-        //
-        //         // Skip current tile
-        //         if(tile.id == mapTile.id) {
-        //             this.debug('tile.id == mapTile.id');
-        //             continue; // Skip the same tile
-        //         }
-        //
-        //         // Skip tiles that are not connected to our border
-        //         if(mapTile.borders[mapSide] != borderName) {
-        //             if(this.isDebug) mapTile.className = 'opacity-50';
-        //             this.debug('mapTile.borders[mapSide] != borderName');
-        //             continue; // Skip tiles that are not connected to our
-        //         }
-        //
-        //         // Skip tiles that are not corresponding to the current tile side
-        //         // If we check the left side of the current tile,
-        //         // then we need to check only one neighbor that is on the left side
-        //         if(
-        //             (side == 0 && (mapTile.coords.x != tile.coords.x || mapTile.coords.y - tile.coords.y != -tileSize)) ||
-        //             (side == 2 && (mapTile.coords.x != tile.coords.x || mapTile.coords.y - tile.coords.y != tileSize) ) ||
-        //             (side == 1 && (mapTile.coords.x - tile.coords.x != tileSize ||mapTile.coords.y != tile.coords.y)) ||
-        //             (side == 3 && (mapTile.coords.x - tile.coords.x != -tileSize || mapTile.coords.y != tile.coords.y))
-        //         ) {
-        //             if(this.isDebug) mapTile.className = 'opacity-50';
-        //             this.debug('It a right neighbor');
-        //             continue; // It a right neighbor
-        //         }
-        //
-        //         this.debug(mapTile.borders);
-        //
-        //         // --- This tile is a right neighbor --- //
-        //
-        //         // We have checked this tile
-        //         checkedIds.push(mapTile.id);
-        //
-        //         // Check if there is a unit on this side
-        //         if(mapTile.units[mapSide]) count++;
-        //
-        //         // Check for units on other sides of the neighbor that matches the border (check all cities, fields, etc)
-        //
-        //         // Business logic for a field that cannot go through the tile center
-        //         if(
-        //             borderName == 'field' &&
-        //             mapTile.borders[(mapSide + 1) % 4] != 'field' &&
-        //             mapTile.borders[(mapSide + 3) % 4] != 'field'
-        //         ) continue;
-        //
-        //         className += ` border-${this.getSideName(mapSide)}-8`;
-        //
-        //         mapSide = (mapSide + 1) % 4
-        //         if(borderName == mapTile.borders[mapSide]) {
-        //             className += ` border-${this.getSideName(mapSide)}-4`;
-        //             this.debug('go to ', mapSide);
-        //             count += countUnits(mapTile, mapSide); // Calculate units on this side
-        //         }
-        //
-        //         mapSide = (mapSide + 2) % 4;
-        //         if(borderName == mapTile.borders[mapSide]){
-        //             className += ` border-${this.getSideName(mapSide)}-4`;
-        //             this.debug('go to ', mapSide);
-        //             count += countUnits(mapTile, mapSide);
-        //
-        //         }
-        //
-        //         mapSide = (mapSide + 3) % 4;
-        //         if(borderName == mapTile.borders[mapSide]){
-        //             className += ` border-${this.getSideName(mapSide)}-4`;
-        //             this.debug('go to ', mapSide);
-        //             count += countUnits(mapTile, mapSide);
-        //         }
-        //
-        //         // For debug visualize algorithm
-        //         if(this.isDebug) mapTile.className = className;
-        //     }
-        //
-        //     return count;
-        // }
-        //
-        // let side = 0;
-        // let data = checkTile(lastTile, side);
-        // let borderName = lastTile.borders[0] as keyof typeof objectsData;
-        // objectsData[borderName].count += data.count;
-        // objectsData[borderName].units.push(...data.units);
+        const checkTile = (tile: Tile, side: number) => {
+            console.clear();
+            this.debug('-------- Check tile for score --------');
 
-        for(let side = 0; side<4; side++){
-            console.log(side);
+            let result: { count: number, units: Unit[] } = {
+                count: 0, // This tile is already contains one tile of this object type
+                units: []
+            }
+
+            // A unit stays on this tile side, add it to the list
+            if (tile.units[side]) result.units.push(tile.units[side] as Unit);
+
+            // Get name of the border that the algorithm is currently checking
+            const borderName = tile.borders[side];
+
+            // The map side is opposite to the tile side ][
+            let mapSide: any = 0;
+            if (side === 0) mapSide = 2;
+            if (side === 1) mapSide = 3;
+            if (side === 2) mapSide = 0;
+            if (side === 3) mapSide = 1;
+
+            // Iterate all map tiles and search for the neighbors that are connected by the same border
+            for (const mapTile of this.tiles) {
+
+                let className = 'border-red-600 scale-90';
+
+                // Skip already checked tiles
+                if (checkedIds.includes(mapTile.id)) {
+                    this.debug('Already checked', mapTile.borders);
+                    continue; // Skip checked tiles
+                }
+
+                // Skip current tile
+                if (tile.id == mapTile.id) {
+                    this.debug('tile.id == mapTile.id');
+                    continue; // Skip the same tile
+                }
+
+                // Skip tiles that are not connected to our border
+                if (mapTile.borders[mapSide] != borderName) {
+                    if (this.isDebug) mapTile.className = 'opacity-50';
+                    this.debug('mapTile.borders[mapSide] != borderName');
+                    continue; // Skip map tiles that are not connected to the current tile
+                }
+
+                // Skip tiles that are not corresponding to the current tile side
+                // If we check the left side of the current tile,
+                // then we need to check only one neighbor that is on the left side
+                if (
+                    (side == 0 && (mapTile.coords.x != tile.coords.x || mapTile.coords.y - tile.coords.y != -tileSize)) ||
+                    (side == 2 && (mapTile.coords.x != tile.coords.x || mapTile.coords.y - tile.coords.y != tileSize)) ||
+                    (side == 1 && (mapTile.coords.x - tile.coords.x != tileSize || mapTile.coords.y != tile.coords.y)) ||
+                    (side == 3 && (mapTile.coords.x - tile.coords.x != -tileSize || mapTile.coords.y != tile.coords.y))
+                ) {
+                    if (this.isDebug) mapTile.className = 'opacity-50';
+                    this.debug('It is not a neighbor');
+                    continue; // It is not a neighbor
+                }
+
+                this.debug(mapTile.borders);
+
+                // --- This tile is a right neighbor --- //
+
+                // We have checked this tile
+                checkedIds.push(mapTile.id);
+
+                // Check if there is a unit on this side
+                if (mapTile.units[mapSide])
+                    result.units.push(mapTile.units[mapSide] as Unit);
+
+                // Increase count of tile of this type of object
+                result.count++;
+
+                // -------------------------------------
+                // Check for units on other sides of the neighbor that matches the border (check all cities, fields, etc)
+
+                // Business logic for a field that cannot go through the tile center
+                if (
+                    borderName == 'field' &&
+                    mapTile.borders[(mapSide + 1) % 4] != 'field' &&
+                    mapTile.borders[(mapSide + 3) % 4] != 'field'
+                ) continue;
+
+                className += ` border-${this.getSideName(mapSide)}-8`;
+
+                // Check tiles that match the border on all sides
+                for (let mapSideOffset = 1; mapSideOffset < 4; mapSideOffset++) {
+                    mapSide = (mapSide + mapSideOffset) % 4;
+
+                    if (borderName == mapTile.borders[mapSide]) {
+                        className += ` border-${this.getSideName(mapSide)}-4`;
+                        this.debug('go to ', mapSide);
+
+                        if (result.count === 0) result.count = 1;
+
+                        let data = checkTile(mapTile, mapSide); // Check another tile
+                        if (data === false) {
+                            mapTile.className = className + " border-yellow-500";
+                            return false;
+                        }
+                        result.count += data.count;
+                        result.units.push(...data.units);
+                    }
+                }
+
+                // For debug visualize algorithm
+                // if (this.isDebug)
+                mapTile.className = className;
+            }
+
+            if (result.count === 0) return false;
+
+            return result;
         }
 
-        this.debug('Result: ' + objectsData);
+        // Start checking for all 4 sides
+        let isSecondField = false;
+        for (let side = 0; side < 4; side++) {
+            let borderName = lastTile.borders[side] as keyof typeof objectsData;
+
+            // TODO field 2
+            // Field 2
+            if(borderName == 'field') isSecondField = true; // Next check the second field
+            if(isSecondField && borderName == 'field') borderName = 'field2';
+
+            if (objectsData[borderName] === false) continue;
+
+            let data = checkTile(lastTile, side);
+
+            if (data === false) objectsData[borderName] = false;
+            else {
+                if (objectsData[borderName].count === 0) objectsData[borderName].count = 1;
+                objectsData[borderName].count += data.count;
+                objectsData[borderName].units.push(...data.units);
+            }
+        }
+
+        this.debug('Result: ', objectsData);
+
         // return count === 0;
     }
 }

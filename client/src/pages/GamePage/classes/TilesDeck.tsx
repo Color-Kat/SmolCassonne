@@ -6,7 +6,7 @@ export interface ITile {
     id: number;
     design: string;
     pennant: boolean;
-    borders: ('field' | 'road' | 'wall' | 'water' | 'city')[];
+    borders: ('field' | 'road' | 'city')[];
     // objects: {city: number, road: number}[];
     rotation: number;
 
@@ -108,7 +108,7 @@ class TilesDeck {
 export class Tile implements ITile {
     public id: number;
     public design: string;             // Use for image
-    public borders: ('field' | 'road' | 'wall' | 'water' | 'city')[]; // 0 - top, 1 - right, 2 - bottom, 3 - left
+    public borders: ('field' | 'road' | 'city')[]; // 0 - top, 1 - right, 2 - bottom, 3 - left
     public rotation: number;           //
     public units: (Unit | null)[];     // 0 - top, 1 - right, 2 - bottom, 3 - left
     public pennant: boolean;

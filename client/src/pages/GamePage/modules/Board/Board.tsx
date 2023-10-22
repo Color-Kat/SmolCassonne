@@ -97,7 +97,7 @@ export const Board: React.FC<BoardProps> = ({
 
     // Score calculation (Scoring Stage)
     const scoring = () => {
-        const score = (new TilesMap(map)).calculateScore();
+        const score = (new TilesMap(map)).calculateScore(tileSize);
 
         setStage('endOfTurn');
     }
