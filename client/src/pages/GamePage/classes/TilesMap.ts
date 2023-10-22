@@ -273,10 +273,9 @@ export class TilesMap {
         for (let side = 0; side < 4; side++) {
             let borderName = lastTile.borders[side] as keyof typeof objectsData;
 
-            // TODO field 2
-            // Field 2
-            if(borderName == 'field') isSecondField = true; // Next check the second field
+            // Check for second field
             if(isSecondField && borderName == 'field') borderName = 'field2';
+            if(borderName == 'field') isSecondField = true; // Next check the second field
 
             if (objectsData[borderName] === false) continue;
 
