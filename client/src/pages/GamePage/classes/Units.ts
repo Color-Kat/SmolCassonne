@@ -30,18 +30,14 @@ export class Unit implements IUnit {
     }
 
     private isDebug = false;
+
     private debug(...args: any[]) {
-        if(this.isDebug)
+        if (this.isDebug)
             console.log(...args);
     }
 
-    private getSideName (side: 0 | 1 | 2 | 3) {
-        return {
-            0: 't',
-            1: 'r',
-            2: 'b',
-            3: 'l',
-        }[side];
+    private getSideName(side: 0 | 1 | 2 | 3) {
+        return {0: 't', 1: 'r', 2: 'b', 3: 'l'}[side];
     }
 
     public setTeam(team: string) {
@@ -84,34 +80,34 @@ export class Unit implements IUnit {
             let count = 0;
 
             // A unit stays on this tile side, increase count
-            if(tile.units[side]) count += 1;
+            if (tile.units[side]) count += 1;
 
             // The map side is opposite to the tile side ][
             let mapSide: any = 0;
-            if(side === 0) mapSide = 2;
-            if(side === 1) mapSide = 3;
-            if(side === 2) mapSide = 0;
-            if(side === 3) mapSide = 1;
+            if (side === 0) mapSide = 2;
+            if (side === 1) mapSide = 3;
+            if (side === 2) mapSide = 0;
+            if (side === 3) mapSide = 1;
 
             // Iterate all map tiles and search for the neighbors that are connected by the same border
             for (const mapTile of map) {
                 let className = 'border-red-600 scale-90';
 
                 // Skip already checked tiles
-                if(checkedIds.includes(mapTile.id)) {
+                if (checkedIds.includes(mapTile.id)) {
                     this.debug('Already checked', mapTile.borders);
                     continue; // Skip checked tiles
                 }
 
                 // Skip current tile
-                if(tile.id == mapTile.id) {
+                if (tile.id == mapTile.id) {
                     this.debug('tile.id == mapTile.id');
                     continue; // Skip the same tile
                 }
 
                 // Skip tiles that are not connected to our border
-                if(mapTile.borders[mapSide] != borderName) {
-                    if(this.isDebug) mapTile.className = 'opacity-50';
+                if (mapTile.borders[mapSide] != borderName) {
+                    if (this.isDebug) mapTile.className = 'opacity-50';
                     this.debug('mapTile.borders[mapSide] != borderName');
                     continue; // Skip tiles that are not connected to our
                 }
@@ -119,15 +115,15 @@ export class Unit implements IUnit {
                 // Skip tiles that are not corresponding to the current tile side
                 // If we check the left side of the current tile,
                 // then we need to check only one neighbor that is on the left side
-                if(
+                if (
                     (side == 0 && (mapTile.coords.x != tile.coords.x || mapTile.coords.y - tile.coords.y != -tileSize)) ||
-                    (side == 2 && (mapTile.coords.x != tile.coords.x || mapTile.coords.y - tile.coords.y != tileSize) ) ||
-                    (side == 1 && (mapTile.coords.x - tile.coords.x != tileSize ||mapTile.coords.y != tile.coords.y)) ||
+                    (side == 2 && (mapTile.coords.x != tile.coords.x || mapTile.coords.y - tile.coords.y != tileSize)) ||
+                    (side == 1 && (mapTile.coords.x - tile.coords.x != tileSize || mapTile.coords.y != tile.coords.y)) ||
                     (side == 3 && (mapTile.coords.x - tile.coords.x != -tileSize || mapTile.coords.y != tile.coords.y))
                 ) {
-                    if(this.isDebug) mapTile.className = 'opacity-50';
-                    this.debug('It a right neighbor');
-                    continue; // It a right neighbor
+                    if (this.isDebug) mapTile.className = 'opacity-50';
+                    this.debug('It is not a neighbor');
+                    continue; // It is not a neighbor
                 }
 
                 this.debug(mapTile.borders);
@@ -138,12 +134,12 @@ export class Unit implements IUnit {
                 checkedIds.push(mapTile.id);
 
                 // Check if there is a unit on this side
-                if(mapTile.units[mapSide]) count++;
+                if (mapTile.units[mapSide]) count++;
 
                 // Check for units on other sides of the neighbor that matches the border (check all cities, fields, etc)
 
                 // Business logic for a field that cannot go through the tile center
-                if(
+                if (
                     borderName == 'field' &&
                     mapTile.borders[(mapSide + 1) % 4] != 'field' &&
                     mapTile.borders[(mapSide + 3) % 4] != 'field'
@@ -151,30 +147,19 @@ export class Unit implements IUnit {
 
                 className += ` border-${this.getSideName(mapSide)}-8`;
 
-                mapSide = (mapSide + 1) % 4
-                if(borderName == mapTile.borders[mapSide]) {
-                    className += ` border-${this.getSideName(mapSide)}-4`;
-                    this.debug('go to ', mapSide);
-                    count += countUnits(mapTile, mapSide); // Calculate units on this side
-                }
+                // Count units on other sides of the neighbor that matches the border
+                for (let mapSideOffset = 1; mapSideOffset < 4; mapSideOffset++) {
+                    mapSide = (mapSide + mapSideOffset) % 4;
 
-                mapSide = (mapSide + 2) % 4;
-                if(borderName == mapTile.borders[mapSide]){
-                    className += ` border-${this.getSideName(mapSide)}-4`;
-                    this.debug('go to ', mapSide);
-                    count += countUnits(mapTile, mapSide);
-
-                }
-
-                mapSide = (mapSide + 3) % 4;
-                if(borderName == mapTile.borders[mapSide]){
-                    className += ` border-${this.getSideName(mapSide)}-4`;
-                    this.debug('go to ', mapSide);
-                    count += countUnits(mapTile, mapSide);
+                    if (borderName == mapTile.borders[mapSide]) {
+                        className += ` border-${this.getSideName(mapSide)}-4`;
+                        this.debug('go to ', mapSide);
+                        count += countUnits(mapTile, mapSide);
+                    }
                 }
 
                 // For debug visualize algorithm
-                if(this.isDebug) mapTile.className = className;
+                if (this.isDebug) mapTile.className = className;
             }
 
             return count;
@@ -182,11 +167,11 @@ export class Unit implements IUnit {
 
         // Count units at the same borders on four sides
         let count = 0;
-        if(borderName == lastTile.borders[position])
+        if (borderName == lastTile.borders[position])
             count += countUnits(lastTile, position);
 
         // Business logic for a field that cannot go through the tile center
-        if(
+        if (
             borderName == 'field' &&
             lastTile.borders[(position + 1) % 4] != 'field' &&
             lastTile.borders[(position + 3) % 4] != 'field'
@@ -195,15 +180,15 @@ export class Unit implements IUnit {
         }
 
         position = (position + 1) % 4 as any;
-        if(borderName == lastTile.borders[position])
+        if (borderName == lastTile.borders[position])
             count += countUnits(lastTile, position);
 
         position = (position + 2) % 4 as any;
-        if(borderName == lastTile.borders[position])
+        if (borderName == lastTile.borders[position])
             count += countUnits(lastTile, position);
 
         position = (position + 3) % 4 as any;
-        if(borderName == lastTile.borders[position])
+        if (borderName == lastTile.borders[position])
             count += countUnits(lastTile, position);
 
         this.debug('Units count: ' + count);
