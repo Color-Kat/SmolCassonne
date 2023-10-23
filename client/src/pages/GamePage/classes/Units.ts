@@ -1,4 +1,4 @@
-import {Tile} from "@pages/GamePage/classes/TilesDeck.tsx";
+import {BorderType, Tile} from "@pages/GamePage/classes/TilesDeck.tsx";
 
 interface IUnit {
     id: number;
@@ -7,7 +7,9 @@ interface IUnit {
     description: string;
     image: string;
     occupied: boolean;
+
     role: 'traveler' | 'scientist';
+    scoreMultiplier: {[key: string]: number}
 }
 
 export class Unit implements IUnit {
@@ -17,16 +19,22 @@ export class Unit implements IUnit {
     public name: string;
     public description: string;
     public image: string;
-    public occupied: boolean;
+
     public role: 'traveler' | 'scientist';
+    public scoreMultiplier: {[key: string]: number} = { field: 1, road: 1, city: 1 };
+
+    public occupied: boolean;
 
     constructor(unitData: IUnit) {
         this.id = unitData.id;
         this.name = unitData.name;
         this.description = unitData.description;
         this.image = unitData.image;
-        this.occupied = unitData.occupied;
+
         this.role = unitData.role;
+        this.scoreMultiplier = {...this.scoreMultiplier, ...unitData.scoreMultiplier}; // Rewrite default values
+
+        this.occupied = unitData.occupied;
     }
 
     private isDebug = false;
@@ -56,6 +64,13 @@ export class Unit implements IUnit {
         }
     }
 
+    /**
+     * Return true if unit can be place on the last placed tile at `position` side.
+     *
+     * @param position
+     * @param map
+     * @param tileSize
+     */
     public canBePlacedOnMap(
         position: 0 | 1 | 2 | 3,
         map: Tile[],
@@ -205,7 +220,8 @@ const traveler = new Unit({
     description: 'Никола́й Миха́йлович Пржева́льский — русский путешественник, географ и натуралист, почётный член Русского географического общества. Предпринял несколько экспедиций в Центральную Азию, во время которых изучил территорию Монголии, Китая и Тибета. Генерал-майор. Брат адвоката Владимира и математика Евгения Пржевальских',
     image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDDNnZ-mO6UTZ4jSDCWlQ27RbJVmjr67Jw-w1uWqhH3z5S61OoT8JSmjxO4E03U5HXbBA&usqp=CAU',
     occupied: false,
-    role: 'traveler'
+    role: 'traveler',
+    scoreMultiplier: {road: 2}
 });
 
 const scientist = new Unit({
@@ -214,7 +230,8 @@ const scientist = new Unit({
     description: 'Васи́лий Васи́льевич Докуча́ев — русский геолог и почвовед, профессор минералогии и кристаллографии Санкт-Петербургского университета, директор Ново-Александрийского института сельского хозяйства и лесоводства. Известен как основоположник школы научного почвоведения и географии почв.',
     image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Dokuchaev_1888.jpg/274px-Dokuchaev_1888.jpg',
     occupied: false,
-    role: 'scientist'
+    role: 'scientist',
+    scoreMultiplier: {field: 2}
 });
 /* ----- Units definition ----- */
 

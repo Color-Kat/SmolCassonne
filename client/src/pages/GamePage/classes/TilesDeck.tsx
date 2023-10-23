@@ -2,11 +2,13 @@ import { shuffle } from '@/utils/arrays';
 import { Unit } from "@pages/GamePage/classes/Units.ts";
 import React from "react";
 
+export type BorderType = 'city' | 'road' | 'field';
+
 export interface ITile {
     id: number;
     design: string;
     pennant: boolean;
-    borders: ('field' | 'road' | 'city')[];
+    borders: BorderType[];
     // objects: {city: number, road: number}[];
     rotation: number;
 
@@ -108,7 +110,7 @@ class TilesDeck {
 export class Tile implements ITile {
     public id: number;
     public design: string;             // Use for image
-    public borders: ('field' | 'road' | 'city')[]; // 0 - top, 1 - right, 2 - bottom, 3 - left
+    public borders: BorderType[]; // 0 - top, 1 - right, 2 - bottom, 3 - left
     public rotation: number;           //
     public units: (Unit | null)[];     // 0 - top, 1 - right, 2 - bottom, 3 - left
     public pennant: boolean;
