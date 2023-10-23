@@ -128,9 +128,10 @@ export class TilesMap {
     public calculateScore(
         tileSize: number
     ) {
+        console.clear();
 
         // Algorithm
-        // o through all objects that are connected to all four sides of the just placed tile.
+        // Go through all objects that are connected to all four sides of the just placed tile.
         // Count all types of objects that are connected to the tile.
         // Then create a list of units that are on these objects
         // And in the end calculate score for every team
@@ -154,7 +155,6 @@ export class TilesMap {
         let checkedIds: number[] = [lastTile.id];
 
         const checkTile = (tile: Tile, side: number) => {
-            console.clear();
             this.debug('-------- Check tile for score --------');
 
             let result: { count: number, units: Unit[] } = {
@@ -283,10 +283,10 @@ export class TilesMap {
                 lastTile.borders[(side + 3) % 4] != 'field'
             ) isSecondField = true; // Next check the second field
 
-            // if (objectsData[borderName] == false) continue;
+            if (objectsData[borderName] == false) continue;
 
             // let data = checkTile(lastTile, side);
-            let data = checkTile(lastTile, 2);
+            let data = checkTile(lastTile, side);
 
             if (data === false) {
                 objectsData[borderName] = false;
