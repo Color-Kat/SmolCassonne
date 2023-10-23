@@ -225,7 +225,7 @@ const listOfUnits = [
 ];
 
 /**
- * Get list of units and set a team for every unit.
+ * Get a list of units and set a team for every unit.
  * @param team
  */
 function getUnitsByTeam(team: string) {

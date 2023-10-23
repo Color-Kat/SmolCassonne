@@ -18,8 +18,9 @@ export class TilesMap {
     private isDebug = true;
 
     private debug(...args: any[]) {
-        if (this.isDebug)
+        if (this.isDebug) {
             console.log(...args);
+        }
     }
 
     private getSideName(side: 0 | 1 | 2 | 3) {
@@ -129,11 +130,11 @@ export class TilesMap {
     ) {
 
         // Algorithm
-        // o through all objects that are connected to all 4 sides of the just placed tile.
+        // o through all objects that are connected to all four sides of the just placed tile.
         // Count all types of objects that are connected to the tile.
         // Then create a list of units that are on these objects
         // And in the end calculate score for every team
-        console.log(this.tiles)
+        console.log(this.tiles);
 
         // Get just placed tile, it's the start of the algorithm
         let lastTile = this.tiles.at(-1) as Tile;
@@ -147,7 +148,7 @@ export class TilesMap {
             city: {count: 0, units: []},
             field: {count: 0, units: []},
             field2: {count: 0, units: []}, // There's tiles with 2 fields
-        }
+        };
 
         // List of checked tiles
         let checkedIds: number[] = [lastTile.id];
@@ -157,9 +158,9 @@ export class TilesMap {
             this.debug('-------- Check tile for score --------');
 
             let result: { count: number, units: Unit[] } = {
-                count: 0, // This tile is already contains one tile of this object type
+                count: 0, // This tile already contains one tile of this object type
                 units: []
-            }
+            };
 
             // A unit stays on this tile side, add it to the list
             if (tile.units[side]) result.units.push(tile.units[side] as Unit);
@@ -175,6 +176,7 @@ export class TilesMap {
             if (side === 3) mapSide = 1;
 
             // Iterate all map tiles and search for the neighbors that are connected by the same border
+
             for (const mapTile of this.tiles) {
 
                 let className = 'border-red-600 scale-90';
@@ -223,7 +225,7 @@ export class TilesMap {
                 if (mapTile.units[mapSide])
                     result.units.push(mapTile.units[mapSide] as Unit);
 
-                // Increase count of tile of this type of object
+                // Increase the count of the tile of this type of object
                 result.count++;
 
                 // -------------------------------------
@@ -246,15 +248,15 @@ export class TilesMap {
                         className += ` border-${this.getSideName(mapSide)}-4`;
                         this.debug('go to ', mapSide);
 
-                        if (result.count === 0) result.count = 1;
-
+                        if (result.count === 0) result.count = 1; // At least this tile is a correct object tile
                         let data = checkTile(mapTile, mapSide); // Check another tile
                         if (data === false) {
                             mapTile.className = className + " border-yellow-500";
                             return false;
                         }
-                        result.count += data.count;
-                        result.units.push(...data.units);
+
+                        result.count += data.count; // Increase count of this object tiles
+                        result.units.push(...data.units); // Push units
                     }
                 }
 
@@ -266,25 +268,32 @@ export class TilesMap {
             if (result.count === 0) return false;
 
             return result;
-        }
+        };
 
-        // Start checking for all 4 sides
+        // Start checking for all four sides
         let isSecondField = false;
         for (let side = 0; side < 4; side++) {
             let borderName = lastTile.borders[side] as keyof typeof objectsData;
 
             // Check for second field
-            if(isSecondField && borderName == 'field') borderName = 'field2';
-            if(borderName == 'field') isSecondField = true; // Next check the second field
+            if (isSecondField && borderName == 'field') borderName = 'field2';
+            if (
+                borderName == 'field' &&
+                lastTile.borders[(side + 1) % 4] != 'field' &&
+                lastTile.borders[(side + 3) % 4] != 'field'
+            ) isSecondField = true; // Next check the second field
 
-            if (objectsData[borderName] === false) continue;
+            // if (objectsData[borderName] == false) continue;
 
-            let data = checkTile(lastTile, side);
+            // let data = checkTile(lastTile, side);
+            let data = checkTile(lastTile, 2);
 
-            if (data === false) objectsData[borderName] = false;
-            else {
-                if (objectsData[borderName].count === 0) objectsData[borderName].count = 1;
-                objectsData[borderName].count += data.count;
+            if (data === false) {
+                objectsData[borderName] = false;
+            }
+            else { // @ts-ignore
+                if (objectsData[borderName].count === 0) objectsData[borderName].count = 1; // @ts-ignore
+                objectsData[borderName].count += data.count; // @ts-ignore
                 objectsData[borderName].units.push(...data.units);
             }
         }
