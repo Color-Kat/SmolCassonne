@@ -125,6 +125,13 @@ export class TilesMap {
         }
     };
 
+    private pointsWeight = {
+        city: 2,
+        field: 1,
+        field2: 1,
+        road: 1
+    }
+
     public calculateScore(
         tileSize: number
     ) {
@@ -304,8 +311,18 @@ export class TilesMap {
 
         this.debug('Result: ', objectsData);
 
-        // const score =
+        const score: {[key: string]: number} = {};
+        for (const [objectName, objectData] of Object.entries(objectsData)) {
+            if(objectData === false) continue;
 
-        // return count === 0;
+            const pointsWeight = this.pointsWeight[objectName as keyof typeof this.pointsWeight]; // How many points is this object worth?
+            const rawPoints = pointsWeight * objectData.count; // Calculate points without a unit multiplier by object length
+
+            for (const unit of objectData.units) {
+                score[unit.team] = rawPoints * unit.scoreMultiplier[objectName];
+            }
+        }
+
+        return score;
     }
 }
