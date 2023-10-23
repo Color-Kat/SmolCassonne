@@ -148,7 +148,7 @@ export class TilesMap {
             road: {count: 0, units: []},
             city: {count: 0, units: []},
             field: {count: 0, units: []},
-            field2: {count: 0, units: []}, // There's tiles with 2 fields
+            field2: {count: 0, units: []}, // There are tiles with two fields
         };
 
         // List of checked tiles
@@ -298,7 +298,13 @@ export class TilesMap {
             }
         }
 
+        // TODO - дороги-циклы
+        // TODO - перекрёсток - конец дороги
+        // TODO - перекрёсток - конец дороги для юнита
+
         this.debug('Result: ', objectsData);
+
+        // const score =
 
         // return count === 0;
     }
