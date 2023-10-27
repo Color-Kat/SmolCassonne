@@ -37,7 +37,7 @@ export class Unit implements IUnit {
         this.occupied = unitData.occupied;
     }
 
-    private isDebug = true;
+    private isDebug = false;
 
     private debug(...args: any[]) {
         if (this.isDebug)

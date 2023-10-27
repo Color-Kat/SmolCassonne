@@ -15,7 +15,7 @@ export class TilesMap {
         this.tiles = tiles ?? [];
     }
 
-    private isDebug = false;
+    private isDebug = true;
 
     private debug(...args: any[]) {
         if (this.isDebug) {
@@ -129,8 +129,11 @@ export class TilesMap {
         city: 2,
         field: 1,
         field2: 1,
-        road: 1
-    }
+        road: 1,
+        road2: 1,
+        road3: 1,
+        road4: 1,
+    };
 
     public calculateScore(
         tileSize: number
@@ -152,10 +155,13 @@ export class TilesMap {
         // and units that are placed on this type of object
         // If it's false, It means that this object is no finished yet
         let objectsData: { [key: string]: ({ count: number, units: Unit[] } | false) } = {
-            road: {count: 0, units: []},
             city: {count: 0, units: []},
-            field: {count: 0, units: []},
+            field1: {count: 0, units: []},
             field2: {count: 0, units: []}, // There are tiles with two fields
+            road1: {count: 0, units: []},   // There are tiles with four roads
+            road2: {count: 0, units: []},
+            road3: {count: 0, units: []},
+            road4: {count: 0, units: []},
         };
 
         // List of checked tiles
@@ -238,7 +244,7 @@ export class TilesMap {
                 // Check for units on other sides of the neighbor that matches the border (check all cities, fields, etc)
 
                 // If it's a road end, stop checking because this road can't be connected to other roads.
-                if(
+                if (
                     borderName === 'road' &&
                     mapTile.roadEnd
                 ) continue;
@@ -283,18 +289,24 @@ export class TilesMap {
         };
 
         // Start checking for all four sides
-        let isSecondField = false;
+        let currentFieldNumber = 1;
+        let currentRoadNumber = 1; // For checking four roads
         for (let side = 0; side < 4; side++) {
             let borderName = lastTile.borders[side] as keyof typeof objectsData;
 
             // Check for second field
-            if (isSecondField && borderName == 'field') borderName = 'field2';
+            if (borderName == 'field') borderName = 'field' + currentFieldNumber++;
             if (
                 borderName == 'field' &&
                 lastTile.borders[(side + 1) % 4] != 'field' &&
                 lastTile.borders[(side + 3) % 4] != 'field'
-            ) isSecondField = true; // Next check the second field
+            ) currentFieldNumber = 2; // Next check the second field
 
+            // Set road number fo checking four roads
+            if(borderName == 'road')
+                borderName = 'road' + currentRoadNumber++;
+
+            // This object is not finished at all
             if (objectsData[borderName] == false) continue;
 
             // let data = checkTile(lastTile, side);
@@ -302,24 +314,23 @@ export class TilesMap {
 
             if (data === false) {
                 objectsData[borderName] = false;
-            }
-            else { // @ts-ignore
+            } else { // @ts-ignore
                 if (objectsData[borderName].count === 0) objectsData[borderName].count = 1; // @ts-ignore
                 objectsData[borderName].count += data.count; // @ts-ignore
                 objectsData[borderName].units.push(...data.units);
             }
 
             // If it's a road end, stop checking because this road can't be connected to other roads.
-            if(borderName == 'road' && lastTile.roadEnd) break;
+            // if (borderName == 'road' && lastTile.roadEnd) break;
         }
 
         // TODO - дороги-циклы
 
         this.debug('Result: ', objectsData);
 
-        const score: {[key: string]: number} = {};
+        const score: { [key: string]: number } = {};
         for (const [objectName, objectData] of Object.entries(objectsData)) {
-            if(objectData === false) continue;
+            if (objectData === false) continue;
 
             const pointsWeight = this.pointsWeight[objectName as keyof typeof this.pointsWeight]; // How many points is this object worth?
             const rawPoints = pointsWeight * objectData.count; // Calculate points without a unit multiplier by object length
