@@ -15,7 +15,7 @@ export class TilesMap {
         this.tiles = tiles ?? [];
     }
 
-    private isDebug = true;
+    private isDebug = false;
 
     private debug(...args: any[]) {
         if (this.isDebug) {
@@ -314,7 +314,6 @@ export class TilesMap {
         }
 
         // TODO - дороги-циклы
-        // TODO - перекрёсток - конец дороги для юнита
 
         this.debug('Result: ', objectsData);
 

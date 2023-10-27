@@ -37,7 +37,7 @@ export class Unit implements IUnit {
         this.occupied = unitData.occupied;
     }
 
-    private isDebug = false;
+    private isDebug = true;
 
     private debug(...args: any[]) {
         if (this.isDebug)
@@ -151,7 +151,12 @@ export class Unit implements IUnit {
                 // Check if there is a unit on this side
                 if (mapTile.units[mapSide]) count++;
 
+                // -------------------------------------- //
                 // Check for units on other sides of the neighbor that matches the border (check all cities, fields, etc)
+                // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< //
+
+                // If it's a road end, stop checking because this road can't be connected to other roads.
+                if(borderName == 'road' && mapTile.roadEnd) break;
 
                 // Business logic for a field that cannot go through the tile center
                 if (
@@ -182,8 +187,13 @@ export class Unit implements IUnit {
 
         // Count units at the same borders on four sides
         let count = 0;
+
+        // Position + 0
         if (borderName == lastTile.borders[position])
             count += countUnits(lastTile, position);
+
+        // If it's a road end, stop checking because this road can't be connected to other roads.
+        if(borderName == 'road' && lastTile.roadEnd) return count === 0;
 
         // Business logic for a field that cannot go through the tile center
         if (
@@ -194,14 +204,17 @@ export class Unit implements IUnit {
             return count === 0;
         }
 
+        // Position + 1
         position = (position + 1) % 4 as any;
         if (borderName == lastTile.borders[position])
             count += countUnits(lastTile, position);
 
+        // Position + 2
         position = (position + 2) % 4 as any;
         if (borderName == lastTile.borders[position])
             count += countUnits(lastTile, position);
 
+        // Position + 3
         position = (position + 3) % 4 as any;
         if (borderName == lastTile.borders[position])
             count += countUnits(lastTile, position);
