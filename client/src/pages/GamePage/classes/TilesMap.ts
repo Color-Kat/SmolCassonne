@@ -28,7 +28,7 @@ export class TilesMap {
     }
 
     /**
-     * return starting map with one default tile.
+     * return the starting map with one default tile.
      *
      * @param mapCenter
      * @param tileSize
@@ -172,7 +172,7 @@ export class TilesMap {
             // A unit stays on this tile side, add it to the list
             if (tile.units[side]) result.units.push(tile.units[side] as Unit);
 
-            // Get name of the border that the algorithm is currently checking
+            // Get the name of the border that the algorithm is currently checking
             const borderName = tile.borders[side];
 
             // The map side is opposite to the tile side ][
@@ -183,7 +183,6 @@ export class TilesMap {
             if (side === 3) mapSide = 1;
 
             // Iterate all map tiles and search for the neighbors that are connected by the same border
-
             for (const mapTile of this.tiles) {
 
                 let className = 'border-red-600 scale-90';
@@ -237,6 +236,12 @@ export class TilesMap {
 
                 // -------------------------------------
                 // Check for units on other sides of the neighbor that matches the border (check all cities, fields, etc)
+
+                // If it's a road end, stop checking because this road can't be connected to other roads.
+                if(
+                    borderName === 'road' &&
+                    mapTile.roadEnd
+                ) continue;
 
                 // Business logic for a field that cannot go through the tile center
                 if (
@@ -303,10 +308,12 @@ export class TilesMap {
                 objectsData[borderName].count += data.count; // @ts-ignore
                 objectsData[borderName].units.push(...data.units);
             }
+
+            // If it's a road end, stop checking because this road can't be connected to other roads.
+            if(borderName == 'road' && lastTile.roadEnd) break;
         }
 
         // TODO - дороги-циклы
-        // TODO - перекрёсток - конец дороги
         // TODO - перекрёсток - конец дороги для юнита
 
         this.debug('Result: ', objectsData);

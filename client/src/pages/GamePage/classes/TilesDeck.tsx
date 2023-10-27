@@ -73,9 +73,9 @@ class TilesDeck {
         { id: 44, design: "R", borders: ['city', 'city', 'field', 'city'], pennant: false, rotation: 0 },
         { id: 45, design: "R", borders: ['city', 'city', 'field', 'city'], pennant: false, rotation: 0 },
         { id: 46, design: "R", borders: ['city', 'city', 'field', 'city'], pennant: false, rotation: 0 },
-        { id: 47, design: "S", borders: ['city', 'city', 'road', 'city'], pennant: true, rotation: 0 },
-        { id: 48, design: "S", borders: ['city', 'city', 'road', 'city'], pennant: true, rotation: 0 },
-        { id: 49, design: "T", borders: ['city', 'city', 'road', 'city'], pennant: false, rotation: 0 },
+        { id: 47, design: "S", borders: ['city', 'city', 'road', 'city'], pennant: true, rotation: 0, roadEnd: true },
+        { id: 48, design: "S", borders: ['city', 'city', 'road', 'city'], pennant: true, rotation: 0, roadEnd: true },
+        { id: 49, design: "T", borders: ['city', 'city', 'road', 'city'], pennant: false, rotation: 0, roadEnd: true },
         { id: 50, design: "U", borders: ['road', 'field', 'road', 'field'], pennant: false, rotation: 0 },
         { id: 51, design: "U", borders: ['road', 'field', 'road', 'field'], pennant: false, rotation: 0 },
         { id: 52, design: "U", borders: ['road', 'field', 'road', 'field'], pennant: false, rotation: 0 },
@@ -179,8 +179,11 @@ export class Tile implements ITile {
         }
     }
 
-    // Rotate the tile by rotateValue.
-    // 0 - top, 1 - right, 2 - bottom, 3 - left
+    /**
+     * Rotate the tile by rotateValue.
+     * 0 - top, 1 - right, 2 - bottom, 3 - left
+     * @param rotateValue
+     */
     public rotate(rotateValue: number) {
         if (rotateValue < 0) rotateValue = 4 + rotateValue;
         this.rotation = Math.abs((this.rotation + rotateValue)) % 4;
@@ -190,7 +193,12 @@ export class Tile implements ITile {
         return this;
     }
 
-    // Return a React component of image with rotated tile
+    /**
+     * Return a React component of image with rotated tile
+     *
+     * @param tileSize
+     * @constructor
+     */
     public Image(tileSize = 198) {
         return (
             <img
