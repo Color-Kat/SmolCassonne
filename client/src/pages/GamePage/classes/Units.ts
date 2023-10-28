@@ -21,7 +21,7 @@ export class Unit implements IUnit {
     public image: string;
 
     public role: 'traveler' | 'scientist';
-    public scoreMultiplier: {[key: string]: number} = { field: 1, road: 1, city: 1 };
+    public scoreMultiplier: {[key: string]: number} = {city: 1, field1: 1, field2: 1, road1: 1, road2: 1, road3: 1, road4: 1 };
 
     public occupied: boolean;
 
@@ -33,6 +33,8 @@ export class Unit implements IUnit {
 
         this.role = unitData.role;
         this.scoreMultiplier = {...this.scoreMultiplier, ...unitData.scoreMultiplier}; // Rewrite default values
+
+        console.log(this.scoreMultiplier);
 
         this.occupied = unitData.occupied;
     }
@@ -234,7 +236,7 @@ const traveler = new Unit({
     image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDDNnZ-mO6UTZ4jSDCWlQ27RbJVmjr67Jw-w1uWqhH3z5S61OoT8JSmjxO4E03U5HXbBA&usqp=CAU',
     occupied: false,
     role: 'traveler',
-    scoreMultiplier: {road: 2}
+    scoreMultiplier: {road1: 2, road2: 2, road3: 2, road4: 2}
 });
 
 const scientist = new Unit({
@@ -244,7 +246,7 @@ const scientist = new Unit({
     image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Dokuchaev_1888.jpg/274px-Dokuchaev_1888.jpg',
     occupied: false,
     role: 'scientist',
-    scoreMultiplier: {field: 2}
+    scoreMultiplier: {field1: 2, field2: 2}
 });
 /* ----- Units definition ----- */
 

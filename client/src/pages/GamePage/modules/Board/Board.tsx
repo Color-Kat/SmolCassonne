@@ -12,6 +12,7 @@ import {Unit} from "@pages/GamePage/classes/Units.ts";
 import {MapTile} from "@pages/GamePage/modules/Board/components/MapTile.tsx";
 import {GameStageContext, GameStagesType, MapContext} from "@pages/GamePage/gameContext.ts";
 import {TilesMap} from "@pages/GamePage/classes/TilesMap.ts";
+import {useLogoutMutation} from "@/store/auth/auth.api.ts";
 
 
 interface BoardProps {
@@ -98,6 +99,7 @@ export const Board: React.FC<BoardProps> = ({
     // Score calculation (Scoring Stage)
     const scoring = () => {
         const score = (new TilesMap(map)).calculateScore(tileSize);
+        console.log(score);
 
         setStage('endOfTurn');
     }

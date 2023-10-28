@@ -127,9 +127,9 @@ export class TilesMap {
 
     private pointsWeight = {
         city: 2,
-        field: 1,
+        field1: 1,
         field2: 1,
-        road: 1,
+        road1: 1,
         road2: 1,
         road3: 1,
         road4: 1,
@@ -138,14 +138,14 @@ export class TilesMap {
     public calculateScore(
         tileSize: number
     ) {
-        console.clear();
+        if(this.isDebug) console.clear();
 
         // Algorithm
         // Go through all objects that are connected to all four sides of the just placed tile.
         // Count all types of objects that are connected to the tile.
         // Then create a list of units that are on these objects
-        // And in the end calculate score for every team
-        console.log(this.tiles);
+        // And in the end, calculate score for every team
+        this.debug(this.tiles);
 
         // Get just placed tile, it's the start of the algorithm
         let lastTile = this.tiles.at(-1) as Tile;
@@ -188,16 +188,12 @@ export class TilesMap {
             if (side === 2) mapSide = 0;
             if (side === 3) mapSide = 1;
 
+            let hasAlreadyCheckedRoadNeighbor = false;
+
             // Iterate all map tiles and search for the neighbors that are connected by the same border
             for (const mapTile of this.tiles) {
 
                 let className = 'border-red-600 scale-90';
-
-                // Skip already checked tiles
-                if (checkedIds.includes(mapTile.id)) {
-                    this.debug('Already checked', mapTile.borders);
-                    continue; // Skip checked tiles
-                }
 
                 // Skip current tile
                 if (tile.id == mapTile.id) {
@@ -224,6 +220,15 @@ export class TilesMap {
                     if (this.isDebug) mapTile.className = 'opacity-50';
                     this.debug('It is not a neighbor');
                     continue; // It is not a neighbor
+                }
+
+                // Skip already checked tiles
+                if (checkedIds.includes(mapTile.id)) {
+                    this.debug('Already checked', mapTile.borders);
+
+                    hasAlreadyCheckedRoadNeighbor = true;
+
+                    continue; // Skip checked tiles
                 }
 
                 this.debug(mapTile.borders);
@@ -283,7 +288,8 @@ export class TilesMap {
                 mapTile.className = className;
             }
 
-            if (result.count === 0) return false;
+            this.debug('hasAlreadyCheckedNeighbor: ', hasAlreadyCheckedRoadNeighbor);
+            if (result.count === 0 && !hasAlreadyCheckedRoadNeighbor) return false;
 
             return result;
         };
@@ -302,17 +308,17 @@ export class TilesMap {
                 lastTile.borders[(side + 3) % 4] != 'field'
             ) currentFieldNumber = 2; // Next check the second field
 
-            // Set road number fo checking four roads
-            if(borderName == 'road')
+            // Set road number fo checking four roads when it is an end of the road
+            if(borderName == 'road' && lastTile.roadEnd)
                 borderName = 'road' + currentRoadNumber++;
 
             // This object is not finished at all
-            if (objectsData[borderName] == false) continue;
+            if (!objectsData[borderName]) continue;
 
             // let data = checkTile(lastTile, side);
             let data = checkTile(lastTile, side);
 
-            if (data === false) {
+            if (data == false) {
                 objectsData[borderName] = false;
             } else { // @ts-ignore
                 if (objectsData[borderName].count === 0) objectsData[borderName].count = 1; // @ts-ignore
@@ -324,19 +330,26 @@ export class TilesMap {
             // if (borderName == 'road' && lastTile.roadEnd) break;
         }
 
-        // TODO - дороги-циклы
+        // TODO - дороги-циклы (даже с перекрёстком)
 
         this.debug('Result: ', objectsData);
+
+        // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+        // ========== Calculate score ==========
 
         const score: { [key: string]: number } = {};
         for (const [objectName, objectData] of Object.entries(objectsData)) {
             if (objectData === false) continue;
 
-            const pointsWeight = this.pointsWeight[objectName as keyof typeof this.pointsWeight]; // How many points is this object worth?
-            const rawPoints = pointsWeight * objectData.count; // Calculate points without a unit multiplier by object length
+            // How many points is this object worth?
+            const pointsWeight = this.pointsWeight[objectName as keyof typeof this.pointsWeight];
+
+            // Calculate points without a unit multiplier by object length
+            const rawPoints = pointsWeight * objectData.count;
 
             for (const unit of objectData.units) {
                 score[unit.team] = rawPoints * unit.scoreMultiplier[objectName];
+                console.log(unit);
             }
         }
 
