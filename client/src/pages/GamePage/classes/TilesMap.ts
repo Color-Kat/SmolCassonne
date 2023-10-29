@@ -15,7 +15,7 @@ export class TilesMap {
         this.tiles = tiles ?? [];
     }
 
-    private isDebug = true;
+    private isDebug = false;
 
     private debug(...args: any[]) {
         if (this.isDebug) {
@@ -338,6 +338,7 @@ export class TilesMap {
         // ========== Calculate score ==========
 
         const score: { [key: string]: number } = {};
+        const freeUnitIds = [];
         for (const [objectName, objectData] of Object.entries(objectsData)) {
             if (objectData === false) continue;
 
@@ -349,10 +350,10 @@ export class TilesMap {
 
             for (const unit of objectData.units) {
                 score[unit.team] = rawPoints * unit.scoreMultiplier[objectName];
-                console.log(unit);
+                freeUnitIds.push(unit.id);
             }
         }
 
-        return score;
+        return {score, freeUnitIds};
     }
 }

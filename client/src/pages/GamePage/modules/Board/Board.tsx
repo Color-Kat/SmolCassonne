@@ -25,7 +25,7 @@ interface BoardProps {
 
 /**
  * This component renders the board: tile cursor, map with tile, units, unit selector.
- * And Board component is responsible for game mechanics realization
+ * And the Board component is responsible for game mechanics realization
  * and the game stage management (Place tile, Place Unit, Calculate score).
  *
  */
@@ -39,6 +39,10 @@ export const Board: React.FC<BoardProps> = ({
         tileSize,
         map,
         setMap,
+
+        myTeamColor,
+        setTeams,
+
         setTooltip,
     } = React.useContext(MapContext);
 
@@ -65,7 +69,10 @@ export const Board: React.FC<BoardProps> = ({
         }
     }, [stage]);
 
-    // Tile cursor (Place tile stage)
+    // ---------------------------------- //
+    // - Tile cursor (Place tile stage) - //
+    // ---------------------------------- //
+
     const {
         handleMouseMove,
         handleMouseEnter,
@@ -89,7 +96,10 @@ export const Board: React.FC<BoardProps> = ({
         currentTile,
     });
 
-    // Unit selector (Unit selection stage)
+    // ---------------------------------------- //
+    // - Unit selector (Unit selection stage) - //
+    // ---------------------------------------- //
+
     const [isSelectingUnit, setIsSelectingUnit] = useState(false);
     const placeTileCallback = () => {
         setTooltip('');
@@ -97,9 +107,34 @@ export const Board: React.FC<BoardProps> = ({
         setIsSelectingUnit(true);
     };
 
-    // Score calculation (Scoring Stage)
+    // ------------------------------------- //
+    // - Score calculation (Scoring Stage) - //
+    // ------------------------------------- //
+
     const scoring = () => {
-        const score = (new TilesMap(map)).calculateScore(tileSize);
+        const result = (new TilesMap(map)).calculateScore(tileSize);
+        const score = result.score;
+        const freeUnitIds = result.freeUnitIds;
+
+        // Mark free units as not occupied
+        setTeams(prev => {
+            const newTeams = {...prev};
+            newTeams[myTeamColor].units.map(unit => freeUnitIds.includes(unit.id) ? unit.setOccupied(false) : unit);
+            return newTeams;
+        });
+
+        // Delete unit from the map
+        setMap(prev => {
+            let newMap = [...prev];
+
+            return newMap.map(tile => {
+                for (const unitPosition in tile.units) {
+                    if (freeUnitIds.includes(tile.units[unitPosition]?.id ?? -1)) tile.units[unitPosition] = null;
+                }
+                return tile;
+            });
+        })
+
         console.log(score);
 
         setStage('endOfTurn');
