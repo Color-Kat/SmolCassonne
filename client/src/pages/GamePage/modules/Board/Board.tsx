@@ -13,6 +13,7 @@ import {MapTile} from "@pages/GamePage/modules/Board/components/MapTile.tsx";
 import {GameStageContext, GameStagesType, MapContext} from "@pages/GamePage/gameContext.ts";
 import {TilesMap} from "@pages/GamePage/classes/TilesMap.ts";
 import {useLogoutMutation} from "@/store/auth/auth.api.ts";
+import {TeamColorType} from "@pages/GamePage/classes/teams.ts";
 
 
 interface BoardProps {
@@ -116,24 +117,34 @@ export const Board: React.FC<BoardProps> = ({
         const score = result.score;
         const freeUnitIds = result.freeUnitIds;
 
-        // Mark free units as not occupied
+        // Update teams data
         setTeams(prev => {
             const newTeams = {...prev};
+
+            // Mark free units as not occupied
             newTeams[myTeamColor].units.map(unit => freeUnitIds.includes(unit.id) ? unit.setOccupied(false) : unit);
+
+            // Update score
+            for(let teamColor in newTeams) {
+                newTeams[teamColor as TeamColorType].score += score[teamColor] ?? 0;
+            }
+
             return newTeams;
         });
 
         // Delete unit from the map
-        setMap(prev => {
-            let newMap = [...prev];
+        setTimeout(() => {
+            setMap(prev => {
+                let newMap = [...prev];
 
-            return newMap.map(tile => {
-                for (const unitPosition in tile.units) {
-                    if (freeUnitIds.includes(tile.units[unitPosition]?.id ?? -1)) tile.units[unitPosition] = null;
-                }
-                return tile;
+                return newMap.map(tile => {
+                    for (const unitPosition in tile.units) {
+                        if (freeUnitIds.includes(tile.units[unitPosition]?.id ?? -1)) tile.units[unitPosition] = null;
+                    }
+                    return tile;
+                });
             });
-        })
+        }, 650);
 
         console.log(score);
 

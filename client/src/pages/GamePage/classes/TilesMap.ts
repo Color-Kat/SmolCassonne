@@ -274,7 +274,7 @@ export class TilesMap {
                         if (result.count === 0) result.count = 1; // At least this tile is a correct object tile
                         let data = checkTile(mapTile, mapSide); // Check another tile
                         if (data === false) {
-                            mapTile.className = className + " border-yellow-500";
+                            if(this.isDebug) mapTile.className = className + " border-yellow-500";
                             return false;
                         }
 
@@ -284,8 +284,8 @@ export class TilesMap {
                 }
 
                 // For debug visualize algorithm
-                // if (this.isDebug)
-                mapTile.className = className;
+                if (this.isDebug)
+                    mapTile.className = className;
             }
 
             this.debug('hasAlreadyCheckedNeighbor: ', hasAlreadyCheckedRoadNeighbor);
