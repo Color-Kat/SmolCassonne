@@ -6,6 +6,7 @@ import {Team, TeamColorType} from "@pages/GamePage/classes/teams.ts";
 export const MapContext = React.createContext<{
     myTeamColor: TeamColorType,
     teams: {[key in TeamColorType]: Team}
+    setTeams: React.Dispatch<React.SetStateAction<{[key in TeamColorType]: Team}>>,
 
     tileSize: number,
 

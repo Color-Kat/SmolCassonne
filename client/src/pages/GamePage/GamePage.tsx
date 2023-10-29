@@ -67,6 +67,7 @@ export const GamePage = () => {
                 <MapContext.Provider value={{
                     myTeamColor,
                     teams,
+                    setTeams,
 
                     tileSize: 192,
                     map,
@@ -97,9 +98,6 @@ export const GamePage = () => {
                         <Board
                             currentTile={currentTile}
                             setCurrentTile={setCurrentTile}
-
-                            myTeam={myTeamColor}
-                            units={units}
 
                             endOfTurn={endOfTurn}
                         />

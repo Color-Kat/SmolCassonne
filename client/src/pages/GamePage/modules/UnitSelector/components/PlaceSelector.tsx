@@ -27,13 +27,25 @@ const UnitPlace: React.FC<UnitPlaceProps> = memo(({
                                                       setMap,
                                                       closeSelectingUnit,
                                                   }) => {
-    const {map, tileSize, setTooltip} = React.useContext(MapContext);
+    const {
+        tileSize,
+        map,
+
+        setTeams,
+        myTeamColor,
+
+        setTooltip,
+    } = React.useContext(MapContext);
 
     // Place unit on the placed tile
     const placeUnit = () => {
+        if(!selectedUnit) return setTooltip("Выберите фишку");
+
+        if(selectedUnit.isOccupied) return setTooltip("Фишка уже используется в другом месте");
+
         const canBePlaced = selectedUnit?.canBePlacedOnMap(position, map, tileSize)
 
-        if (selectedUnit && canBePlaced) {
+        if (canBePlaced) {
             // Add unit to the tile on the map
             setMap(prev => {
                 const newMap = [...prev];
@@ -41,10 +53,15 @@ const UnitPlace: React.FC<UnitPlaceProps> = memo(({
                 return newMap;
             });
 
-            closeSelectingUnit(); // Close unit selecting modal
-        }
+            // Mark this unit as occupied
+            setTeams(prev => {
+                const newTeams = {...prev};
+                newTeams[myTeamColor].units.map(unit => unit.id == selectedUnit.id ? unit.setOccupied(true) : unit);
+                return newTeams;
+            })
 
-        if(!canBePlaced) setTooltip("На этом объекте уже стоит другая фишка");
+            closeSelectingUnit(); // Close unit selecting modal
+        } else setTooltip("На этом объекте уже стоит другая фишка");
     };
 
     return (

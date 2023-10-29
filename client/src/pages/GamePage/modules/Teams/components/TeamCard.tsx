@@ -13,7 +13,7 @@ export const TeamCard: React.FC<TeamCardProps> = memo(({team}) => {
 
     return (
         <li
-            className="flex justify-between gap-32 h-full rounded-b-xl shadow-lg p-3 pt-1 min-w-[250px] pointer-events-auto"
+            className="flex justify-between gap-32 h-full rounded-b-xl shadow-lg p-2 pt-1 min-w-[250px] pointer-events-auto"
             style={{
                 background: `url(${oldWoodBg})`,
                 // backgroundRepeat: "repeat"
@@ -23,12 +23,20 @@ export const TeamCard: React.FC<TeamCardProps> = memo(({team}) => {
             {/*  avatar  */}
             {/*</div>*/}
 
-            <div className="flex flex-col text-gray-100">
+            <div className="flex flex-col text-gray-100 w-full">
                 <div
-                    className="text-lg"
-                    style={{color: team.getTeamColor()}}
+                    className="text-lg flex justify-between gap-3"
                 >
-                    <b>{team.name}</b>
+                    <div>
+                        <b style={{color: team.getTeamColor()}}>
+                            {team.name}
+                        </b>
+                        <span className="text-sm text-gray-300">
+                            {myTeamColor == team.color ? ' (Вы)' : null}
+                        </span>
+                    </div>
+
+                    <div>{team.score} оч.</div>
                 </div>
                 <ul className="flex gap-1.5">
                     {team.units.map((unit) => (

@@ -19,9 +19,6 @@ interface BoardProps {
     currentTile: Tile | undefined;
     setCurrentTile: React.Dispatch<React.SetStateAction<Tile | undefined>>;
 
-    units: { [key: string]: Unit[] };
-    myTeam: string;
-
     endOfTurn: () => void;
 }
 
@@ -36,11 +33,15 @@ export const Board: React.FC<BoardProps> = ({
                                                 currentTile,
                                                 setCurrentTile,
 
-                                                units, myTeam,
-
                                                 endOfTurn
                                             }) => {
-    const {map, setMap, tileSize, setTooltip} = React.useContext(MapContext);
+    const {
+        tileSize,
+        map,
+        setMap,
+        setTooltip,
+    } = React.useContext(MapContext);
+
     const {setStage, stage} = useContext(GameStageContext);
 
     const mapSize = tileSize * 70;
@@ -94,7 +95,7 @@ export const Board: React.FC<BoardProps> = ({
         setTooltip('');
         setCurrentTile(undefined);
         setIsSelectingUnit(true);
-    }
+    };
 
     // Score calculation (Scoring Stage)
     const scoring = () => {
@@ -102,7 +103,7 @@ export const Board: React.FC<BoardProps> = ({
         console.log(score);
 
         setStage('endOfTurn');
-    }
+    };
 
     return (
 
@@ -152,7 +153,6 @@ export const Board: React.FC<BoardProps> = ({
 
             {/* Unit Selector */}
             <UnitSelector
-                units={units[myTeam]}
                 PlacedTile={PlacedTile}
 
                 isSelectingUnit={isSelectingUnit}

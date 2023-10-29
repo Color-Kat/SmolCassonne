@@ -22,7 +22,7 @@ export const UnitCard: React.FC<UnitProps> = memo(({unit}) => {
                 onClick={handleUnitClick}
                 className={
                     twJoin(
-                        "object-contain h-12 cursor-pointer rounded-lg",
+                        "object-contain h-12 cursor-pointer rounded-md",
                         unit.occupied && "opacity-50 border-2 border-red-400"
                     )
                 }

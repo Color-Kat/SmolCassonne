@@ -6,7 +6,7 @@ interface IUnit {
     name: string;
     description: string;
     image: string;
-    occupied: boolean;
+    isOccupied: boolean;
 
     role: 'traveler' | 'scientist';
     scoreMultiplier: {[key: string]: number}
@@ -23,7 +23,7 @@ export class Unit implements IUnit {
     public role: 'traveler' | 'scientist';
     public scoreMultiplier: {[key: string]: number} = {city: 1, field1: 1, field2: 1, road1: 1, road2: 1, road3: 1, road4: 1 };
 
-    public occupied: boolean;
+    public isOccupied: boolean;
 
     constructor(unitData: IUnit) {
         this.id = unitData.id;
@@ -36,7 +36,7 @@ export class Unit implements IUnit {
 
         console.log(this.scoreMultiplier);
 
-        this.occupied = unitData.occupied;
+        this.isOccupied = unitData.isOccupied;
     }
 
     private isDebug = false;
@@ -52,6 +52,11 @@ export class Unit implements IUnit {
 
     public setTeam(team: string) {
         this.team = team;
+        return this;
+    }
+
+    public setOccupied(isOccupied: boolean) {
+        this.isOccupied = isOccupied;
         return this;
     }
 
@@ -234,7 +239,7 @@ const traveler = new Unit({
     name: 'Николай Михайлович Пржевальский',
     description: 'Никола́й Миха́йлович Пржева́льский — русский путешественник, географ и натуралист, почётный член Русского географического общества. Предпринял несколько экспедиций в Центральную Азию, во время которых изучил территорию Монголии, Китая и Тибета. Генерал-майор. Брат адвоката Владимира и математика Евгения Пржевальских',
     image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDDNnZ-mO6UTZ4jSDCWlQ27RbJVmjr67Jw-w1uWqhH3z5S61OoT8JSmjxO4E03U5HXbBA&usqp=CAU',
-    occupied: false,
+    isOccupied: false,
     role: 'traveler',
     scoreMultiplier: {road1: 2, road2: 2, road3: 2, road4: 2}
 });
@@ -244,7 +249,7 @@ const scientist = new Unit({
     name: 'Василий Васильевич Докучаев',
     description: 'Васи́лий Васи́льевич Докуча́ев — русский геолог и почвовед, профессор минералогии и кристаллографии Санкт-Петербургского университета, директор Ново-Александрийского института сельского хозяйства и лесоводства. Известен как основоположник школы научного почвоведения и географии почв.',
     image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Dokuchaev_1888.jpg/274px-Dokuchaev_1888.jpg',
-    occupied: false,
+    isOccupied: false,
     role: 'scientist',
     scoreMultiplier: {field1: 2, field2: 2}
 });

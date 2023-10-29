@@ -2,12 +2,7 @@ import React, {memo, useCallback} from 'react';
 import tableWoodImage from "@assets/textures/tableWood.png";
 import {Unit} from "@pages/GamePage/classes/Units.ts";
 import {twJoin} from "tailwind-merge";
-
-interface ListOfUnitsProps {
-    units: Unit[];
-    selectedUnit: Unit | null;
-    setSelectedUnit: React.Dispatch<React.SetStateAction<Unit | null>>;
-}
+import {MapContext} from "@pages/GamePage/gameContext.ts";
 
 interface UnitCardProps {
     unit: Unit;
@@ -22,7 +17,8 @@ const UnitCard: React.FC<UnitCardProps> = memo(({
                                                 }) => {
 
     const handleUnitClick = useCallback(() => {
-        if(selectedUnit?.id === unit.id) setSelectedUnit(null);
+        if(selectedUnit?.id === unit.id) setSelectedUnit(null); // Unselect unit
+        else if(selectedUnit?.isOccupied) setSelectedUnit(null); // Can't select occupied units
         else setSelectedUnit(unit);
     }, [selectedUnit]);
 
@@ -39,26 +35,33 @@ const UnitCard: React.FC<UnitCardProps> = memo(({
                 alt={unit.name}
                 className={twJoin(
                     "object-contain h-24 cursor-pointer rounded-lg",
-                    unit.occupied && "opacity-50 border-4 border-red-400"
+                    unit.isOccupied && "opacity-50 border-4 border-red-400"
                 )}
             />
 
             <div className="text-sm text-gray-100">
                 {unit.name.split(' ').at(-1)}
             </div>
-            {unit.occupied && <div className="text-xs text-gray-300">
+            {unit.isOccupied && <div className="text-xs text-gray-300">
                 Используется
             </div>}
         </li>
     );
 });
 
+// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+interface ListOfUnitsProps {
+    selectedUnit: Unit | null;
+    setSelectedUnit: React.Dispatch<React.SetStateAction<Unit | null>>;
+}
+
 export const ListOfUnits: React.FC<ListOfUnitsProps> = memo(({
-                                                                 units,
                                                                  selectedUnit,
                                                                  setSelectedUnit
                                                              }) => {
-
+    const {myTeamColor, teams} = React.useContext(MapContext);
+    const units = teams[myTeamColor].units;
 
     return (
         <div className="absolute bottom-0 w-full h-36 cursor-default">
