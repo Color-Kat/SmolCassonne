@@ -1,10 +1,14 @@
 import React from "react";
 import {Tile} from "@pages/GamePage/classes/TilesDeck.tsx";
 import {Unit} from "@pages/GamePage/classes/Units.ts";
+import {Team, TeamColorType} from "@pages/GamePage/classes/teams.ts";
 
 export const MapContext = React.createContext<{
-    myTeam: string,
+    myTeamColor: TeamColorType,
+    teams: {[key in TeamColorType]: Team}
+
     tileSize: number,
+
     map: Tile[],
     setMap: React.Dispatch<React.SetStateAction<Tile[]>>,
     currentTile: Tile | undefined,

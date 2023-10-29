@@ -8,6 +8,7 @@ import {ControlPanel} from "@pages/GamePage/modules/ControlPanel/ControlPanel.ts
 import {Teams} from "@pages/GamePage/modules/Teams/Teams.tsx";
 import {GameStageContext, GameStagesType, MapContext} from "@pages/GamePage/gameContext.ts";
 import {Information} from "@pages/GamePage/modules/Inforamtion/Information.tsx";
+import {defaultTeams} from "@pages/GamePage/classes/teams.ts";
 
 /**
  * This component renders the game page.
@@ -17,9 +18,10 @@ import {Information} from "@pages/GamePage/modules/Inforamtion/Information.tsx";
  * @constructor
  */
 export const GamePage = () => {
-    const myTeam = 'blue';
-    const teams = ['blue'];
-    const tileSize = 192;
+
+    const myTeamColor = 'blue';
+
+    const [teams, setTeams] = useState(defaultTeams);
 
     // State with current stage of the game
     const [stage, setStage] = useState<GameStagesType>('emptyMap');
@@ -63,14 +65,18 @@ export const GamePage = () => {
                 </Helmet>
 
                 <MapContext.Provider value={{
-                    myTeam,
-                    tileSize,
+                    myTeamColor,
+                    teams,
+
+                    tileSize: 192,
                     map,
                     setMap,
                     currentTile,
+
                     setTooltip,
                     setTileInformation,
                     setUnitInformation,
+
                     endOfTurn
                 }}>
                     <div className="flex h-full w-full relative">
@@ -85,7 +91,6 @@ export const GamePage = () => {
                         {/* Users list and score */}
                         <Teams
                             teams={teams}
-                            units={units}
                         />
 
                         {/* Board with the map */}
@@ -93,7 +98,7 @@ export const GamePage = () => {
                             currentTile={currentTile}
                             setCurrentTile={setCurrentTile}
 
-                            myTeam={myTeam}
+                            myTeam={myTeamColor}
                             units={units}
 
                             endOfTurn={endOfTurn}

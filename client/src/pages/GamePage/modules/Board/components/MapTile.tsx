@@ -14,19 +14,11 @@ interface UnitOnTileProps {
     position: 0 | 1 | 2 | 3;
 }
 
-function getCommandColor(team: string): string {
-    return {
-        red: '#f43f5e',
-        green: '#22c55e',
-        blue: '#0ea5e9',
-    }[team] ?? 'magenta';
-}
-
 const UnitOnTile: React.FC<UnitOnTileProps> = memo(({
                                                         unit,
                                                         position
                                                     }) => {
-    const {setUnitInformation} = React.useContext(MapContext);
+    const {setUnitInformation, myTeamColor, teams} = React.useContext(MapContext);
 
     return (
         <img
@@ -40,7 +32,7 @@ const UnitOnTile: React.FC<UnitOnTileProps> = memo(({
                 position === 3 && "-left-2 top-1/2 -translate-y-1/2"
             )}
             style={{
-                borderColor: getCommandColor(unit.team)
+                borderColor: teams[myTeamColor].getTeamColor()
             }}
             draggable="false"
             src={unit.image}
