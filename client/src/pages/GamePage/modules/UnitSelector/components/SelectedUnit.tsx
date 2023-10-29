@@ -17,6 +17,9 @@ export const SelectedUnit: React.FC<SelectedUnitProps> = memo(({selectedUnit}) =
             <div className="text-base text-gray-200 mt-1">
                 {selectedUnit?.getRole()}
             </div>
+            { selectedUnit?.isOccupied && <div className="text-base text-red-400 mt-1">
+                Нельзя использовать
+            </div>}
         </div>
     );
 });

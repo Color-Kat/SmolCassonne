@@ -1,4 +1,4 @@
-import React, {memo, MouseEvent, useCallback, useState} from 'react';
+import React, {memo, MouseEvent, useCallback, useEffect, useState} from 'react';
 import {Transition} from "@headlessui/react";
 
 import {Unit} from "@pages/GamePage/classes/Units.ts";
@@ -26,6 +26,7 @@ export const UnitSelector: React.FC<UnitSelectorProps> = memo(({
                                                                }) => {
     const {setMap} = React.useContext(MapContext);
     const {setStage} = React.useContext(GameStageContext);
+    const [selectedUnit, setSelectedUnit] = useState<Unit | null>(null);
 
     // Close modal
     const closeSelectingUnit = useCallback(() => {
@@ -38,7 +39,12 @@ export const UnitSelector: React.FC<UnitSelectorProps> = memo(({
         if (e.target === e.currentTarget) closeSelectingUnit();
     };
 
-    const [selectedUnit, setSelectedUnit] = useState<Unit | null>(null);
+    // Close modal using escape
+    const handleEscClose = (e: KeyboardEvent) => e.keyCode === 27 ? closeSelectingUnit() : null;
+    useEffect(() => {
+        document.addEventListener('keydown', handleEscClose);
+        return () => {document.removeEventListener('keydown', handleEscClose);};
+    }, []);
 
     return (
         <Transition

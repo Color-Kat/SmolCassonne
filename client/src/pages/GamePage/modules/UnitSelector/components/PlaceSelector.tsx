@@ -68,13 +68,13 @@ const UnitPlace: React.FC<UnitPlaceProps> = memo(({
         <button
             className={twJoin(
                 "rounded-full bg-gray-300/30 border-2 border-gray-300 w-12 h-12 absolute z-10",
-                selectedUnit && "hover:bg-gray-300/50",
+                (selectedUnit && !selectedUnit.isOccupied) && "hover:bg-gray-300/50",
                 position === 0 && "top-0 left-1/2 -translate-x-1/2",
                 position === 1 && "right-0 top-1/2 -translate-y-1/2",
                 position === 2 && "bottom-0 left-1/2 -translate-x-1/2",
                 position === 3 && "left-0 top-1/2 -translate-y-1/2"
             )}
-            disabled={!selectedUnit}
+            disabled={!selectedUnit || selectedUnit?.isOccupied}
             onClick={placeUnit}
         ></button>
     );
