@@ -1,5 +1,5 @@
 import {Helmet} from "react-helmet";
-import React, {useCallback, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import TilesDeck, {Tile} from "./classes/TilesDeck";
 import {Unit, units as listOfUnits} from "./classes/Units.ts";
 import {Board} from "./modules/Board/Board";
@@ -64,6 +64,14 @@ export const GamePage = () => {
 
         setStage('takeTile');
     }
+
+    useEffect(() => {
+       const socket = new WebSocket('ws://localhost:5000/multiplayer');
+
+       socket.onopen = () => {
+           console.log('Connected');
+       }
+    });
 
     return (
         <GameStageContext.Provider value={{
