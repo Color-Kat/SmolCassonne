@@ -1,10 +1,17 @@
 import { Request, Response, NextFunction } from 'express';
 import {AbstractController} from "./AbstractController.js";
+import WebSocket from "ws";
 
 export class MultiPlayerController extends AbstractController {
 
-    public initWebsocket(ws: any, req: Request): void {
+    public initWebsocket(ws: WebSocket, req: Request): void {
         console.log('Websocket connected');
+
+        ws.send('Hi, client');
+
+        ws.on('message', (msg) => {
+            console.log(msg);
+        })
         // res.json({ hello: 'world' });
     }
 

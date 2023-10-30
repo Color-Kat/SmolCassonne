@@ -71,6 +71,12 @@ export const GamePage = () => {
        socket.onopen = () => {
            console.log('Connected');
        }
+
+       socket.onmessage = (event) => {
+           console.log(event.data);
+       }
+
+       setTimeout(() => socket.send('hi, server'), 1000)
     });
 
     return (
