@@ -1,5 +1,5 @@
 import {Helmet} from "react-helmet";
-import React, {useState} from "react";
+import React, {useCallback, useState} from "react";
 import TilesDeck, {Tile} from "./classes/TilesDeck";
 import {Unit, units as listOfUnits} from "./classes/Units.ts";
 import {Board} from "./modules/Board/Board";
@@ -39,7 +39,7 @@ export const GamePage = () => {
     // State for current tile
     const [currentTile, setCurrentTile] = useState<Tile | undefined>(undefined);
 
-    const endOfTurn = () => {
+    const endOfTurn = useCallback(() => {
         // Hide tooltip, tile and unit information
         setTooltip("");
         setTileInformation(null);
@@ -49,9 +49,21 @@ export const GamePage = () => {
         setCurrentTile(undefined);
 
         // Pass the turn to the next player
-        // passTheTurn() 
-    };
-    // console.log(map);
+        passTheTurn()
+    }, []);
+
+    const passTheTurn = () => {
+        // Change stage to wait
+        setStage('wait');
+
+        // Generating data to send to other players
+        const data = {
+            map,
+            teams
+        };
+
+        setStage('takeTile');
+    }
 
     return (
         <GameStageContext.Provider value={{

@@ -57,17 +57,16 @@ export const Board: React.FC<BoardProps> = ({
     // Management of game turn stages
     useEffect(() => {
         // Set starting map with one default tile (Empty map - stage 0)
-        if (stage === 'emptyMap')
+        if (stage === 'emptyMap') {
             setMap((new TilesMap()).getStartingMap(mapCenter, tileSize));
+            setStage('takeTile');
+        }
 
         if (stage == 'tilePlaced') placeTileCallback();
 
         if (stage == 'unitPlaced') scoring();
 
-        if (stage == 'endOfTurn') {
-            setStage('wait');
-            endOfTurn();
-        }
+        if (stage == 'endOfTurn') endOfTurn();
     }, [stage]);
 
     // ---------------------------------- //
@@ -145,8 +144,6 @@ export const Board: React.FC<BoardProps> = ({
                 });
             });
         }, 650);
-
-        console.log(score);
 
         setStage('endOfTurn');
     };

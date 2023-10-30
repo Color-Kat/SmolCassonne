@@ -1,6 +1,8 @@
-import React, {memo, useEffect} from 'react';
+import React, {memo, useContext, useEffect} from 'react';
 import tileBack from "@assets/tileBack.jpg";
 import {IMapTile, Tile} from "@pages/GamePage/classes/TilesDeck.tsx";
+import {GameStageContext} from "@pages/GamePage/gameContext.ts";
+import {twJoin} from "tailwind-merge";
 
 interface ControlPanelProps {
     currentTile: Tile | undefined;
@@ -16,9 +18,12 @@ export const ControlPanel: React.FC<ControlPanelProps> = memo(({
                                                                    setDeck
                                                                }) => {
 
+    const {stage} = useContext(GameStageContext);
+    const canTakeTile = stage === 'takeTile';
+
     // Get the top tile from the deck
     const takeTile = () => {
-        if (deck.length == 0 || currentTile) return;
+        if (deck.length == 0 || currentTile || !canTakeTile) return;
 
         const deckCopy = [...deck];
         setCurrentTile(deckCopy.pop()); // Retrieve the last tile in the deck
@@ -28,7 +33,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = memo(({
     };
 
     const rotateTile = (rotateValue: number) => {
-        if (!currentTile) return;
+        if (!currentTile || !canTakeTile) return;
 
         // if (rotateValue < 0) rotateValue = 4 + rotateValue;
         // setCurrentTile((tile) => (tile ?
@@ -38,11 +43,11 @@ export const ControlPanel: React.FC<ControlPanelProps> = memo(({
         //     } : undefined
         // ));
 
-       setCurrentTile(tile => {
-           if(!tile) return undefined;
-           const newTile = new Tile(tile);
-           return newTile.rotate(rotateValue);
-       })
+        setCurrentTile(tile => {
+            if (!tile) return undefined;
+            const newTile = new Tile(tile);
+            return newTile.rotate(rotateValue);
+        });
     };
 
     const rotateTileLeft = () => rotateTile(-1);
@@ -66,9 +71,16 @@ export const ControlPanel: React.FC<ControlPanelProps> = memo(({
         };
     }, [rotateTileLeft, rotateTileRight]);
 
+    console.log(canTakeTile, stage);
+
     return (
-        <div className="h-full w-56 flex flex-col items-center px-3 py-5 bg-gray-300 absolute z-50">
-            <div className="w-48 h-48 relative mb-16  transition-all">
+        <div
+            className={twJoin(
+                "h-full w-56 flex flex-col items-center px-3 py-5 bg-gray-300 absolute z-50",
+                !canTakeTile && "pointer-events-none"
+            )}
+        >
+            <div className="w-48 h-48 relative mb-16 transition-all">
                 {deck.length > 0 && <img
                     src={currentTile ? `/tiles/${currentTile.design}.png` : tileBack}
                     onClick={() => !currentTile ? takeTile() : null}
@@ -83,7 +95,9 @@ export const ControlPanel: React.FC<ControlPanelProps> = memo(({
                 {deck.length > 3 && <img src={tileBack} alt="" className="absolute w-full top-8  rounded-md"/>}
                 {deck.length > 2 && <img src={tileBack} alt="" className="absolute w-full top-6  rounded-md"/>}
                 {deck.length > 1 && <img src={tileBack} alt="" className="absolute w-full top-4  rounded-md"/>}
-                {deck.length === 0 && <div className="absolute w-full h-full top-4 rounded-md flex-center text-black font-bold">Колода закончилась</div>}
+                {deck.length === 0 &&
+                    <div className="absolute w-full h-full top-4 rounded-md flex-center text-black font-bold">Колода
+                        закончилась</div>}
             </div>
 
             <button

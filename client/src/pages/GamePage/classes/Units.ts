@@ -1,5 +1,7 @@
 import {BorderType, Tile} from "@pages/GamePage/classes/TilesDeck.tsx";
 
+export type UnitRoleType = 'traveler' | 'scientist' | 'astronaut';
+
 interface IUnit {
     id: number;
     team?: string;
@@ -8,7 +10,7 @@ interface IUnit {
     image: string;
     isOccupied: boolean;
 
-    role: 'traveler' | 'scientist';
+    role: UnitRoleType;
     scoreMultiplier: {[key: string]: number}
 }
 
@@ -20,7 +22,7 @@ export class Unit implements IUnit {
     public description: string;
     public image: string;
 
-    public role: 'traveler' | 'scientist';
+    public role: UnitRoleType;
     public scoreMultiplier: {[key: string]: number} = {city: 1, field1: 1, field2: 1, road1: 1, road2: 1, road3: 1, road4: 1 };
 
     public isOccupied: boolean;
@@ -33,8 +35,6 @@ export class Unit implements IUnit {
 
         this.role = unitData.role;
         this.scoreMultiplier = {...this.scoreMultiplier, ...unitData.scoreMultiplier}; // Rewrite default values
-
-        console.log(this.scoreMultiplier);
 
         this.isOccupied = unitData.isOccupied;
     }
@@ -66,6 +66,8 @@ export class Unit implements IUnit {
                 return 'Путешественник';
             case 'scientist':
                 return 'Учёный';
+            case 'scientist':
+                return 'Космонавт';
             default:
                 return 'Поэт';
         }
@@ -253,12 +255,23 @@ const scientist = new Unit({
     role: 'scientist',
     scoreMultiplier: {field1: 2, field2: 2}
 });
+
+const astronaut = new Unit({
+    id: 2,
+    name: 'Юрий Алексеевич Гагарин',
+    description: 'Ю́рий Алексе́евич Гага́рин — лётчик-космонавт СССР, Герой Советского Союза. Совершил первый полёт в космос',
+    image: 'https://biblioclub.ru/services/fks.php?fks_action=get_file&fks_id=31762774&fks_flag=2',
+    isOccupied: false,
+    role: 'astronaut',
+    scoreMultiplier: {'city': 2}
+});
 /* ----- Units definition ----- */
 
 // Set of units
 const listOfUnits = [
     traveler,
-    scientist
+    scientist,
+    astronaut
 ];
 
 /**
