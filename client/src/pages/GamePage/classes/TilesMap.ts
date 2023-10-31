@@ -1,4 +1,4 @@
-import {Tile} from "@pages/GamePage/classes/TilesDeck.tsx";
+import {ITile, Tile} from "@pages/GamePage/classes/TilesDeck.tsx";
 import {Unit} from "@pages/GamePage/classes/Units.ts";
 import React from "react";
 import {MapContext} from "@pages/GamePage/gameContext.ts";
@@ -13,6 +13,16 @@ export class TilesMap {
 
     constructor(tiles?: Tile[]) {
         this.tiles = tiles ?? [];
+    }
+
+    /**
+     * Restore a list of Tiles instances from a simple array of tile objects.
+     * @param tiles
+     */
+    static hydrate(tiles: ITile[]): Tile[] {
+        const hydratedTiles = tiles.map(tile => (new Tile(tile)));
+        return hydratedTiles;
+        // return new TilesMap(hydratedTiles);
     }
 
     private isDebug = false;

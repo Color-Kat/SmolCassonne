@@ -2,6 +2,8 @@ import {Unit, units as listOfUnits} from "@pages/GamePage/classes/Units.ts";
 
 export type TeamColorType = 'blue' | 'red';
 
+export type TeamsType = {[key in TeamColorType]: Team};
+
 interface ITeam {
     color: TeamColorType;
     name: string;
@@ -32,6 +34,34 @@ export class Team implements ITeam{
 
         return this;
         // Object.assign(this, team);
+    }
+
+    /**
+     * Restore Team instance from a simple object.
+     * @param team
+     */
+    static hydrate(team: ITeam): Team {
+        const newTeam = new Team();
+        newTeam.color = team.color;
+        newTeam.name = team.name;
+        newTeam.units = team.units.map(unit => new Unit(unit));
+        newTeam.score = team.score;
+
+        return newTeam;
+    }
+
+    /**
+     * Restore a full list Team instances from a simple object
+     * @param teams
+     */
+    static hydrateTeams(teams: {[key in TeamColorType]: ITeam}): TeamsType {
+        const hydratedTeams: TeamsType = {} as any;
+
+        for (const teamColor in teams) {
+            hydratedTeams[teamColor as TeamColorType] = Team.hydrate(teams[teamColor as TeamColorType]);
+        }
+
+        return hydratedTeams;
     }
 
     /**
@@ -74,7 +104,7 @@ export class Team implements ITeam{
 const teamColors: TeamColorType[] = ['red', 'blue'];
 
 // List of teams
-export const defaultTeams: {[key in TeamColorType]: Team} = {} as any;
+export const defaultTeams: TeamsType = {} as any;
 
 for (const teamColor of teamColors) {
     defaultTeams[teamColor] = new Team(teamColor);

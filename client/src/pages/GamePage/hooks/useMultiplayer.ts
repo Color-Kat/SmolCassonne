@@ -3,6 +3,7 @@ import {Tile} from "@pages/GamePage/classes/TilesDeck.tsx";
 import {Team, TeamColorType} from "@pages/GamePage/classes/teams.ts";
 import React from "react";
 import {Unit} from "@pages/GamePage/classes/Units.ts";
+import {TilesMap} from "@pages/GamePage/classes/TilesMap.ts";
 
 interface IMultiplayerState {
     map: Tile[],
@@ -35,19 +36,17 @@ export const useMultiplayer = (multiplayerState: IMultiplayerState) => {
      */
     const syncData = (data: IMultiplayerState) => {
 
-        // Dehydrate teams object
-        const teams: IMultiplayerState['teams'] = {} as any;
-        for (const teamColor in data.teams) {
-            const team = new Team();
-            team.createTeamFromObject(data.teams[teamColor as TeamColorType]);
 
-            teams[teamColor as TeamColorType] = team;
-        }
+        // const teams: IMultiplayerState['teams'] = {} as any;
+        // for (const teamColor in data.teams) {
+        //     teams[teamColor as TeamColorType] = Team.hydrate(data.teams[teamColor as TeamColorType]);
+        // }
 
-        // Dehydrate map object
-        const map: IMultiplayerState['map'] = data.map.map(tile => (
-            new Tile(tile)
-        ))
+        // Hydrate teams object
+        const teams = Team.hydrateTeams(data.teams);
+
+        // Hydrate map object
+        const map: IMultiplayerState['map'] = TilesMap.hydrate(data.map);
 
         multiplayerState.setMap(map);
         multiplayerState.setTeams(teams);
