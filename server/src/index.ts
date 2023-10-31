@@ -18,15 +18,6 @@ app.use('/', router);
 
 app.ws('/multiplayer', new MultiPlayerController().initWebsocket);
 
-// "imports": {
-//     "@/*": "./src",
-//         "@controllers/*": "./src/controllers/*",
-//         "@models/*": "./src/models/*",
-//         "@configs/*": "./src/configs/*",
-//         "@routes*": "./src/routes/*",
-//         "@modules/*": "./src/modules/*"
-// },
-
 app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`);
 })

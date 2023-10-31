@@ -27,10 +27,10 @@ export const useWebsocket = (url: string, onEventCallback: (method: string, data
         };
 
         // Close connection
-        return () => {
-            socketRef.current?.close();
-        };
-    });
+        // return () => {
+        //     socketRef.current?.close();
+        // };
+    }, []);
 
     const sendToWebsocket = (data: any) => {
         socketRef.current?.send(JSON.stringify(data));

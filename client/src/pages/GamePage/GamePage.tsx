@@ -38,7 +38,13 @@ export const GamePage = () => {
     // State for current tile
     const [currentTile, setCurrentTile] = useState<Tile | undefined>(undefined);
 
-    const endOfTurn = useCallback(() => {
+    /**
+     * Reset information states, reset current tile.
+     * Pass the move.
+     *
+     * @param updatedMap - use it because original map state is not updated here at the moment of running this function.
+     */
+    const endOfTurn = useCallback((updatedMap: Tile[]) => {
         // Hide tooltip, tile and unit information
         setTooltip("");
         setTileInformation(null);
@@ -48,22 +54,22 @@ export const GamePage = () => {
         setCurrentTile(undefined);
 
         // Pass the turn to the next player
-        handlePassTheMove();
+        handlePassTheMove(updatedMap);
     }, []);
 
     const {passTheMove} = useMultiplayer({map, setMap, teams, setTeams});
-    const handlePassTheMove = () => {
+    const handlePassTheMove = (updatedMap: Tile[]) => {
         // Change stage to wait
         setStage('wait');
 
         // Pass the move to the next player in the multiplayer
         passTheMove({
-            map,
+            map: updatedMap,
             teams
         })
 
         setStage('takeTile');
-    };
+    }
 
     return (
         <GameStageContext.Provider value={{

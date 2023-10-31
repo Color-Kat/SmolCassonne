@@ -2,16 +2,16 @@ import {useWebsocket} from "@hooks/useWebsocket.ts";
 import {Tile} from "@pages/GamePage/classes/TilesDeck.tsx";
 import {Team, TeamColorType} from "@pages/GamePage/classes/teams.ts";
 import React from "react";
+import {Unit} from "@pages/GamePage/classes/Units.ts";
 
 interface IMultiplayerState {
     map: Tile[],
     setMap: React.Dispatch<React.SetStateAction<Tile[]>>;
-    teams: {[key in TeamColorType]: Team};
-    setTeams: React.Dispatch<React.SetStateAction<{[key in TeamColorType]: Team}>>;
+    teams: { [key in TeamColorType]: Team };
+    setTeams: React.Dispatch<React.SetStateAction<{ [key in TeamColorType]: Team }>>;
 }
 
 export const useMultiplayer = (multiplayerState: IMultiplayerState) => {
-
     /**
      * Handle events from the server
      * @param method
@@ -34,9 +34,24 @@ export const useMultiplayer = (multiplayerState: IMultiplayerState) => {
      * @param data
      */
     const syncData = (data: IMultiplayerState) => {
-        multiplayerState.setMap(data.map);
-        multiplayerState.setTeams(data.teams);
-    }
+
+        // Dehydrate teams object
+        const teams: IMultiplayerState['teams'] = {} as any;
+        for (const teamColor in data.teams) {
+            const team = new Team();
+            team.createTeamFromObject(data.teams[teamColor as TeamColorType]);
+
+            teams[teamColor as TeamColorType] = team;
+        }
+
+        // Dehydrate map object
+        const map: IMultiplayerState['map'] = data.map.map(tile => (
+            new Tile(tile)
+        ))
+
+        multiplayerState.setMap(map);
+        multiplayerState.setTeams(teams);
+    };
 
     // Connect to the websocket server
     const {sendToWebsocket} = useWebsocket('ws://localhost:5000/multiplayer', handleMultiplayerEvents);
@@ -47,12 +62,13 @@ export const useMultiplayer = (multiplayerState: IMultiplayerState) => {
      */
     const passTheMove = (data: {
         map: Tile[],
-        teams: {[key: string]: Team}
+        teams: { [key: string]: Team }
     }) => {
-        console.log('passTheMove');
+        console.log('pass', data.map);
         sendToWebsocket({
             method: 'passTheMove',
-            ...data
+            map: data.map,
+            teams: data.teams
         });
     };
 

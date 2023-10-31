@@ -32,16 +32,12 @@ export const ControlPanel: React.FC<ControlPanelProps> = memo(({
         setDeck(deckCopy);
     };
 
+    /**
+     * Rotate tile for rotateValue positions.
+     * @param rotateValue
+     */
     const rotateTile = (rotateValue: number) => {
         if (!currentTile || !canTakeTile) return;
-
-        // if (rotateValue < 0) rotateValue = 4 + rotateValue;
-        // setCurrentTile((tile) => (tile ?
-        //     {
-        //         ...tile,
-        //         rotation: Math.abs((tile.rotation + rotateValue)) % 4
-        //     } : undefined
-        // ));
 
         setCurrentTile(tile => {
             if (!tile) return undefined;
@@ -70,8 +66,6 @@ export const ControlPanel: React.FC<ControlPanelProps> = memo(({
             document.removeEventListener('keydown', handleKeyPress);
         };
     }, [rotateTileLeft, rotateTileRight]);
-
-    console.log(canTakeTile, stage);
 
     return (
         <div

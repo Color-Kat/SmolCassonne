@@ -20,7 +20,7 @@ interface BoardProps {
     currentTile: Tile | undefined;
     setCurrentTile: React.Dispatch<React.SetStateAction<Tile | undefined>>;
 
-    endOfTurn: () => void;
+    endOfTurn: (updatedMap: Tile[]) => void;
 }
 
 
@@ -66,7 +66,7 @@ export const Board: React.FC<BoardProps> = ({
 
         if (stage == 'unitPlaced') scoring();
 
-        if (stage == 'endOfTurn') endOfTurn();
+        if (stage == 'endOfTurn') endOfTurn(map);
     }, [stage]);
 
     // ---------------------------------- //

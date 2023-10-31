@@ -18,7 +18,7 @@ export const MapContext = React.createContext<{
     setTileInformation: React.Dispatch<React.SetStateAction<Tile | null>>,
     setUnitInformation: React.Dispatch<React.SetStateAction<Unit | null>>,
 
-    endOfTurn: () => void;
+    endOfTurn: (updatedMap: Tile[]) => void;
 }>({} as any);
 
 export type GameStagesType = 'emptyMap' | 'takeTile' | 'tilePlaced' | 'unitPlaced' | 'scoring' | 'endOfTurn' | 'wait';
