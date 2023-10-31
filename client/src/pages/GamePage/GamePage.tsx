@@ -1,5 +1,5 @@
 import {Helmet} from "react-helmet";
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import TilesDeck, {Tile} from "./classes/TilesDeck";
 import {Unit, units as listOfUnits} from "./classes/Units.ts";
 import {Board} from "./modules/Board/Board";
@@ -9,6 +9,7 @@ import {Teams} from "@pages/GamePage/modules/Teams/Teams.tsx";
 import {GameStageContext, GameStagesType, MapContext} from "@pages/GamePage/gameContext.ts";
 import {Information} from "@pages/GamePage/modules/Inforamtion/Information.tsx";
 import {defaultTeams} from "@pages/GamePage/classes/teams.ts";
+import {useMultiplayer} from "@pages/GamePage/hooks/useMultiplayer.ts";
 
 /**
  * This component renders the game page.
@@ -18,7 +19,6 @@ import {defaultTeams} from "@pages/GamePage/classes/teams.ts";
  * @constructor
  */
 export const GamePage = () => {
-
     const myTeamColor = 'blue';
 
     const [teams, setTeams] = useState(defaultTeams);
@@ -33,9 +33,8 @@ export const GamePage = () => {
 
     // Get shuffled deck of tiles
     const [deck, setDeck] = useState((new TilesDeck()).getShuffledDeck());
-    const [units, setUnits] = useState(listOfUnits);
+    // Map state
     const [map, setMap] = useState<Tile[]>([]);
-
     // State for current tile
     const [currentTile, setCurrentTile] = useState<Tile | undefined>(undefined);
 
@@ -49,35 +48,22 @@ export const GamePage = () => {
         setCurrentTile(undefined);
 
         // Pass the turn to the next player
-        passTheTurn()
+        handlePassTheMove();
     }, []);
 
-    const passTheTurn = () => {
+    const {passTheMove} = useMultiplayer({map, setMap, teams, setTeams});
+    const handlePassTheMove = () => {
         // Change stage to wait
         setStage('wait');
 
-        // Generating data to send to other players
-        const data = {
+        // Pass the move to the next player in the multiplayer
+        passTheMove({
             map,
             teams
-        };
+        })
 
         setStage('takeTile');
-    }
-
-    useEffect(() => {
-       const socket = new WebSocket('ws://localhost:5000/multiplayer');
-
-       socket.onopen = () => {
-           console.log('Connected');
-       }
-
-       socket.onmessage = (event) => {
-           console.log(event.data);
-       }
-
-       setTimeout(() => socket.send('hi, server'), 1000)
-    });
+    };
 
     return (
         <GameStageContext.Provider value={{
