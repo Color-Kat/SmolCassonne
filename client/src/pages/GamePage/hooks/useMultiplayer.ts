@@ -35,13 +35,6 @@ export const useMultiplayer = (multiplayerState: IMultiplayerState) => {
      * @param data
      */
     const syncData = (data: IMultiplayerState) => {
-
-
-        // const teams: IMultiplayerState['teams'] = {} as any;
-        // for (const teamColor in data.teams) {
-        //     teams[teamColor as TeamColorType] = Team.hydrate(data.teams[teamColor as TeamColorType]);
-        // }
-
         // Hydrate teams object
         const teams = Team.hydrateTeams(data.teams);
 
