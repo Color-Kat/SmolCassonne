@@ -28,6 +28,8 @@ export class Unit implements IUnit {
     public isOccupied: boolean;
 
     constructor(unitData: IUnit) {
+        if(unitData.team) this.team = unitData.team
+
         this.id = unitData.id;
         this.name = unitData.name;
         this.description = unitData.description;

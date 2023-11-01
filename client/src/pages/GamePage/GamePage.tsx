@@ -8,7 +8,7 @@ import {ControlPanel} from "@pages/GamePage/modules/ControlPanel/ControlPanel.ts
 import {Teams} from "@pages/GamePage/modules/Teams/Teams.tsx";
 import {GameStageContext, GameStagesType, MapContext} from "@pages/GamePage/gameContext.ts";
 import {Information} from "@pages/GamePage/modules/Inforamtion/Information.tsx";
-import {defaultTeams} from "@pages/GamePage/classes/teams.ts";
+import {defaultTeams, TeamsType} from "@pages/GamePage/classes/teams.ts";
 import {useMultiplayer} from "@pages/GamePage/hooks/useMultiplayer.ts";
 
 /**
@@ -44,7 +44,7 @@ export const GamePage = () => {
      *
      * @param updatedMap - use it because original map state is not updated here at the moment of running this function.
      */
-    const endOfTurn = useCallback((updatedMap: Tile[]) => {
+    const endOfTurn = useCallback(() => {
         // Hide tooltip, tile and unit information
         setTooltip("");
         setTileInformation(null);
@@ -54,18 +54,21 @@ export const GamePage = () => {
         setCurrentTile(undefined);
 
         // Pass the turn to the next player
-        handlePassTheMove(updatedMap);
-    }, []);
+        handlePassTheMove(map, teams);
+    }, [map, teams]);
+    useEffect(() => {
+        if (stage === 'endOfTurn') endOfTurn();
+    }, [stage])
 
     const {passTheMove} = useMultiplayer({map, setMap, teams, setTeams});
-    const handlePassTheMove = (updatedMap: Tile[]) => {
+    const handlePassTheMove = (updatedMap: Tile[], updatedTeams: TeamsType) => {
         // Change stage to wait
         setStage('wait');
 
         // Pass the move to the next player in the multiplayer
         passTheMove({
-            map: updatedMap,
-            teams
+            map: map,
+            teams: teams
         })
 
         setStage('takeTile');

@@ -56,7 +56,7 @@ export const useMultiplayer = (multiplayerState: IMultiplayerState) => {
         map: Tile[],
         teams: { [key: string]: Team }
     }) => {
-        console.log('pass', data.map);
+        console.log('pass', data.teams);
         sendToWebsocket({
             method: 'passTheMove',
             map: data.map,

@@ -13,14 +13,14 @@ import {MapTile} from "@pages/GamePage/modules/Board/components/MapTile.tsx";
 import {GameStageContext, GameStagesType, MapContext} from "@pages/GamePage/gameContext.ts";
 import {TilesMap} from "@pages/GamePage/classes/TilesMap.ts";
 import {useLogoutMutation} from "@/store/auth/auth.api.ts";
-import {TeamColorType} from "@pages/GamePage/classes/teams.ts";
+import {TeamColorType, TeamsType} from "@pages/GamePage/classes/teams.ts";
 
 
 interface BoardProps {
     currentTile: Tile | undefined;
     setCurrentTile: React.Dispatch<React.SetStateAction<Tile | undefined>>;
 
-    endOfTurn: (updatedMap: Tile[]) => void;
+    endOfTurn: (updatedMap: Tile[], updatedTeams: TeamsType) => void;
 }
 
 
@@ -42,6 +42,7 @@ export const Board: React.FC<BoardProps> = ({
         setMap,
 
         myTeamColor,
+        teams,
         setTeams,
 
         setTooltip,
@@ -65,8 +66,6 @@ export const Board: React.FC<BoardProps> = ({
         if (stage == 'tilePlaced') placeTileCallback();
 
         if (stage == 'unitPlaced') scoring();
-
-        if (stage == 'endOfTurn') endOfTurn(map);
     }, [stage]);
 
     // ---------------------------------- //
@@ -116,6 +115,8 @@ export const Board: React.FC<BoardProps> = ({
         const score = result.score;
         const freeUnitIds = result.freeUnitIds;
 
+        console.log(score);
+
         // Update teams data
         setTeams(prev => {
             const newTeams = {...prev};
@@ -143,9 +144,8 @@ export const Board: React.FC<BoardProps> = ({
                     return tile;
                 });
             });
-        }, 650);
-
-        setStage('endOfTurn');
+            setStage('endOfTurn');
+        }, 250);
     };
 
     return (

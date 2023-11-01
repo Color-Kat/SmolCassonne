@@ -21,6 +21,7 @@ export class TilesMap {
      */
     static hydrate(tiles: ITile[]): Tile[] {
         const hydratedTiles = tiles.map(tile => (new Tile(tile)));
+        console.log(hydratedTiles);
         return hydratedTiles;
         // return new TilesMap(hydratedTiles);
     }

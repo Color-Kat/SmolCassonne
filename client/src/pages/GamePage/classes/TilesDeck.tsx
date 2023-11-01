@@ -138,7 +138,8 @@ export class Tile implements ITile {
             this.rotation = tile.rotation ?? 0;
             this.units = tile.units ?? [null, null, null, null];
         } else {
-            if(tile.rotation) this.rotate(tile.rotation);
+            if(tile.rotation) this.rotate(tile.rotation, false);
+            this.units = tile.units?.map(unit => unit ? new Unit(unit) : null) ?? [null, null, null, null];
             // this.rotation = 0;
             // this.units = [null, null, null, null];
         }
@@ -184,12 +185,13 @@ export class Tile implements ITile {
      * Rotate the tile by rotateValue.
      * 0 - top, 1 - right, 2 - bottom, 3 - left
      * @param rotateValue
+     * @param shift
      */
-    public rotate(rotateValue: number) {
+    public rotate(rotateValue: number, shift: boolean = true) {
         if (rotateValue < 0) rotateValue = 4 + rotateValue;
         this.rotation = Math.abs((this.rotation + rotateValue)) % 4;
 
-        this.shiftAll(rotateValue);
+        if(shift) this.shiftAll(rotateValue);
 
         return this;
     }
