@@ -7,21 +7,32 @@ interface InformationProps {
     tileInformation: Tile | null;
     unitInformation: Unit | null;
     tooltip: string;
+    infoMessage: string;
 }
 
 export const Information: React.FC<InformationProps> = memo(({
                                                              tileInformation,
                                                              unitInformation,
-                                                             tooltip
+                                                             tooltip,
+                                                             infoMessage
                                                              }) => {
 
-    const {setTooltip, setUnitInformation, setTileInformation} = React.useContext(MapContext);
+    const {setInfoMessage, setTooltip, setUnitInformation, setTileInformation} = React.useContext(MapContext);
 
     const closeInformation = useCallback(() => {
+        setInfoMessage('');
         setTooltip('');
         setUnitInformation(null);
         setTileInformation(null);
     }, []);
+
+    if(infoMessage)
+        return (
+            <div className="absolute right-0 bottom-0 bg-black/40 rounded-tl-xl z-50 p-4 text-gray-100 cursor-pointer" onClick={closeInformation}>
+                {/*<h3 className="text-xl font-semibold">Информация</h3>*/}
+                <p className="text-gray-300">{infoMessage}</p>
+            </div>
+        );
 
     if(tooltip)
         return (

@@ -34,9 +34,10 @@ export const GamePage = () => {
     const [stage, setStage] = useState<GameStagesType>('emptyMap');
 
     // States for information about current tile, unit and tooltip.
+    const [infoMessage, setInfoMessage] = useState("");
+    const [tooltip, setTooltip] = useState("");
     const [tileInformation, setTileInformation] = useState<Tile | null>(null);
     const [unitInformation, setUnitInformation] = useState<Unit | null>(null);
-    const [tooltip, setTooltip] = useState("");
 
     // Get shuffled deck of tiles
     const [deck, setDeck] = useState((new TilesDeck()).getShuffledDeck());
@@ -49,7 +50,8 @@ export const GamePage = () => {
     const {joinRoom, passTheMove} = useMultiplayer({
         setMyTeamColor,
         map, setMap,
-        teams, setTeams
+        teams, setTeams,
+        setInfoMessage
     });
 
     useEffect(() => {
@@ -122,6 +124,7 @@ export const GamePage = () => {
                         setMap,
                         currentTile,
 
+                        setInfoMessage,
                         setTooltip,
                         setTileInformation,
                         setUnitInformation,
@@ -155,6 +158,7 @@ export const GamePage = () => {
                                 tileInformation={tileInformation}
                                 unitInformation={unitInformation}
                                 tooltip={tooltip}
+                                infoMessage={infoMessage}
                             />
                         </div>
                     </MapContext.Provider>

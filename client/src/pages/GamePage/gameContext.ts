@@ -14,6 +14,7 @@ export const MapContext = React.createContext<{
     setMap: React.Dispatch<React.SetStateAction<Tile[]>>,
     currentTile: Tile | undefined,
 
+    setInfoMessage: React.Dispatch<React.SetStateAction<string>>,
     setTooltip: React.Dispatch<React.SetStateAction<string>>,
     setTileInformation: React.Dispatch<React.SetStateAction<Tile | null>>,
     setUnitInformation: React.Dispatch<React.SetStateAction<Unit | null>>,

@@ -153,7 +153,8 @@ export class MultiPlayerController extends AbstractController {
     }
 
     /**
-     *
+     * Pass the turn to the next player
+     * and sync data between all users.
      *
      * @param request
      */

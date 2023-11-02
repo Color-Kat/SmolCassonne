@@ -8,10 +8,13 @@ import {IUser} from "@/store/auth/auth.slice.ts";
 
 interface IMultiplayerState {
     setMyTeamColor: React.Dispatch<React.SetStateAction<TeamColorType | null>>;
-    map: Tile[],
-    setMap: React.Dispatch<React.SetStateAction<Tile[]>>;
     teams: { [key in TeamColorType]: Team };
     setTeams: React.Dispatch<React.SetStateAction<{ [key in TeamColorType]: Team }>>;
+
+    map: Tile[],
+    setMap: React.Dispatch<React.SetStateAction<Tile[]>>;
+
+    setInfoMessage: React.Dispatch<React.SetStateAction<string>>;
 }
 
 interface MultiPlayerRequest<T = undefined> {
@@ -39,6 +42,10 @@ export const useMultiplayer = (multiplayerState: IMultiplayerState) => {
                 setMyTeam(data);
                 break;
 
+            case 'message':
+                showMessage(data);
+                break;
+
             case 'syncData':
                 syncData(data);
                 break;
@@ -51,8 +58,15 @@ export const useMultiplayer = (multiplayerState: IMultiplayerState) => {
 
     /* <<<<<<<<<<<<< Handle events from the server >>>>>>>>>>>>>>>> */
 
+    const showMessage = (data: {message: string}) => {
+        multiplayerState.setInfoMessage(data.message);
+    }
+
+    /**
+     * Set team of the player.
+     * @param data
+     */
     const setMyTeam = (data: {team: string}) => {
-        console.log('team:', data);
         multiplayerState.setMyTeamColor(data.team as TeamColorType);
     };
 
