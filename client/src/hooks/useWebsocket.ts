@@ -33,6 +33,7 @@ export const useWebsocket = (url: string, onEventCallback: (method: string, data
     }, []);
 
     const sendToWebsocket = (data: any) => {
+        // if(socketRef.current?.readyState !== WebSocket.OPEN) return false;
         socketRef.current?.send(JSON.stringify(data));
     };
 

@@ -3,13 +3,6 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 export interface IUser {
     id: number;
     name: string;
-    email: string;
-    email_verified_at: null|string;
-
-    role_id: Roles;
-
-    updated_at: string;
-    created_at: string;
 }
 
 export enum Roles {

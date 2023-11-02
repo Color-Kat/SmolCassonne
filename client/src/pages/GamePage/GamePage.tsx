@@ -10,6 +10,7 @@ import {GameStageContext, GameStagesType, MapContext} from "@pages/GamePage/game
 import {Information} from "@pages/GamePage/modules/Inforamtion/Information.tsx";
 import {defaultTeams, TeamsType} from "@pages/GamePage/classes/teams.ts";
 import {useMultiplayer} from "@pages/GamePage/hooks/useMultiplayer.ts";
+import {IUser} from "@/store/auth/auth.slice.ts";
 
 /**
  * This component renders the game page.
@@ -19,6 +20,11 @@ import {useMultiplayer} from "@pages/GamePage/hooks/useMultiplayer.ts";
  * @constructor
  */
 export const GamePage = () => {
+    const roomId = '1'
+    const user: IUser = {
+        id: 1,
+        name: 'ColorKat',
+    };
     const myTeamColor = 'blue';
 
     const [teams, setTeams] = useState(defaultTeams);
@@ -37,6 +43,16 @@ export const GamePage = () => {
     const [map, setMap] = useState<Tile[]>([]);
     // State for current tile
     const [currentTile, setCurrentTile] = useState<Tile | undefined>(undefined);
+
+    // Retrieve methods for multiplayer
+    const {joinRoom, passTheMove} = useMultiplayer({map, setMap, teams, setTeams});
+
+    useEffect(() => {
+        setTimeout(() => {
+            // Join user to the room
+            joinRoom(roomId, user);
+        }, 1000);
+    }, []);
 
     /**
      * Reset information states, reset current tile.
@@ -60,15 +76,18 @@ export const GamePage = () => {
         if (stage === 'endOfTurn') endOfTurn();
     }, [stage])
 
-    const {passTheMove} = useMultiplayer({map, setMap, teams, setTeams});
     const handlePassTheMove = (updatedMap: Tile[], updatedTeams: TeamsType) => {
         // Change stage to wait
         setStage('wait');
 
         // Pass the move to the next player in the multiplayer
         passTheMove({
-            map: map,
-            teams: teams
+            roomId,
+            user,
+            data: {
+                map: map,
+                teams: teams
+            }
         })
 
         setStage('takeTile');
