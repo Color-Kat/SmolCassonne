@@ -8,9 +8,10 @@ import {ControlPanel} from "@pages/GamePage/modules/ControlPanel/ControlPanel.ts
 import {Teams} from "@pages/GamePage/modules/Teams/Teams.tsx";
 import {GameStageContext, GameStagesType, MapContext} from "@pages/GamePage/gameContext.ts";
 import {Information} from "@pages/GamePage/modules/Inforamtion/Information.tsx";
-import {defaultTeams, TeamsType} from "@pages/GamePage/classes/teams.ts";
+import {defaultTeams, TeamColorType, TeamsType} from "@pages/GamePage/classes/teams.ts";
 import {useMultiplayer} from "@pages/GamePage/hooks/useMultiplayer.ts";
 import {IUser} from "@/store/auth/auth.slice.ts";
+import {RainbowLoader} from "@UI/Loaders";
 
 /**
  * This component renders the game page.
@@ -20,13 +21,13 @@ import {IUser} from "@/store/auth/auth.slice.ts";
  * @constructor
  */
 export const GamePage = () => {
-    const roomId = '1'
+    const roomId = '1';
     const user: IUser = {
         id: 1,
         name: 'ColorKat',
     };
-    const myTeamColor = 'blue';
 
+    const [myTeamColor, setMyTeamColor] = useState<TeamColorType|null>(null); // Will be set by server
     const [teams, setTeams] = useState(defaultTeams);
 
     // State with current stage of the game
@@ -45,7 +46,11 @@ export const GamePage = () => {
     const [currentTile, setCurrentTile] = useState<Tile | undefined>(undefined);
 
     // Retrieve methods for multiplayer
-    const {joinRoom, passTheMove} = useMultiplayer({map, setMap, teams, setTeams});
+    const {joinRoom, passTheMove} = useMultiplayer({
+        setMyTeamColor,
+        map, setMap,
+        teams, setTeams
+    });
 
     useEffect(() => {
         setTimeout(() => {
@@ -74,7 +79,7 @@ export const GamePage = () => {
     }, [map, teams]);
     useEffect(() => {
         if (stage === 'endOfTurn') endOfTurn();
-    }, [stage])
+    }, [stage]);
 
     const handlePassTheMove = (updatedMap: Tile[], updatedTeams: TeamsType) => {
         // Change stage to wait
@@ -88,10 +93,10 @@ export const GamePage = () => {
                 map: map,
                 teams: teams
             }
-        })
+        });
 
         setStage('takeTile');
-    }
+    };
 
     return (
         <GameStageContext.Provider value={{
@@ -104,52 +109,56 @@ export const GamePage = () => {
                     <link rel="canonical" href={import.meta.env.VITE_APP_URL + '/game'}/>
                 </Helmet>
 
-                <MapContext.Provider value={{
-                    myTeamColor,
-                    teams,
-                    setTeams,
+                {!myTeamColor && <RainbowLoader className="mt-24" />}
 
-                    tileSize: 192,
-                    map,
-                    setMap,
-                    currentTile,
+                {myTeamColor &&
+                    <MapContext.Provider value={{
+                        myTeamColor,
+                        teams,
+                        setTeams,
 
-                    setTooltip,
-                    setTileInformation,
-                    setUnitInformation,
+                        tileSize: 192,
+                        map,
+                        setMap,
+                        currentTile,
 
-                    endOfTurn
-                }}>
-                    <div className="flex h-full w-full relative">
-                        {/* Control panel with buttons and the deck of tiles */}
-                        <ControlPanel
-                            currentTile={currentTile}
-                            setCurrentTile={setCurrentTile}
-                            deck={deck}
-                            setDeck={setDeck}
-                        />
+                        setTooltip,
+                        setTileInformation,
+                        setUnitInformation,
 
-                        {/* Users list and score */}
-                        <Teams
-                            teams={teams}
-                        />
+                        endOfTurn
+                    }}>
+                        <div className="flex h-full w-full relative">
+                            {/* Control panel with buttons and the deck of tiles */}
+                            <ControlPanel
+                                currentTile={currentTile}
+                                setCurrentTile={setCurrentTile}
+                                deck={deck}
+                                setDeck={setDeck}
+                            />
 
-                        {/* Board with the map */}
-                        <Board
-                            currentTile={currentTile}
-                            setCurrentTile={setCurrentTile}
+                            {/* Users list and score */}
+                            <Teams
+                                teams={teams}
+                            />
 
-                            endOfTurn={endOfTurn}
-                        />
+                            {/* Board with the map */}
+                            <Board
+                                currentTile={currentTile}
+                                setCurrentTile={setCurrentTile}
 
-                        {/* Information about placed tile */}
-                        <Information
-                            tileInformation={tileInformation}
-                            unitInformation={unitInformation}
-                            tooltip={tooltip}
-                        />
-                    </div>
-                </MapContext.Provider>
+                                endOfTurn={endOfTurn}
+                            />
+
+                            {/* Information about placed tile */}
+                            <Information
+                                tileInformation={tileInformation}
+                                unitInformation={unitInformation}
+                                tooltip={tooltip}
+                            />
+                        </div>
+                    </MapContext.Provider>
+                }
             </div>
         </GameStageContext.Provider>
     );

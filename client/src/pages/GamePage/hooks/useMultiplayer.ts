@@ -7,6 +7,7 @@ import {TilesMap} from "@pages/GamePage/classes/TilesMap.ts";
 import {IUser} from "@/store/auth/auth.slice.ts";
 
 interface IMultiplayerState {
+    setMyTeamColor: React.Dispatch<React.SetStateAction<TeamColorType | null>>;
     map: Tile[],
     setMap: React.Dispatch<React.SetStateAction<Tile[]>>;
     teams: { [key in TeamColorType]: Team };
@@ -14,18 +15,17 @@ interface IMultiplayerState {
 }
 
 interface MultiPlayerRequest<T = undefined> {
+    method?: string;
     roomId: string;
     user: IUser;
-    method?: string;
 
     data: T;
 }
 
 type MultiplayerSyncRequest = MultiPlayerRequest<{
-    map: any[];
-    teams: any[];
+    map: Tile[],
+    teams: { [key: string]: Team }
 }>;
-
 
 export const useMultiplayer = (multiplayerState: IMultiplayerState) => {
     /**
@@ -35,6 +35,10 @@ export const useMultiplayer = (multiplayerState: IMultiplayerState) => {
      */
     const handleMultiplayerEvents = (method: string, data: any) => {
         switch (method) {
+            case 'setMyTeam':
+                setMyTeam(data);
+                break;
+
             case 'syncData':
                 syncData(data);
                 break;
@@ -46,6 +50,11 @@ export const useMultiplayer = (multiplayerState: IMultiplayerState) => {
     };
 
     /* <<<<<<<<<<<<< Handle events from the server >>>>>>>>>>>>>>>> */
+
+    const setMyTeam = (data: {team: string}) => {
+        console.log('team:', data);
+        multiplayerState.setMyTeamColor(data.team as TeamColorType);
+    };
 
     /**
      * Update local game state by data from multiplayer server
@@ -68,10 +77,15 @@ export const useMultiplayer = (multiplayerState: IMultiplayerState) => {
 
     /* <<<<<<<<<<<<< Send events to the server >>>>>>>>>>>>>>>> */
 
+    /**
+     * Send request to join user to the room with roomId
+     * @param roomId
+     * @param user
+     */
     const joinRoom = (roomId: string, user: IUser) => {
         sendToWebsocket({
-            roomId: roomId,
             method: 'joinRoom',
+            roomId: roomId,
             user: user
         });
     }
@@ -80,11 +94,7 @@ export const useMultiplayer = (multiplayerState: IMultiplayerState) => {
      * Send the request to pass the move to the next player.
      * @param request
      */
-    const passTheMove = (request: MultiPlayerRequest<{
-        map: Tile[],
-        teams: { [key: string]: Team }
-    }>) => {
-        console.log('passTheMove', request);
+    const passTheMove = (request: MultiplayerSyncRequest) => {
         sendToWebsocket({
             roomId: request.roomId,
             method: 'passTheMove',

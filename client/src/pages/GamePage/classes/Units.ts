@@ -1,10 +1,11 @@
 import {BorderType, Tile} from "@pages/GamePage/classes/TilesDeck.tsx";
+import {Team, TeamColorType} from "@pages/GamePage/classes/teams.ts";
 
 export type UnitRoleType = 'traveler' | 'scientist' | 'astronaut';
 
 interface IUnit {
     id: number;
-    team?: string;
+    team?: TeamColorType|null;
     name: string;
     description: string;
     image: string;
@@ -17,7 +18,7 @@ interface IUnit {
 export class Unit implements IUnit {
 
     public id: number;
-    public team: string = '';
+    public team: TeamColorType|null = null;
     public name: string;
     public description: string;
     public image: string;
@@ -52,7 +53,7 @@ export class Unit implements IUnit {
         return {0: 't', 1: 'r', 2: 'b', 3: 'l'}[side];
     }
 
-    public setTeam(team: string) {
+    public setTeam(team: TeamColorType) {
         this.team = team;
         return this;
     }
@@ -280,7 +281,7 @@ const listOfUnits = [
  * Get a list of units and set a team for every unit.
  * @param team
  */
-function getUnitsByTeam(team: string) {
+function getUnitsByTeam(team: TeamColorType) {
     return listOfUnits.map(unit => {
         const teamUnit = new Unit(unit);
         return teamUnit.setTeam(team);
