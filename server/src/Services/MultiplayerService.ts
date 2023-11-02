@@ -24,7 +24,11 @@ export class MultiplayerService {
 
     private teams = ['blue', 'red', 'green'];
 
-    public joinRoom(roomId: string, players: WSClient[]): string {
+    /**
+     * Return the first free team color.
+     * @param players
+     */
+    public getFreeTeam(players: WSClient[]): string {
         // List of free teams (blue, red, etc.)
         let freeTeams = this.teams;
 
@@ -37,7 +41,25 @@ export class MultiplayerService {
         return freeTeams[0];
     }
 
-    public passTheMove(): void {
+    /**
+     * Return the next player id.
+     * @param players
+     */
+    public getNextPlayerId(players: WSClient[]): string {
+        let currentPlayerIndex = 0;
+
+        for (let i = 0; i < players.length; i++) {
+            if(players[i].currentPlayer) {
+                currentPlayerIndex = i;
+                break;
+            }
+        }
+
+        const nextPlayerIndex = (currentPlayerIndex + 1) % players.length;
+
+        console.log('next', currentPlayerIndex, nextPlayerIndex);
+
+        return players[nextPlayerIndex].user?.id ?? "";
     }
 
 }

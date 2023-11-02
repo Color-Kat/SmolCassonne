@@ -23,7 +23,7 @@ import {RainbowLoader} from "@UI/Loaders";
 export const GamePage = () => {
     const roomId = '1';
     const user: IUser = {
-        id: 1,
+        id: Date.now(),
         name: 'ColorKat',
     };
 

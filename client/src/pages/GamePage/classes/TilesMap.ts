@@ -21,7 +21,6 @@ export class TilesMap {
      */
     static hydrate(tiles: ITile[]): Tile[] {
         const hydratedTiles = tiles.map(tile => (new Tile(tile)));
-        console.log(hydratedTiles);
         return hydratedTiles;
         // return new TilesMap(hydratedTiles);
     }
@@ -360,6 +359,7 @@ export class TilesMap {
             const rawPoints = pointsWeight * objectData.count;
 
             for (const unit of objectData.units) {
+                if(!unit.team) continue;
                 score[unit.team] = rawPoints * unit.scoreMultiplier[objectName];
                 freeUnitIds.push(unit.id);
             }

@@ -26,7 +26,7 @@ type MultiplayerSyncRequest = MultiPlayerRequest<{
  * This controller must get data from ws request and send data using ws. All logic is in the multiplayer service.
  */
 export class MultiPlayerController extends AbstractController {
-    private ws: WSClient|null = null;
+    private ws: WSClient | null = null;
 
     // /**
     //  * Websocket server instance
@@ -78,8 +78,8 @@ export class MultiPlayerController extends AbstractController {
                     console.log('Unknown method: ', data.method);
                     break;
             }
-        })
-    }
+        });
+    };
 
     /**
      * Broadcast data from callback to all clients of this roomId.
@@ -89,14 +89,14 @@ export class MultiPlayerController extends AbstractController {
      */
     private broadcast = (roomId: string, callback: (client: WSClient) => {}) => {
         this.aWss.clients.forEach((client: WSClient) => {
-            if(client.roomId != roomId) return; // Skip other rooms
+            if (client.roomId != roomId) return; // Skip other rooms
 
             const result = callback(client);
 
             // Send a message
             client.send(JSON.stringify(result));
         });
-    }
+    };
 
     /**
      * Return array of the players from the roomId room.
@@ -104,7 +104,7 @@ export class MultiPlayerController extends AbstractController {
      * @private
      */
     private getRoomPlayers(roomId: string): WSClient[] {
-        return Object.values(this.aWss.clients).filter((client: WSClient) => client.roomId == roomId);
+        return [...this.aWss.clients].filter((client: WSClient) => client.roomId == roomId);
     }
 
     /**
@@ -114,7 +114,7 @@ export class MultiPlayerController extends AbstractController {
      * @param request
      */
     public joinRoomHandler(request: MultiPlayerRequest): void {
-        if(!this.ws) return;
+        if (!this.ws) return;
 
         // Send a message about new player
         this.broadcast(request.roomId, (client: WSClient) => ({
@@ -133,22 +133,23 @@ export class MultiPlayerController extends AbstractController {
      * @param request
      */
     public assignTeam(request: MultiPlayerRequest): void {
-        if(!this.ws) return;
+        if (!this.ws) return;
         const roomId = request.roomId;
 
         // Get team for just connected player
-        const team = this.multiplayerService.joinRoom(roomId, this.getRoomPlayers(roomId));
+        const team = this.multiplayerService.getFreeTeam(this.getRoomPlayers(roomId));
 
         // Save user data for this ws connection
         this.ws.roomId = request.roomId;
         this.ws.user = request.user;
         this.ws.team = team;
+        this.ws.currentPlayer = false;
 
         // Send to just connected user his team
         this.ws.send(JSON.stringify({
             method: 'setMyTeam',
             team: this.ws.team
-        }))
+        }));
     }
 
     /**
@@ -157,12 +158,24 @@ export class MultiPlayerController extends AbstractController {
      * @param request
      */
     public passTheMoveHandler = (request: MultiplayerSyncRequest): void => {
-        if(!this.ws) return;
+        if (!this.ws) return;
+        const roomId = request.roomId;
 
-        this.broadcast(request.roomId, (client: WSClient) => ({
-            ...request.data,
-            activePlayer: false,
-            method: 'syncData',
-        }))
-    }
+        // Get the next player user id
+        const activePlayerId = this.multiplayerService.getNextPlayerId(this.getRoomPlayers(roomId));
+
+        this.broadcast(roomId, (client: WSClient) => {
+            // Pass the turn
+            if(client.user?.id == activePlayerId) client.currentPlayer = true;
+
+            // Sync data between all players
+            return {
+                data: {
+                    ...request.data,
+                    activePlayer: client.user?.id == activePlayerId,
+                },
+                method: 'syncData',
+            };
+        });
+    };
 }
