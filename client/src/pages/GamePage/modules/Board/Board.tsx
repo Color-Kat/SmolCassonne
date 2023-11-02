@@ -60,7 +60,6 @@ export const Board: React.FC<BoardProps> = ({
         // Set starting map with one default tile (Empty map - stage 0)
         if (stage === 'emptyMap') {
             setMap((new TilesMap()).getStartingMap(mapCenter, tileSize));
-            setStage('takeTile');
         }
 
         if (stage == 'tilePlaced') placeTileCallback();

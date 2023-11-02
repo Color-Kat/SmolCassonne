@@ -5,5 +5,5 @@ export interface WSClient extends WebSocket {
     roomId?: string;
     user?: IUser;
     team?: string;
-    currentPlayer?: boolean;
+    isCurrentPlayer?: boolean;
 }

@@ -62,20 +62,24 @@ export class MultiPlayerController extends AbstractController {
         this.ws = ws;
 
         this.ws.on('message', (message: string) => {
-            const data: MultiPlayerRequest<any> = JSON.parse(message);
-            console.log(data);
+            const request: MultiPlayerRequest<any> = JSON.parse(message);
+            // console.log(data);
 
-            switch (data.method) {
+            switch (request.method) {
                 case 'joinRoom':
-                    this.joinRoomHandler(data);
+                    this.joinRoomHandler(request);
+                    break;
+
+                case 'startGame':
+                    this.startGameHandler(request);
                     break;
 
                 case 'passTheMove':
-                    this.passTheMoveHandler(data);
+                    this.passTheMoveHandler(request);
                     break;
 
                 default:
-                    console.log('Unknown method: ', data.method);
+                    console.log('Unknown method: ', request.method);
                     break;
             }
         });
@@ -125,6 +129,16 @@ export class MultiPlayerController extends AbstractController {
         this.assignTeam(request);
     }
 
+    public startGameHandler(request: MultiPlayerRequest): void {
+        if (!this.ws) return;
+
+        // Send a message about new player
+        this.broadcast(request.roomId, (client: WSClient) => ({
+            method: 'startGame',
+
+        }));
+    }
+
     /**
      * Assign a team for the new player.
      * Save user data for this ws connection,
@@ -143,7 +157,7 @@ export class MultiPlayerController extends AbstractController {
         this.ws.roomId = request.roomId;
         this.ws.user = request.user;
         this.ws.team = team;
-        this.ws.currentPlayer = false;
+        this.ws.isCurrentPlayer = false;
 
         // Send to just connected user his team
         this.ws.send(JSON.stringify({
@@ -164,16 +178,17 @@ export class MultiPlayerController extends AbstractController {
 
         // Get the next player user id
         const activePlayerId = this.multiplayerService.getNextPlayerId(this.getRoomPlayers(roomId));
+        console.log('activePlayerId', activePlayerId);
 
         this.broadcast(roomId, (client: WSClient) => {
             // Pass the turn
-            if(client.user?.id == activePlayerId) client.currentPlayer = true;
+            if(client.user?.id == activePlayerId) client.isCurrentPlayer = true;
 
             // Sync data between all players
             return {
                 data: {
                     ...request.data,
-                    activePlayer: client.user?.id == activePlayerId,
+                    isCurrentPlayer: client.user?.id == activePlayerId,
                 },
                 method: 'syncData',
             };

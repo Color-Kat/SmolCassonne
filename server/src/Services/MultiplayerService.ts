@@ -49,7 +49,7 @@ export class MultiplayerService {
         let currentPlayerIndex = 0;
 
         for (let i = 0; i < players.length; i++) {
-            if(players[i].currentPlayer) {
+            if(players[i].isCurrentPlayer) {
                 currentPlayerIndex = i;
                 break;
             }

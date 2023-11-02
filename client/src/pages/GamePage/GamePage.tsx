@@ -12,6 +12,8 @@ import {defaultTeams, TeamColorType, TeamsType} from "@pages/GamePage/classes/te
 import {useMultiplayer} from "@pages/GamePage/hooks/useMultiplayer.ts";
 import {IUser} from "@/store/auth/auth.slice.ts";
 import {RainbowLoader} from "@UI/Loaders";
+import {RippleButton} from "@components/Buttons";
+import {PurpleButton} from "@UI/Buttons";
 
 /**
  * This component renders the game page.
@@ -31,7 +33,8 @@ export const GamePage = () => {
     const [teams, setTeams] = useState(defaultTeams);
 
     // State with current stage of the game
-    const [stage, setStage] = useState<GameStagesType>('emptyMap');
+    const [stage, setStage] = useState<GameStagesType>('notStarted');
+    const isConnecting = !myTeamColor;
 
     // States for information about current tile, unit and tooltip.
     const [infoMessage, setInfoMessage] = useState("");
@@ -47,10 +50,10 @@ export const GamePage = () => {
     const [currentTile, setCurrentTile] = useState<Tile | undefined>(undefined);
 
     // Retrieve methods for multiplayer
-    const {joinRoom, passTheMove} = useMultiplayer({
-        setMyTeamColor,
+    const {joinRoom, startGame, passTheMove} = useMultiplayer({
+        setStage,
+        setMyTeamColor, teams, setTeams,
         map, setMap,
-        teams, setTeams,
         setInfoMessage
     });
 
@@ -96,8 +99,6 @@ export const GamePage = () => {
                 teams: teams
             }
         });
-
-        setStage('takeTile');
     };
 
     return (
@@ -113,7 +114,15 @@ export const GamePage = () => {
 
                 {!myTeamColor && <RainbowLoader className="mt-24" />}
 
-                {myTeamColor &&
+                {stage == 'notStarted' && !isConnecting &&
+                    <div className="flex items-center h-full w-full absolute inset-0">
+                        <RippleButton onClick={() => startGame(roomId)} ButtonComponent={PurpleButton}>
+                            Начать игру
+                        </RippleButton>
+                    </div>
+                }
+
+                {stage !== 'notStarted' && !isConnecting  &&
                     <MapContext.Provider value={{
                         myTeamColor,
                         teams,

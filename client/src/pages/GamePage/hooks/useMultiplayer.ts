@@ -1,12 +1,16 @@
 import {useWebsocket} from "@hooks/useWebsocket.ts";
 import {Tile} from "@pages/GamePage/classes/TilesDeck.tsx";
 import {Team, TeamColorType} from "@pages/GamePage/classes/teams.ts";
-import React from "react";
+import React, {useContext} from "react";
 import {Unit} from "@pages/GamePage/classes/Units.ts";
 import {TilesMap} from "@pages/GamePage/classes/TilesMap.ts";
 import {IUser} from "@/store/auth/auth.slice.ts";
+import {GameStageContext, GameStagesType, MapContext} from "@pages/GamePage/gameContext.ts";
+import {ISyncDataResponse, MultiplayerSyncRequest} from "@pages/GamePage/hooks/multiplayerTypes.ts";
 
 interface IMultiplayerState {
+    setStage: React.Dispatch<React.SetStateAction<GameStagesType>>;
+
     setMyTeamColor: React.Dispatch<React.SetStateAction<TeamColorType | null>>;
     teams: { [key in TeamColorType]: Team };
     setTeams: React.Dispatch<React.SetStateAction<{ [key in TeamColorType]: Team }>>;
@@ -17,79 +21,44 @@ interface IMultiplayerState {
     setInfoMessage: React.Dispatch<React.SetStateAction<string>>;
 }
 
-interface MultiPlayerRequest<T = undefined> {
-    method?: string;
-    roomId: string;
-    user: IUser;
 
-    data: T;
-}
 
-type MultiplayerSyncRequest = MultiPlayerRequest<{
-    map: Tile[],
-    teams: { [key: string]: Team }
-}>;
 
 export const useMultiplayer = (multiplayerState: IMultiplayerState) => {
+
     /**
      * Handle events from the server
      * @param method
-     * @param data
+     * @param response
      */
-    const handleMultiplayerEvents = (method: string, data: any) => {
+    const handleMultiplayerEvents = (method: string, response: any) => {
         switch (method) {
             case 'setMyTeam':
-                setMyTeam(data);
+                setMyTeamHandler(response);
+                break;
+
+            case 'startGame':
+                startGameHandler(response);
                 break;
 
             case 'message':
-                showMessage(data);
+                showMessageHandler(response);
                 break;
 
             case 'syncData':
-                syncData(data);
+                syncDataHandler(response);
                 break;
 
             default:
-                console.log('Unknown method: ', data.method);
+                console.log('Unknown method: ', response.method);
                 break;
         }
     };
 
-    /* <<<<<<<<<<<<< Handle events from the server >>>>>>>>>>>>>>>> */
-
-    const showMessage = (data: {message: string}) => {
-        multiplayerState.setInfoMessage(data.message);
-    }
-
-    /**
-     * Set team of the player.
-     * @param data
-     */
-    const setMyTeam = (data: {team: string}) => {
-        multiplayerState.setMyTeamColor(data.team as TeamColorType);
-    };
-
-    /**
-     * Update local game state by data from multiplayer server
-     * @param data
-     */
-    const syncData = (data: IMultiplayerState) => {
-        // Hydrate teams object
-        const teams = Team.hydrateTeams(data.teams);
-
-        // Hydrate map object
-        const map: IMultiplayerState['map'] = TilesMap.hydrate(data.map);
-
-        multiplayerState.setMap(map);
-        multiplayerState.setTeams(teams);
-    };
+    /* <<<<<<<<<<<<< Send events to the server >>>>>>>>>>>>>>>> */
 
     // Connect to the websocket server
     const {sendToWebsocket} = useWebsocket('ws://localhost:5000/multiplayer', handleMultiplayerEvents);
-
-
-    /* <<<<<<<<<<<<< Send events to the server >>>>>>>>>>>>>>>> */
 
     /**
      * Send request to join user to the room with roomId
@@ -102,6 +71,15 @@ export const useMultiplayer = (multiplayerState: IMultiplayerState) => {
             roomId: roomId,
             user: user
         });
+    }
+
+    const startGame = (roomId: string) => {
+        sendToWebsocket({
+            method: 'startGame',
+            roomId: roomId,
+        });
+
+        // multiplayerState.setStage('emptyMap');
     }
 
     /**
@@ -117,9 +95,45 @@ export const useMultiplayer = (multiplayerState: IMultiplayerState) => {
         });
     };
 
+    /* <<<<<<<<<<<<< Handle events from the server >>>>>>>>>>>>>>>> */
+
+    const showMessageHandler = (response: {message: string}) => {
+        multiplayerState.setInfoMessage(response.message);
+    }
+
+    /**
+     * Set team of the player.
+     * @param response
+     */
+    const setMyTeamHandler = (response: {team: string}) => {
+        multiplayerState.setMyTeamColor(response.team as TeamColorType);
+    };
+
+    const startGameHandler = (response: {roomId: string}) => {
+        multiplayerState.setStage('emptyMap');
+    }
+
+    /**
+     * Update local game state by data from multiplayer server
+     * @param response
+     */
+    const syncDataHandler = (response: ISyncDataResponse) => {
+        // Hydrate teams object
+        const teams = Team.hydrateTeams(response.data.teams);
+
+        // Hydrate map object
+        const map: IMultiplayerState['map'] = TilesMap.hydrate(response.data.map);
+
+        multiplayerState.setMap(map);
+        multiplayerState.setTeams(teams);
+
+        if(response.data.isCurrentPlayer) multiplayerState.setStage('takeTile');
+    };
+
     /* ----------------------------- */
     return {
         joinRoom,
+        startGame,
         passTheMove
     };
 };
