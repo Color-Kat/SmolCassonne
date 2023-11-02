@@ -4,6 +4,7 @@ import {WebsocketRequestHandler, Instance as WSServerInstance} from "express-ws"
 import {IUser} from "../types/types";
 import {MultiplayerService} from "../Services/MultiplayerService.js";
 import {WSClient} from "../types/multiplayer";
+import {response} from "express";
 
 // Common Multiplayer request
 interface MultiPlayerRequest<T = undefined> {
@@ -134,9 +135,18 @@ export class MultiPlayerController extends AbstractController {
 
         // Send a message about new player
         this.broadcast(request.roomId, (client: WSClient) => ({
-            method: 'startGame',
-
+            method: 'startGame'
         }));
+
+        // Player, who started the game, moves first
+        this.broadcast(request.roomId, (client: WSClient) => {
+
+            // Sync data between all players
+            return {
+                isCurrentPlayer: this.ws?.user?.id == client.user?.id,
+                method: 'passTheMove',
+            };
+        });
     }
 
     /**
@@ -167,8 +177,8 @@ export class MultiPlayerController extends AbstractController {
     }
 
     /**
-     * Pass the turn to the next player
-     * and sync data between all users.
+     * Pass the turn to the next player.
+     * Set isCurrentPlayer = false for all players besides the new active player.
      *
      * @param request
      */
@@ -178,7 +188,6 @@ export class MultiPlayerController extends AbstractController {
 
         // Get the next player user id
         const activePlayerId = this.multiplayerService.getNextPlayerId(this.getRoomPlayers(roomId));
-        console.log('activePlayerId', activePlayerId);
 
         this.broadcast(roomId, (client: WSClient) => {
             // Pass the turn
@@ -186,12 +195,28 @@ export class MultiPlayerController extends AbstractController {
 
             // Sync data between all players
             return {
-                data: {
-                    ...request.data,
-                    isCurrentPlayer: client.user?.id == activePlayerId,
-                },
+                isCurrentPlayer: client.user?.id == activePlayerId,
+                method: 'passTheMove',
+            };
+        });
+
+        this.syncDataHandler(request);
+    };
+
+    /**
+     *
+     * @param request
+     */
+    public syncDataHandler = (request: MultiplayerSyncRequest): void => {
+        if (!this.ws) return;
+        const roomId = request.roomId;
+
+        this.broadcast(roomId, (client: WSClient) => {
+
+            return {
+                data: request.data,
                 method: 'syncData',
             };
         });
-    };
+    }
 }

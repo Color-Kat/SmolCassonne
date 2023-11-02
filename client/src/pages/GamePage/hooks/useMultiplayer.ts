@@ -41,6 +41,10 @@ export const useMultiplayer = (multiplayerState: IMultiplayerState) => {
                 startGameHandler(response);
                 break;
 
+            case 'passTheMove':
+                passTheMoveHandler(response);
+                break;
+
             case 'message':
                 showMessageHandler(response);
                 break;
@@ -113,6 +117,16 @@ export const useMultiplayer = (multiplayerState: IMultiplayerState) => {
         multiplayerState.setStage('emptyMap');
     }
 
+    const passTheMoveHandler = (response: {isCurrentPlayer: boolean}) => {
+        if(response.isCurrentPlayer) {
+            // TODO карта на прогружается
+            multiplayerState.setStage('emptyMap');
+            multiplayerState.setStage('takeTile');
+        }
+        else
+            multiplayerState.setStage('wait');
+    }
+
     /**
      * Update local game state by data from multiplayer server
      * @param response
@@ -124,10 +138,9 @@ export const useMultiplayer = (multiplayerState: IMultiplayerState) => {
         // Hydrate map object
         const map: IMultiplayerState['map'] = TilesMap.hydrate(response.data.map);
 
+        // Sync map and teams objects
         multiplayerState.setMap(map);
         multiplayerState.setTeams(teams);
-
-        if(response.data.isCurrentPlayer) multiplayerState.setStage('takeTile');
     };
 
     /* ----------------------------- */

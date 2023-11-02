@@ -101,6 +101,8 @@ export const GamePage = () => {
         });
     };
 
+    console.log('STAGE:', stage);
+
     return (
         <GameStageContext.Provider value={{
             stage,

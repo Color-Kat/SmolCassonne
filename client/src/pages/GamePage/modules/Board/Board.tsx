@@ -114,8 +114,6 @@ export const Board: React.FC<BoardProps> = ({
         const score = result.score;
         const freeUnitIds = result.freeUnitIds;
 
-        console.log(score);
-
         // Update teams data
         setTeams(prev => {
             const newTeams = {...prev};
