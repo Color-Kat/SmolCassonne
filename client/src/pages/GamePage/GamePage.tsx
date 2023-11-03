@@ -30,7 +30,7 @@ export const GamePage = () => {
     };
 
     const [myTeamColor, setMyTeamColor] = useState<TeamColorType|null>(null); // Will be set by server
-    const [teams, setTeams] = useState(defaultTeams);
+    const [teams, setTeams] = useState<TeamsType>(defaultTeams);
 
     // State with current stage of the game
     const [stage, setStage] = useState<GameStagesType>('notStarted');

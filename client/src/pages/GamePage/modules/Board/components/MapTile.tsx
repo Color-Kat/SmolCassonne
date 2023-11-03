@@ -32,7 +32,7 @@ const UnitOnTile: React.FC<UnitOnTileProps> = memo(({
                 position === 3 && "-left-2 top-1/2 -translate-y-1/2"
             )}
             style={{
-                borderColor: unit.team ? teams[unit.team].getTeamColor() : 'magenta'
+                borderColor: unit.team ? teams[unit.team]?.getTeamColor() : 'magenta'
             }}
             draggable="false"
             src={unit.image}

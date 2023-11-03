@@ -1,6 +1,6 @@
 import {useWebsocket} from "@hooks/useWebsocket.ts";
 import {Tile} from "@pages/GamePage/classes/TilesDeck.tsx";
-import {Team, TeamColorType} from "@pages/GamePage/classes/teams.ts";
+import {getTeamsByColors, Team, TeamColorType, TeamsType} from "@pages/GamePage/classes/teams.ts";
 import React, {useContext} from "react";
 import {Unit} from "@pages/GamePage/classes/Units.ts";
 import {TilesMap} from "@pages/GamePage/classes/TilesMap.ts";
@@ -12,16 +12,14 @@ interface IMultiplayerState {
     setStage: React.Dispatch<React.SetStateAction<GameStagesType>>;
 
     setMyTeamColor: React.Dispatch<React.SetStateAction<TeamColorType | null>>;
-    teams: { [key in TeamColorType]: Team };
-    setTeams: React.Dispatch<React.SetStateAction<{ [key in TeamColorType]: Team }>>;
+    teams: TeamsType;
+    setTeams: React.Dispatch<React.SetStateAction<TeamsType>>;
 
     map: Tile[],
     setMap: React.Dispatch<React.SetStateAction<Tile[]>>;
 
     setInfoMessage: React.Dispatch<React.SetStateAction<string>>;
 }
-
-
 
 
 export const useMultiplayer = (multiplayerState: IMultiplayerState) => {
@@ -75,7 +73,7 @@ export const useMultiplayer = (multiplayerState: IMultiplayerState) => {
             roomId: roomId,
             user: user
         });
-    }
+    };
 
     const startGame = (roomId: string) => {
         sendToWebsocket({
@@ -84,7 +82,7 @@ export const useMultiplayer = (multiplayerState: IMultiplayerState) => {
         });
 
         // multiplayerState.setStage('emptyMap');
-    }
+    };
 
     /**
      * Send the request to pass the move to the next player.
@@ -101,31 +99,30 @@ export const useMultiplayer = (multiplayerState: IMultiplayerState) => {
 
     /* <<<<<<<<<<<<< Handle events from the server >>>>>>>>>>>>>>>> */
 
-    const showMessageHandler = (response: {message: string}) => {
+    const showMessageHandler = (response: { message: string }) => {
         multiplayerState.setInfoMessage(response.message);
-    }
+    };
 
     /**
      * Set team of the player.
      * @param response
      */
-    const setMyTeamHandler = (response: {team: string}) => {
-        multiplayerState.setMyTeamColor(response.team as TeamColorType);
+    const setMyTeamHandler = (response: { team: string }) => {
+        multiplayerState.setMyTeamColor(response.team as TeamColorType); // Set my team
     };
 
-    const startGameHandler = (response: {roomId: string}) => {
-        multiplayerState.setStage('emptyMap');
-    }
+    const startGameHandler = (response: { teamsList: TeamColorType[] }) => {
+        multiplayerState.setStage('emptyMap'); // Init empty map
+        multiplayerState.setTeams(getTeamsByColors(response.teamsList)); // Set list of teams that are connected to this room
+    };
 
-    const passTheMoveHandler = (response: {isCurrentPlayer: boolean}) => {
-        if(response.isCurrentPlayer) {
+    const passTheMoveHandler = (response: { isCurrentPlayer: boolean }) => {
+        if (response.isCurrentPlayer) {
             // TODO карта на прогружается
-            multiplayerState.setStage('emptyMap');
             multiplayerState.setStage('takeTile');
-        }
-        else
+        } else
             multiplayerState.setStage('wait');
-    }
+    };
 
     /**
      * Update local game state by data from multiplayer server

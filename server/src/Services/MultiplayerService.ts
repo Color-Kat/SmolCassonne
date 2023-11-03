@@ -42,6 +42,14 @@ export class MultiplayerService {
     }
 
     /**
+     * Return the list of teams that are connected to this room.
+     * @param clients
+     */
+    public getTeamsList(clients: Set<WSClient>): string[] {
+        return this.teams.slice(0, clients.size);
+    }
+
+    /**
      * Return the next player id.
      * @param players
      */
@@ -54,6 +62,8 @@ export class MultiplayerService {
                 break;
             }
         }
+
+        console.log(currentPlayerIndex, players.length, players[currentPlayerIndex].user);
 
         const nextPlayerIndex = (currentPlayerIndex + 1) % players.length;
 

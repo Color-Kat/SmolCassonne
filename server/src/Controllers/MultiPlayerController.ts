@@ -130,12 +130,20 @@ export class MultiPlayerController extends AbstractController {
         this.assignTeam(request);
     }
 
+    /**
+     * Send event "startGame" with list of teams that are connected to this room.
+     * Send event "passTheMove" to the player, who started this game, with isCurrentPlayer property.
+     * @param request
+     */
     public startGameHandler(request: MultiPlayerRequest): void {
         if (!this.ws) return;
 
+        const teamsList = this.multiplayerService.getTeamsList(this.aWss.clients);
+
         // Send a message about new player
         this.broadcast(request.roomId, (client: WSClient) => ({
-            method: 'startGame'
+            method: 'startGame',
+            teamsList
         }));
 
         // Player, who started the game, moves first
@@ -187,15 +195,17 @@ export class MultiPlayerController extends AbstractController {
         const roomId = request.roomId;
 
         // Get the next player user id
-        const activePlayerId = this.multiplayerService.getNextPlayerId(this.getRoomPlayers(roomId));
-
+        const nextPlayerId = this.multiplayerService.getNextPlayerId(this.getRoomPlayers(roomId));
+        console.log(nextPlayerId);
         this.broadcast(roomId, (client: WSClient) => {
             // Pass the turn
-            if(client.user?.id == activePlayerId) client.isCurrentPlayer = true;
+            if(client.user?.id == nextPlayerId) client.isCurrentPlayer = true;
+            else  client.isCurrentPlayer = false;
+
 
             // Sync data between all players
             return {
-                isCurrentPlayer: client.user?.id == activePlayerId,
+                isCurrentPlayer: client.user?.id == nextPlayerId,
                 method: 'passTheMove',
             };
         });

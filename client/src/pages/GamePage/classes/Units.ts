@@ -289,7 +289,9 @@ function getUnitsByTeam(team: TeamColorType) {
 }
 
 // Units divided by teams
-export const units = {
+export const units: {[key in TeamColorType]: Unit[]} = {
     blue: getUnitsByTeam('blue'),
     red: getUnitsByTeam('red'),
+    green: getUnitsByTeam('green'),
+    yellow: getUnitsByTeam('yellow'),
 };
