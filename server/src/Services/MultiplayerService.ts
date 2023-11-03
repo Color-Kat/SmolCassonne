@@ -63,10 +63,7 @@ export class MultiplayerService {
             }
         }
 
-        console.log(currentPlayerIndex, players.length, players[currentPlayerIndex].user);
-
         const nextPlayerIndex = (currentPlayerIndex + 1) % players.length;
-
         return players[nextPlayerIndex].user?.id ?? "";
     }
 

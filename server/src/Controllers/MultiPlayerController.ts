@@ -148,6 +148,7 @@ export class MultiPlayerController extends AbstractController {
 
         // Player, who started the game, moves first
         this.broadcast(request.roomId, (client: WSClient) => {
+            client.isCurrentPlayer = this.ws?.user?.id == client.user?.id;
 
             // Sync data between all players
             return {
@@ -196,7 +197,7 @@ export class MultiPlayerController extends AbstractController {
 
         // Get the next player user id
         const nextPlayerId = this.multiplayerService.getNextPlayerId(this.getRoomPlayers(roomId));
-        console.log(nextPlayerId);
+
         this.broadcast(roomId, (client: WSClient) => {
             // Pass the turn
             if(client.user?.id == nextPlayerId) client.isCurrentPlayer = true;
