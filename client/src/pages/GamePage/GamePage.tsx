@@ -23,7 +23,7 @@ import {ComposeContexts, contextProvider} from "@components/Helpers";
  * @constructor
  */
 export const GamePage = () => {
-    const roomId = '1';
+    const [roomId, setRoomId] = useState("");
     const user: IUser = {
         id: Date.now(),
         name: 'ColorKat',
@@ -34,7 +34,7 @@ export const GamePage = () => {
 
     // State with current stage of the game
     const [stage, setStage] = useState<GameStagesType>('notStarted');
-    const isConnecting = !myTeamColor;
+    const isConnectedToRoom = !!myTeamColor;
 
     // States for information about current tile, unit and tooltip.
     const [infoMessage, setInfoMessage] = useState("");
@@ -68,20 +68,12 @@ export const GamePage = () => {
         setInfoMessage
     });
 
-    useEffect(() => {
-        setTimeout(() => {
-            // Join user to the room
-            joinRoom(roomId, user);
-        }, 1000);
-    }, []);
-
     // Catch disconnect event
     useEffect(() => {
         const handleBeforeUnload = () => disconnect(roomId, user);
         window.addEventListener('beforeunload', handleBeforeUnload);
         return () => window.removeEventListener('beforeunload', handleBeforeUnload);
-        ;
-    }, []);
+    }, [roomId, user]);
     /* ------- Functions for multiplayer ------- */
 
     /**
@@ -158,7 +150,7 @@ export const GamePage = () => {
                 MultiplayerContext.Provider,
                 {
                     roomId,
-                    // joinRoom,
+                    joinRoom,
                     startGame,
                     // passTheMove,
                     // disconnect
@@ -171,14 +163,18 @@ export const GamePage = () => {
                     <link rel="canonical" href={import.meta.env.VITE_APP_URL + '/game'}/>
                 </Helmet>
 
-                {!myTeamColor && <RainbowLoader className="mt-24"/>}
+                {!isConnectedToRoom && <RainbowLoader className="mt-24"/>}
 
-                {stage == 'notStarted' && !isConnecting &&
-                    // TODO : implement errors when connection
-                    <StartGameScreen/>
+                {stage == 'notStarted' &&
+                    <StartGameScreen
+                        user={user}
+                        roomId={roomId}
+                        setRoomId={setRoomId}
+                        isConnectedToRoom={isConnectedToRoom}
+                    />
                 }
 
-                {stage !== 'notStarted' && !isConnecting &&
+                {stage !== 'notStarted' &&
                     <div className="flex h-full w-full relative">
                         {/* Control panel with buttons and the deck of tiles */}
                         <ControlPanel

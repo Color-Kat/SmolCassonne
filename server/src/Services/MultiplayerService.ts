@@ -52,17 +52,10 @@ export class MultiplayerService {
         // The room is full
         if (rooms[roomId].playersCount + 1 > 4) return {result: false, message: "Не удалось подключиться к комнате.\nКомната заполнена"};
         rooms[roomId].playersCount++;
+
         console.log(`room ${roomId} - players: ${rooms[roomId].playersCount}`);
 
         return {result: true};
-    }
-
-    /**
-     * Mark the room as game started.
-     * @param roomId
-     */
-    public startGame(roomId: string): void {
-        rooms[roomId].isGameStarted = true;
     }
 
     /**
@@ -72,10 +65,20 @@ export class MultiplayerService {
      */
     public leaveRoom(roomId: string): void {
         if (rooms[roomId]) {
-            // console.log('leave count', rooms[roomId].playersCount - 1)
             rooms[roomId].playersCount--;
+
+            console.log(`DISCONNECT room: ${roomId}, players: ${rooms[roomId].playersCount}`);
+
             if (rooms[roomId].playersCount == 0) delete rooms[roomId];
         }
+    }
+
+    /**
+     * Mark the room as game started.
+     * @param roomId
+     */
+    public startGame(roomId: string): void {
+        if(rooms[roomId]) rooms[roomId].isGameStarted = true;
     }
 
     /**
@@ -99,8 +102,8 @@ export class MultiplayerService {
      * Return the list of teams that are connected to this room.
      * @param clients
      */
-    public getTeamsList(clients: Set<WSClient>): string[] {
-        return this.teams.slice(0, clients.size);
+    public getTeamsList(clients: WSClient[]): string[] {
+        return this.teams.slice(0, clients.length);
     }
 
     /**

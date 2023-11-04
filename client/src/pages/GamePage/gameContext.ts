@@ -2,6 +2,7 @@ import React from "react";
 import {Tile} from "@pages/GamePage/classes/TilesDeck.tsx";
 import {Unit} from "@pages/GamePage/classes/Units.ts";
 import {Team, TeamColorType, TeamsType} from "@pages/GamePage/classes/teams.ts";
+import {IUser} from "@/store/auth/auth.slice.ts";
 
 export const MapContext = React.createContext<{
     myTeamColor: TeamColorType,
@@ -30,6 +31,7 @@ export const GameStageContext = React.createContext<{
 
 export const MultiplayerContext = React.createContext<{
     roomId: string,
+    joinRoom: (roomId: string, user: IUser) => void,
     startGame: (roomId: string) => void;
 }>({} as any);
 

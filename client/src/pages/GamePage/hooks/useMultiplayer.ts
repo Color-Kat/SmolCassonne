@@ -38,8 +38,13 @@ export const useMultiplayer = (multiplayerState: IMultiplayerState) => {
             case 'message':
                 showMessageHandler(response);
                 break;
+
             case 'setMyTeam':
                 setMyTeamHandler(response);
+                break;
+
+            case 'joinNewPlayer':
+                joinNewPlayerHandler(response);
                 break;
 
             case 'startGame':
@@ -75,6 +80,8 @@ export const useMultiplayer = (multiplayerState: IMultiplayerState) => {
      * @param user
      */
     const joinRoom = (roomId: string, user: IUser) => {
+        if(!roomId) return false;
+
         sendToWebsocket({
             method: 'joinRoom',
             roomId: roomId,
@@ -126,9 +133,13 @@ export const useMultiplayer = (multiplayerState: IMultiplayerState) => {
         multiplayerState.setMyTeamColor(response.team as TeamColorType); // Set my team
     };
 
+    const joinNewPlayerHandler = (response: { teamsList: TeamColorType[] }) => {
+        multiplayerState.setTeams(getTeamsByColors(response.teamsList)); // Set list of teams that are connected to this room
+    }
+
     const startGameHandler = (response: { teamsList: TeamColorType[] }) => {
         multiplayerState.setStage('emptyMap'); // Init empty map
-        multiplayerState.setTeams(getTeamsByColors(response.teamsList)); // Set list of teams that are connected to this room
+        // multiplayerState.setTeams(getTeamsByColors(response.teamsList)); // Set list of teams that are connected to this room
     };
 
     const passTheMoveHandler = (response: { isCurrentPlayer: boolean }) => {

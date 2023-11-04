@@ -140,6 +140,8 @@ export class MultiPlayerController extends AbstractController {
             }));
 
             this.initPlayer(request);
+
+            this.joinNewPlayer(request);
         } else {
             // User can't join this room
             this.ws.send(JSON.stringify({
@@ -177,6 +179,20 @@ export class MultiPlayerController extends AbstractController {
         }));
     }
 
+    public joinNewPlayer(request: MultiPlayerRequest): void {
+        if (!this.ws) return;
+        const roomId = request.roomId;
+
+        // Get list of teams that are connected to this room
+        const teamsList = this.multiplayerService.getTeamsList(this.getRoomPlayers(roomId));
+
+        // Send a message about new player
+        this.broadcast(roomId, (client: WSClient) => ({
+            method: 'joinNewPlayer',
+            teamsList
+        }));
+    }
+
     /**
      * Send event "startGame" with list of teams that are connected to this room.
      * Send event "passTheMove" to the player, who started this game, with isCurrentPlayer property.
@@ -189,12 +205,12 @@ export class MultiPlayerController extends AbstractController {
         this.multiplayerService.startGame(request.roomId);
 
         // Get list of teams that are connected to this room
-        const teamsList = this.multiplayerService.getTeamsList(this.aWss.clients);
+        // const teamsList = this.multiplayerService.getTeamsList(this.aWss.clients);
 
         // Send a message about new player
         this.broadcast(request.roomId, (client: WSClient) => ({
             method: 'startGame',
-            teamsList
+            // teamsList
         }));
 
         // Pass the move to the player, who started this game
@@ -208,7 +224,7 @@ export class MultiPlayerController extends AbstractController {
      */
     public disconnectHandler(request: MultiPlayerRequest): void {
         if (!this.ws) return;
-        const roomId = this.ws.roomId ?? request.roomId;
+        const roomId = request.roomId;
 
         // Send message to all users
         this.broadcast(roomId, (client: WSClient) => ({
