@@ -22,9 +22,15 @@ export const MapContext = React.createContext<{
     endOfTurn: (updatedMap: Tile[], updatedTeams: TeamsType) => void;
 }>({} as any);
 
-export type GameStagesType = 'notStarted' | 'emptyMap' | 'takeTile' | 'tilePlaced' | 'unitPlaced' | 'scoring' | 'endOfTurn' | 'wait';
+export type GameStagesType = 'notStarted' | 'emptyMap' | 'takeTile' | 'tilePlaced' | 'unitPlaced' | 'scoring' | 'endOfTurn' | 'wait' | 'gameOver';
 export const GameStageContext = React.createContext<{
     stage: GameStagesType,
     setStage: React.Dispatch<React.SetStateAction<GameStagesType>>,
 }>({} as any);
+
+export const MultiplayerContext = React.createContext<{
+    roomId: string,
+    startGame: (roomId: string) => void;
+}>({} as any);
+
 

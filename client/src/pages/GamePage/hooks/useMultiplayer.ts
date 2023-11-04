@@ -20,6 +20,8 @@ interface IMultiplayerState {
     map: Tile[],
     setMap: React.Dispatch<React.SetStateAction<Tile[]>>;
 
+    setWinners: React.Dispatch<React.SetStateAction<Team[]>>;
+
     setInfoMessage: React.Dispatch<React.SetStateAction<string>>;
 }
 
@@ -158,7 +160,9 @@ export const useMultiplayer = (multiplayerState: IMultiplayerState) => {
     };
 
     const gameOverHandler = (response: { gameResult: ITeam[] }) => {
-        console.log(response)
+        const winners = response.gameResult.map((team) => Team.hydrate(team));
+        multiplayerState.setWinners(winners);
+        multiplayerState.setStage('gameOver');
     }
 
     /* ----------------------------- */

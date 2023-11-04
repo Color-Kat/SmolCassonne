@@ -6,14 +6,14 @@ import {Board} from "./modules/Board/Board";
 
 import {ControlPanel} from "@pages/GamePage/modules/ControlPanel/ControlPanel.tsx";
 import {Teams} from "@pages/GamePage/modules/Teams/Teams.tsx";
-import {GameStageContext, GameStagesType, MapContext} from "@pages/GamePage/gameContext.ts";
+import {GameStageContext, GameStagesType, MapContext, MultiplayerContext} from "@pages/GamePage/gameContext.ts";
 import {Information} from "@pages/GamePage/modules/Inforamtion/Information.tsx";
-import {defaultTeams, TeamColorType, TeamsType} from "@pages/GamePage/classes/teams.ts";
+import {defaultTeams, Team, TeamColorType, TeamsType} from "@pages/GamePage/classes/teams.ts";
 import {useMultiplayer} from "@pages/GamePage/hooks/useMultiplayer.ts";
 import {IUser} from "@/store/auth/auth.slice.ts";
 import {RainbowLoader} from "@UI/Loaders";
-import {RippleButton} from "@components/Buttons";
-import {PurpleButton} from "@UI/Buttons";
+import {StartGameScreen} from "@pages/GamePage/modules/StartGameScreen/StartGameScreen.tsx";
+import {ComposeContexts, contextProvider} from "@components/Helpers";
 
 /**
  * This component renders the game page.
@@ -49,6 +49,9 @@ export const GamePage = () => {
     // State for current tile
     const [currentTile, setCurrentTile] = useState<Tile | undefined>(undefined);
 
+    // Game over state - data about winners
+    const [winners, setWinners] = useState<Team[]>([]);
+
     /* ------- Functions for multiplayer ------- */
     // Retrieve methods for multiplayer
     const {
@@ -61,6 +64,7 @@ export const GamePage = () => {
         setDeck,
         setMyTeamColor, teams, setTeams,
         map, setMap,
+        setWinners,
         setInfoMessage
     });
 
@@ -91,6 +95,7 @@ export const GamePage = () => {
         setTooltip("");
         setTileInformation(null);
         setUnitInformation(null);
+        setInfoMessage("");
 
         // Clear current tile
         setCurrentTile(undefined);
@@ -98,6 +103,7 @@ export const GamePage = () => {
         // Pass the turn to the next player
         handlePassTheMove();
     }, [map, teams]);
+
     useEffect(() => {
         if (stage === 'endOfTurn') endOfTurn();
     }, [stage]);
@@ -121,10 +127,44 @@ export const GamePage = () => {
     console.log('STAGE:', stage);
 
     return (
-        <GameStageContext.Provider value={{
-            stage,
-            setStage
-        }}>
+        // Compose context providers
+        <ComposeContexts providers={[
+            /* --- Game stage context --- */
+            contextProvider(
+                GameStageContext.Provider,
+                {stage, setStage}
+            ),
+            contextProvider(
+                MapContext.Provider,
+                {
+                    myTeamColor: myTeamColor as any,
+                    teams,
+                    setTeams,
+
+                    tileSize: 192,
+                    map,
+                    setMap,
+                    currentTile,
+
+                    setInfoMessage,
+                    setTooltip,
+                    setTileInformation,
+                    setUnitInformation,
+
+                    endOfTurn
+                }
+            ),
+            contextProvider(
+                MultiplayerContext.Provider,
+                {
+                    roomId,
+                    // joinRoom,
+                    startGame,
+                    // passTheMove,
+                    // disconnect
+                }
+            )
+        ]}>
             <div className="w-full h-full cursor-default">
                 <Helmet>
                     <title>СмолКассон</title>
@@ -135,54 +175,32 @@ export const GamePage = () => {
 
                 {stage == 'notStarted' && !isConnecting &&
                     // TODO : implement errors when connection
-                    <div className="flex items-center h-full w-full absolute inset-0">
-                        <RippleButton onClick={() => startGame(roomId)} ButtonComponent={PurpleButton}>
-                            Начать игру
-                        </RippleButton>
-                    </div>
+                    <StartGameScreen/>
                 }
 
                 {stage !== 'notStarted' && !isConnecting &&
-                    <MapContext.Provider value={{
-                        myTeamColor,
-                        teams,
-                        setTeams,
+                    <div className="flex h-full w-full relative">
+                        {/* Control panel with buttons and the deck of tiles */}
+                        <ControlPanel
+                            currentTile={currentTile}
+                            setCurrentTile={setCurrentTile}
+                            deck={deck}
+                            setDeck={setDeck}
+                        />
 
-                        tileSize: 192,
-                        map,
-                        setMap,
-                        currentTile,
+                        {/* Users list and score */}
+                        <Teams
+                            teams={teams}
+                        />
 
-                        setInfoMessage,
-                        setTooltip,
-                        setTileInformation,
-                        setUnitInformation,
+                        {/* Board with the map */}
+                        <Board
+                            currentTile={currentTile}
+                            setCurrentTile={setCurrentTile}
 
-                        endOfTurn
-                    }}>
-                        <div className="flex h-full w-full relative">
-                            {/* Control panel with buttons and the deck of tiles */}
-                            <ControlPanel
-                                currentTile={currentTile}
-                                setCurrentTile={setCurrentTile}
-                                deck={deck}
-                                setDeck={setDeck}
-                            />
-
-                            {/* Users list and score */}
-                            <Teams
-                                teams={teams}
-                            />
-
-                            {/* Board with the map */}
-                            <Board
-                                currentTile={currentTile}
-                                setCurrentTile={setCurrentTile}
-
-                                endOfTurn={endOfTurn}
-                            />
-                        </div>
-                    </MapContext.Provider>
+                            endOfTurn={endOfTurn}
+                        />
+                    </div>
                 }
 
                 {/* Information messages, tooltips and info */}
@@ -197,6 +215,6 @@ export const GamePage = () => {
                     setUnitInformation={setUnitInformation}
                 />
             </div>
-        </GameStageContext.Provider>
+        </ComposeContexts>
     );
 };
