@@ -4,7 +4,7 @@ export type TeamColorType = 'blue' | 'red' | 'green' | 'yellow';
 
 export type TeamsType = Partial<{[key in TeamColorType]: Team}>;
 
-interface ITeam {
+export interface ITeam {
     color: TeamColorType;
     name: string;
     units: Unit[];

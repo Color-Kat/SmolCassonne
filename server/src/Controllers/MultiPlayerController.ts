@@ -16,8 +16,9 @@ interface MultiPlayerRequest<T = undefined> {
 }
 
 type MultiplayerSyncRequest = MultiPlayerRequest<{
-    map: [];
-    teams: any[];
+    deck: any[]
+    map: any[];
+    teams: { [key: string]: any };
 }>;
 
 /**
@@ -272,12 +273,26 @@ export class MultiPlayerController extends AbstractController {
         if (!this.ws) return;
         const roomId = request.roomId;
 
+        // Sync data to all players
         this.broadcast(roomId, (client: WSClient) => {
             return {
                 data: request.data,
                 method: 'syncData',
             };
         });
+
+        const {isOver, gameResult} = this.multiplayerService.checkGameResult(
+            this.getRoomPlayers(roomId),
+            request.data.deck,
+            request.data.teams
+        );
+
+        // Game is over
+        if (isOver)
+            this.broadcast(roomId, (client: WSClient) => ({
+                gameResult: gameResult,
+                method: 'gameOver',
+            }));
     }
     /* ------- Handlers ------- */
 }

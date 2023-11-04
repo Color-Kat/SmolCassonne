@@ -1,6 +1,6 @@
 import {useWebsocket} from "@hooks/useWebsocket.ts";
 import TilesDeck, {Tile} from "@pages/GamePage/classes/TilesDeck.tsx";
-import {getTeamsByColors, Team, TeamColorType, TeamsType} from "@pages/GamePage/classes/teams.ts";
+import {getTeamsByColors, ITeam, Team, TeamColorType, TeamsType} from "@pages/GamePage/classes/teams.ts";
 import React, {useContext} from "react";
 import {Unit} from "@pages/GamePage/classes/Units.ts";
 import {TilesMap} from "@pages/GamePage/classes/TilesMap.ts";
@@ -33,6 +33,9 @@ export const useMultiplayer = (multiplayerState: IMultiplayerState) => {
      */
     const handleMultiplayerEvents = (method: string, response: any) => {
         switch (method) {
+            case 'message':
+                showMessageHandler(response);
+                break;
             case 'setMyTeam':
                 setMyTeamHandler(response);
                 break;
@@ -45,12 +48,12 @@ export const useMultiplayer = (multiplayerState: IMultiplayerState) => {
                 passTheMoveHandler(response);
                 break;
 
-            case 'message':
-                showMessageHandler(response);
-                break;
-
             case 'syncData':
                 syncDataHandler(response);
+                break;
+
+            case 'gameOver':
+                gameOverHandler(response);
                 break;
 
             default:
@@ -154,7 +157,12 @@ export const useMultiplayer = (multiplayerState: IMultiplayerState) => {
         multiplayerState.setTeams(teams);
     };
 
+    const gameOverHandler = (response: { gameResult: ITeam[] }) => {
+        console.log(response)
+    }
+
     /* ----------------------------- */
+
     return {
         joinRoom,
         startGame,

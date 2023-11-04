@@ -1,14 +1,14 @@
 import {IUser} from "@/store/auth/auth.slice.ts";
 import TilesDeck, {ITile, Tile} from "@pages/GamePage/classes/TilesDeck.tsx";
-import {Team, TeamsType} from "@pages/GamePage/classes/teams.ts";
+import {ITeam, Team, TeamColorType, TeamsType} from "@pages/GamePage/classes/teams.ts";
 
 export interface ISyncDataResponse {
     method: 'syncData';
     data: {
         isCurrentPlayer: boolean;
-        deck: ITile[];    // (not hydrated)
-        map: ITile[];     // (not hydrated)
-        teams: TeamsType; // (not hydrated)
+        deck: ITile[];                            // (not hydrated)
+        map: ITile[];                             // (not hydrated)
+        teams: { [key in TeamColorType]: ITeam }; // (not hydrated)
     }
 }
 

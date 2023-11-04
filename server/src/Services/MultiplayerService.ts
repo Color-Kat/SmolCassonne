@@ -121,4 +121,22 @@ export class MultiplayerService {
         return players[nextPlayerIndex].user?.id ?? "";
     }
 
+    public checkGameResult(
+        clients: WSClient[],
+        deck: any[],
+        teams: {[key: string] : {score: number, color: string, name: string}}
+    ): {isOver: boolean, gameResult: any} {
+        // Game is over when there's no tiles in the deck
+        let isOver = deck.length == 0;
+        let gameResult = null;
+
+        if(isOver) {
+            // Sort teams by score
+            // 0 - the first place is the winner
+            gameResult = Object.values(teams)
+                .sort((a, b) => b.score - a.score);
+        }
+
+        return {isOver, gameResult};
+    }
 }
