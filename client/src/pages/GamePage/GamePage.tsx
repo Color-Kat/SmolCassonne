@@ -29,7 +29,7 @@ export const GamePage = () => {
         name: 'ColorKat',
     };
 
-    const [myTeamColor, setMyTeamColor] = useState<TeamColorType|null>(null); // Will be set by server
+    const [myTeamColor, setMyTeamColor] = useState<TeamColorType | null>(null); // Will be set by server
     const [teams, setTeams] = useState<TeamsType>(defaultTeams);
 
     // State with current stage of the game
@@ -74,7 +74,8 @@ export const GamePage = () => {
     useEffect(() => {
         const handleBeforeUnload = () => disconnect(roomId, user);
         window.addEventListener('beforeunload', handleBeforeUnload);
-        return () => window.removeEventListener('beforeunload', handleBeforeUnload);;
+        return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+        ;
     }, []);
     /* ------- Functions for multiplayer ------- */
 
@@ -128,7 +129,7 @@ export const GamePage = () => {
                     <link rel="canonical" href={import.meta.env.VITE_APP_URL + '/game'}/>
                 </Helmet>
 
-                {!myTeamColor && <RainbowLoader className="mt-24" />}
+                {!myTeamColor && <RainbowLoader className="mt-24"/>}
 
                 {stage == 'notStarted' && !isConnecting &&
                     // TODO : implement errors when connection
@@ -139,7 +140,7 @@ export const GamePage = () => {
                     </div>
                 }
 
-                {stage !== 'notStarted' && !isConnecting  &&
+                {stage !== 'notStarted' && !isConnecting &&
                     <MapContext.Provider value={{
                         myTeamColor,
                         teams,
@@ -178,17 +179,21 @@ export const GamePage = () => {
 
                                 endOfTurn={endOfTurn}
                             />
-
-                            {/* Information about placed tile */}
-                            <Information
-                                tileInformation={tileInformation}
-                                unitInformation={unitInformation}
-                                tooltip={tooltip}
-                                infoMessage={infoMessage}
-                            />
                         </div>
                     </MapContext.Provider>
                 }
+
+                {/* Information messages, tooltips and info */}
+                <Information
+                    tileInformation={tileInformation}
+                    unitInformation={unitInformation}
+                    tooltip={tooltip}
+                    infoMessage={infoMessage}
+                    setInfoMessage={setInfoMessage}
+                    setTooltip={setTooltip}
+                    setTileInformation={setTileInformation}
+                    setUnitInformation={setUnitInformation}
+                />
             </div>
         </GameStageContext.Provider>
     );
