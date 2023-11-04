@@ -103,7 +103,16 @@ class TilesDeck {
     ));
 
     public getShuffledDeck() {
-        return shuffle(this.deck);
+        return shuffle(this.deck.slice(0, 3));
+    }
+
+    /**
+     * Restore a list of Tiles instances from a simple array of tile objects.
+     * @param deckTiles
+     */
+    static hydrate(deckTiles: ITile[]): Tile[] {
+        const hydratedDeck = deckTiles.map(tile => (new Tile(tile)));
+        return hydratedDeck;
     }
 }
 

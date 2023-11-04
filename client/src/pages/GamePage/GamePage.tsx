@@ -58,6 +58,7 @@ export const GamePage = () => {
         disconnect
     } = useMultiplayer({
         setStage,
+        setDeck,
         setMyTeamColor, teams, setTeams,
         map, setMap,
         setInfoMessage
@@ -95,13 +96,13 @@ export const GamePage = () => {
         setCurrentTile(undefined);
 
         // Pass the turn to the next player
-        handlePassTheMove(map, teams);
+        handlePassTheMove();
     }, [map, teams]);
     useEffect(() => {
         if (stage === 'endOfTurn') endOfTurn();
     }, [stage]);
 
-    const handlePassTheMove = (updatedMap: Tile[], updatedTeams: TeamsType) => {
+    const handlePassTheMove = () => {
         // Change stage to wait
         setStage('wait');
 
@@ -110,6 +111,7 @@ export const GamePage = () => {
             roomId,
             user,
             data: {
+                deck: deck,
                 map: map,
                 teams: teams
             }

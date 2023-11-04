@@ -1,5 +1,5 @@
 import {useWebsocket} from "@hooks/useWebsocket.ts";
-import {Tile} from "@pages/GamePage/classes/TilesDeck.tsx";
+import TilesDeck, {Tile} from "@pages/GamePage/classes/TilesDeck.tsx";
 import {getTeamsByColors, Team, TeamColorType, TeamsType} from "@pages/GamePage/classes/teams.ts";
 import React, {useContext} from "react";
 import {Unit} from "@pages/GamePage/classes/Units.ts";
@@ -10,6 +10,8 @@ import {ISyncDataResponse, MultiplayerSyncRequest} from "@pages/GamePage/hooks/m
 
 interface IMultiplayerState {
     setStage: React.Dispatch<React.SetStateAction<GameStagesType>>;
+
+    setDeck: React.Dispatch<React.SetStateAction<Tile[]>>;
 
     setMyTeamColor: React.Dispatch<React.SetStateAction<TeamColorType | null>>;
     teams: TeamsType;
@@ -137,6 +139,9 @@ export const useMultiplayer = (multiplayerState: IMultiplayerState) => {
      * @param response
      */
     const syncDataHandler = (response: ISyncDataResponse) => {
+        // Hydrate deck object
+        const deck: Tile[] = TilesDeck.hydrate(response.data.deck);
+
         // Hydrate teams object
         const teams = Team.hydrateTeams(response.data.teams);
 
@@ -144,6 +149,7 @@ export const useMultiplayer = (multiplayerState: IMultiplayerState) => {
         const map: IMultiplayerState['map'] = TilesMap.hydrate(response.data.map);
 
         // Sync map and teams objects
+        multiplayerState.setDeck(deck);
         multiplayerState.setMap(map);
         multiplayerState.setTeams(teams);
     };
