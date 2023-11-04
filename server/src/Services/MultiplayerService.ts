@@ -2,6 +2,14 @@ import {Instance as WSServerInstance} from "express-ws";
 import {WSClient} from "../types/multiplayer";
 import WebSocket from "ws";
 
+interface IRoom {
+    roomId: string;
+    isGameStarted: boolean
+    playersCount: number;
+}
+
+const rooms: {[key: string]: IRoom} = {};
+
 export class MultiplayerService {
     // /**
     //  * Websocket server instance
@@ -22,7 +30,53 @@ export class MultiplayerService {
         // this.aWss = this.wsServer.getWss();
     }
 
-    private teams = ['blue', 'red', 'green'];
+    private teams = ['blue', 'red', 'green', 'yellow'];
+
+    /**
+     * Create or update room.
+     * Return false if player can't be connected to the room.
+     *
+     * @param roomId
+     */
+    public joinRoom(roomId: string): boolean {
+        // Create new room
+        if(!rooms[roomId]) rooms[roomId] = {
+            roomId,
+            isGameStarted: false,
+            playersCount: 0
+        };
+
+        // The game is already started
+        if(rooms[roomId].isGameStarted) return false;
+
+        // The room is full
+        if(rooms[roomId].playersCount + 1 > 4) return false;
+        rooms[roomId].playersCount++;
+        console.log(rooms[roomId].playersCount);
+
+        return true;
+    }
+
+    /**
+     * Mark the room as game started.
+     * @param roomId
+     */
+    public startGame(roomId: string): void {
+        rooms[roomId].isGameStarted = true;
+    }
+
+    /**
+     * Decrement players count in this room.
+     * If there's no players, delete this room
+     * @param roomId
+     */
+    public leaveRoom(roomId: string): void {
+        if(rooms[roomId]) {
+            console.log('leave count', rooms[roomId].playersCount - 1)
+            rooms[roomId].playersCount--;
+            if (rooms[roomId].playersCount == 0) delete rooms[roomId];
+        }
+    }
 
     /**
      * Return the first free team color.

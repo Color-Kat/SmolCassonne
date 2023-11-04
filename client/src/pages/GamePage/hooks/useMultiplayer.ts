@@ -84,6 +84,14 @@ export const useMultiplayer = (multiplayerState: IMultiplayerState) => {
         // multiplayerState.setStage('emptyMap');
     };
 
+    const disconnect = (roomId: string, user: IUser) => {
+        sendToWebsocket({
+            method: 'disconnect',
+            roomId: roomId,
+            user: user
+        });
+    }
+
     /**
      * Send the request to pass the move to the next player.
      * @param request
@@ -144,6 +152,7 @@ export const useMultiplayer = (multiplayerState: IMultiplayerState) => {
     return {
         joinRoom,
         startGame,
-        passTheMove
+        passTheMove,
+        disconnect
     };
 };

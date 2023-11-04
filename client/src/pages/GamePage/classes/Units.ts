@@ -69,7 +69,7 @@ export class Unit implements IUnit {
                 return 'Путешественник';
             case 'scientist':
                 return 'Учёный';
-            case 'scientist':
+            case 'astronaut':
                 return 'Космонавт';
             default:
                 return 'Поэт';

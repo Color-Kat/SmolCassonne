@@ -49,8 +49,14 @@ export const GamePage = () => {
     // State for current tile
     const [currentTile, setCurrentTile] = useState<Tile | undefined>(undefined);
 
+    /* ------- Functions for multiplayer ------- */
     // Retrieve methods for multiplayer
-    const {joinRoom, startGame, passTheMove} = useMultiplayer({
+    const {
+        joinRoom,
+        startGame,
+        passTheMove,
+        disconnect
+    } = useMultiplayer({
         setStage,
         setMyTeamColor, teams, setTeams,
         map, setMap,
@@ -63,6 +69,14 @@ export const GamePage = () => {
             joinRoom(roomId, user);
         }, 1000);
     }, []);
+
+    // Catch disconnect event
+    useEffect(() => {
+        const handleBeforeUnload = () => disconnect(roomId, user);
+        window.addEventListener('beforeunload', handleBeforeUnload);
+        return () => window.removeEventListener('beforeunload', handleBeforeUnload);;
+    }, []);
+    /* ------- Functions for multiplayer ------- */
 
     /**
      * Reset information states, reset current tile.
@@ -117,6 +131,7 @@ export const GamePage = () => {
                 {!myTeamColor && <RainbowLoader className="mt-24" />}
 
                 {stage == 'notStarted' && !isConnecting &&
+                    // TODO : implement errors when connection
                     <div className="flex items-center h-full w-full absolute inset-0">
                         <RippleButton onClick={() => startGame(roomId)} ButtonComponent={PurpleButton}>
                             Начать игру

@@ -52,40 +52,7 @@ export class MultiPlayerController extends AbstractController {
         this.multiplayerService = new MultiplayerService();
     }
 
-    /**
-     * Parse data from ws request and run endpoint function by method.
-     *
-     * @param ws
-     * @param req
-     */
-    public initWebsocket: WebsocketRequestHandler = (ws, req): void => {
-        console.log('Client connected to the websocket server');
-        this.ws = ws;
-
-        this.ws.on('message', (message: string) => {
-            const request: MultiPlayerRequest<any> = JSON.parse(message);
-            // console.log(data);
-
-            switch (request.method) {
-                case 'joinRoom':
-                    this.joinRoomHandler(request);
-                    break;
-
-                case 'startGame':
-                    this.startGameHandler(request);
-                    break;
-
-                case 'passTheMove':
-                    this.passTheMoveHandler(request);
-                    break;
-
-                default:
-                    console.log('Unknown method: ', request.method);
-                    break;
-            }
-        });
-    };
-
+    /* ------- Helpers ------- */
     /**
      * Broadcast data from callback to all clients of this roomId.
      *
@@ -112,6 +79,47 @@ export class MultiPlayerController extends AbstractController {
         return [...this.aWss.clients].filter((client: WSClient) => client.roomId == roomId);
     }
 
+    /* ------- Helpers ------- */
+
+    /**
+     * Parse data from ws request and run endpoint function by method.
+     *
+     * @param ws
+     * @param req
+     */
+    public initWebsocket: WebsocketRequestHandler = (ws, req): void => {
+        console.log('Client connected to the websocket server');
+        this.ws = ws;
+
+        this.ws.on('message', (message: string) => {
+            const request: MultiPlayerRequest<any> = JSON.parse(message);
+            // console.log(data);
+
+            switch (request.method) {
+                case 'joinRoom':
+                    this.joinRoomHandler(request);
+                    break;
+
+                case 'startGame':
+                    this.startGameHandler(request);
+                    break;
+
+                case 'disconnect':
+                    this.disconnectHandler(request);
+                    break;
+
+                case 'passTheMove':
+                    this.passTheMoveHandler(request);
+                    break;
+
+                default:
+                    console.log('Unknown method: ', request.method);
+                    break;
+            }
+        });
+    };
+
+    /* ------- Handlers ------- */
     /**
      * Send a message about new player to all clients of this roomId
      * And initiate an assigning a team for the new player.
@@ -121,51 +129,34 @@ export class MultiPlayerController extends AbstractController {
     public joinRoomHandler(request: MultiPlayerRequest): void {
         if (!this.ws) return;
 
-        // Send a message about new player
-        this.broadcast(request.roomId, (client: WSClient) => ({
-            method: 'message',
-            message: "Новый игрок подключился к комнате " + request.roomId
-        }));
+        const result = this.multiplayerService.joinRoom(request.roomId);
 
-        this.assignTeam(request);
+        if (result) {
+            // Send a message about new player
+            this.broadcast(request.roomId, (client: WSClient) => ({
+                method: 'message',
+                message: "Новый игрок подключился к комнате " + request.roomId
+            }));
+
+            this.initPlayer(request);
+        } else {
+            // User can't join this room
+            this.ws.send(JSON.stringify({
+                method: 'message',
+                message: "Невозможно присоединиться к комнате " + request.roomId
+            }));
+        }
     }
 
     /**
-     * Send event "startGame" with list of teams that are connected to this room.
-     * Send event "passTheMove" to the player, who started this game, with isCurrentPlayer property.
-     * @param request
-     */
-    public startGameHandler(request: MultiPlayerRequest): void {
-        if (!this.ws) return;
-
-        const teamsList = this.multiplayerService.getTeamsList(this.aWss.clients);
-
-        // Send a message about new player
-        this.broadcast(request.roomId, (client: WSClient) => ({
-            method: 'startGame',
-            teamsList
-        }));
-
-        // Player, who started the game, moves first
-        this.broadcast(request.roomId, (client: WSClient) => {
-            client.isCurrentPlayer = this.ws?.user?.id == client.user?.id;
-
-            // Sync data between all players
-            return {
-                isCurrentPlayer: this.ws?.user?.id == client.user?.id,
-                method: 'passTheMove',
-            };
-        });
-    }
-
-    /**
-     * Assign a team for the new player.
+     * Init player.
      * Save user data for this ws connection,
+     * Assign a team for the new player.
      * And send setMyTeam event to this player.
      *
      * @param request
      */
-    public assignTeam(request: MultiPlayerRequest): void {
+    public initPlayer(request: MultiPlayerRequest): void {
         if (!this.ws) return;
         const roomId = request.roomId;
 
@@ -186,6 +177,67 @@ export class MultiPlayerController extends AbstractController {
     }
 
     /**
+     * Send event "startGame" with list of teams that are connected to this room.
+     * Send event "passTheMove" to the player, who started this game, with isCurrentPlayer property.
+     * @param request
+     */
+    public startGameHandler(request: MultiPlayerRequest): void {
+        if (!this.ws) return;
+
+        // Mark this room as game started
+        this.multiplayerService.startGame(request.roomId);
+
+        // Get list of teams that are connected to this room
+        const teamsList = this.multiplayerService.getTeamsList(this.aWss.clients);
+
+        // Send a message about new player
+        this.broadcast(request.roomId, (client: WSClient) => ({
+            method: 'startGame',
+            teamsList
+        }));
+
+        // Pass the move to the player, who started this game
+        setTimeout(() => this.passTheFirstMoveHandler(request), 250);
+    }
+
+    /**
+     * Send message about player disconnect
+     * and remove him from this room.
+     * @param request
+     */
+    public disconnectHandler(request: MultiPlayerRequest): void {
+        if (!this.ws) return;
+
+        // Send message to all users
+        this.broadcast(request.roomId, (client: WSClient) => ({
+            method: 'message',
+            message: `Пользователь ${request.user?.name} покинул игру`
+        }));
+
+        this.multiplayerService.leaveRoom(request.roomId);
+
+        // Todo sync teams after disconnect
+    }
+
+    /**
+     * Pass the move to the player in this.ws (the player, who started this game).
+     *
+     * @param request
+     */
+    public passTheFirstMoveHandler = (request: MultiPlayerRequest): void => {
+        // Player, who started the game, moves first
+        this.broadcast(request.roomId, (client: WSClient) => {
+            client.isCurrentPlayer = this.ws?.user?.id == client.user?.id;
+
+            // Sync data between all players
+            return {
+                isCurrentPlayer: this.ws?.user?.id == client.user?.id,
+                method: 'passTheMove',
+            };
+        });
+    };
+
+    /**
      * Pass the turn to the next player.
      * Set isCurrentPlayer = false for all players besides the new active player.
      *
@@ -200,9 +252,7 @@ export class MultiPlayerController extends AbstractController {
 
         this.broadcast(roomId, (client: WSClient) => {
             // Pass the turn
-            if(client.user?.id == nextPlayerId) client.isCurrentPlayer = true;
-            else  client.isCurrentPlayer = false;
-
+            client.isCurrentPlayer = client.user?.id == nextPlayerId;
 
             // Sync data between all players
             return {
@@ -215,7 +265,7 @@ export class MultiPlayerController extends AbstractController {
     };
 
     /**
-     *
+     * Sync data between all players connected to this room.
      * @param request
      */
     public syncDataHandler = (request: MultiplayerSyncRequest): void => {
@@ -223,11 +273,11 @@ export class MultiPlayerController extends AbstractController {
         const roomId = request.roomId;
 
         this.broadcast(roomId, (client: WSClient) => {
-
             return {
                 data: request.data,
                 method: 'syncData',
             };
         });
     }
+    /* ------- Handlers ------- */
 }
