@@ -47,6 +47,10 @@ export const useMultiplayer = (multiplayerState: IMultiplayerState) => {
                 joinNewPlayerHandler(response);
                 break;
 
+            case 'disconnectPlayer':
+                disconnectPlayerHandler(response);
+                break;
+
             case 'startGame':
                 startGameHandler(response);
                 break;
@@ -134,6 +138,10 @@ export const useMultiplayer = (multiplayerState: IMultiplayerState) => {
     };
 
     const joinNewPlayerHandler = (response: { teamsList: TeamColorType[] }) => {
+        multiplayerState.setTeams(getTeamsByColors(response.teamsList)); // Set list of teams that are connected to this room
+    }
+
+    const disconnectPlayerHandler = (response: { teamsList: TeamColorType[] }) => {
         multiplayerState.setTeams(getTeamsByColors(response.teamsList)); // Set list of teams that are connected to this room
     }
 

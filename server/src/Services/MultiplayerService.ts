@@ -38,7 +38,7 @@ export class MultiplayerService {
      *
      * @param roomId
      */
-    public joinRoom(roomId: string): {result: boolean, message?: string} {
+    public joinRoom(roomId: string): { result: boolean, message?: string } {
         // Create new room
         if (!rooms[roomId]) rooms[roomId] = {
             roomId,
@@ -47,10 +47,16 @@ export class MultiplayerService {
         };
 
         // The game is already started
-        if (rooms[roomId].isGameStarted) return {result: false, message: "Не удалось подключиться к комнате.\nИгра уже началась"};
+        if (rooms[roomId].isGameStarted) return {
+            result: false,
+            message: "Не удалось подключиться к комнате.\nИгра уже началась"
+        };
 
         // The room is full
-        if (rooms[roomId].playersCount + 1 > 4) return {result: false, message: "Не удалось подключиться к комнате.\nКомната заполнена"};
+        if (rooms[roomId].playersCount + 1 > 4) return {
+            result: false,
+            message: "Не удалось подключиться к комнате.\nКомната заполнена"
+        };
         rooms[roomId].playersCount++;
 
         console.log(`room ${roomId} - players: ${rooms[roomId].playersCount}`);
@@ -78,7 +84,7 @@ export class MultiplayerService {
      * @param roomId
      */
     public startGame(roomId: string): void {
-        if(rooms[roomId]) rooms[roomId].isGameStarted = true;
+        if (rooms[roomId]) rooms[roomId].isGameStarted = true;
     }
 
     /**
@@ -101,9 +107,15 @@ export class MultiplayerService {
     /**
      * Return the list of teams that are connected to this room.
      * @param clients
+     * @param excludeTeam
      */
-    public getTeamsList(clients: WSClient[]): string[] {
-        return this.teams.slice(0, clients.length);
+    public getTeamsList(clients: WSClient[], excludeTeam?: string): string[] {
+        let teamsList = this.teams.slice(0, clients.length);
+
+        if (excludeTeam)
+            teamsList = teamsList.filter((teamColor) => teamColor !== excludeTeam)
+
+        return teamsList;
     }
 
     /**

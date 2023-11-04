@@ -234,7 +234,15 @@ export class MultiPlayerController extends AbstractController {
 
         this.multiplayerService.leaveRoom(roomId);
 
-        // Todo sync teams after disconnect
+        const teamsList = this.multiplayerService.getTeamsList(
+            this.getRoomPlayers(roomId),
+            this.ws.team
+        );
+
+        this.broadcast(roomId, (client: WSClient) => ({
+            method: 'disconnectPlayer',
+            teamsList
+        }));
     }
 
     /**
