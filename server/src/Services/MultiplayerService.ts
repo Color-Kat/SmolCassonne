@@ -73,7 +73,7 @@ export class MultiplayerService {
         if (rooms[roomId]) {
             rooms[roomId].playersCount--;
 
-            console.log(`DISCONNECT room: ${roomId}, players: ${rooms[roomId].playersCount}`);
+            console.log(`Disconnect room: ${roomId}, players left: ${rooms[roomId].playersCount}`);
 
             if (rooms[roomId].playersCount == 0) delete rooms[roomId];
         }

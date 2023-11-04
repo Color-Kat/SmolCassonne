@@ -204,13 +204,9 @@ export class MultiPlayerController extends AbstractController {
         // Mark this room as game started
         this.multiplayerService.startGame(request.roomId);
 
-        // Get list of teams that are connected to this room
-        // const teamsList = this.multiplayerService.getTeamsList(this.aWss.clients);
-
         // Send a message about new player
         this.broadcast(request.roomId, (client: WSClient) => ({
             method: 'startGame',
-            // teamsList
         }));
 
         // Pass the move to the player, who started this game
