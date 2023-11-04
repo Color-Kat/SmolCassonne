@@ -10,7 +10,7 @@ import {response} from "express";
 interface MultiPlayerRequest<T = undefined> {
     roomId: string;
     method: string;
-    user: IUser;
+    user?: IUser;
 
     data: T;
 }
@@ -130,7 +130,7 @@ export class MultiPlayerController extends AbstractController {
     public joinRoomHandler(request: MultiPlayerRequest): void {
         if (!this.ws) return;
 
-        const result = this.multiplayerService.joinRoom(request.roomId);
+        const {result, message} = this.multiplayerService.joinRoom(request.roomId);
 
         if (result) {
             // Send a message about new player
@@ -144,7 +144,7 @@ export class MultiPlayerController extends AbstractController {
             // User can't join this room
             this.ws.send(JSON.stringify({
                 method: 'message',
-                message: "Невозможно присоединиться к комнате " + request.roomId
+                message: message ?? 'Не удалось подключиться к комнате ' + request.roomId
             }));
         }
     }
@@ -208,14 +208,15 @@ export class MultiPlayerController extends AbstractController {
      */
     public disconnectHandler(request: MultiPlayerRequest): void {
         if (!this.ws) return;
+        const roomId = this.ws.roomId ?? request.roomId;
 
         // Send message to all users
-        this.broadcast(request.roomId, (client: WSClient) => ({
+        this.broadcast(roomId, (client: WSClient) => ({
             method: 'message',
             message: `Пользователь ${request.user?.name} покинул игру`
         }));
 
-        this.multiplayerService.leaveRoom(request.roomId);
+        this.multiplayerService.leaveRoom(roomId);
 
         // Todo sync teams after disconnect
     }

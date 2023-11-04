@@ -8,7 +8,7 @@ interface IRoom {
     playersCount: number;
 }
 
-const rooms: {[key: string]: IRoom} = {};
+const rooms: { [key: string]: IRoom } = {};
 
 export class MultiplayerService {
     // /**
@@ -38,23 +38,23 @@ export class MultiplayerService {
      *
      * @param roomId
      */
-    public joinRoom(roomId: string): boolean {
+    public joinRoom(roomId: string): {result: boolean, message?: string} {
         // Create new room
-        if(!rooms[roomId]) rooms[roomId] = {
+        if (!rooms[roomId]) rooms[roomId] = {
             roomId,
             isGameStarted: false,
             playersCount: 0
         };
 
         // The game is already started
-        if(rooms[roomId].isGameStarted) return false;
+        if (rooms[roomId].isGameStarted) return {result: false, message: "Не удалось подключиться к комнате.\nИгра уже началась"};
 
         // The room is full
-        if(rooms[roomId].playersCount + 1 > 4) return false;
+        if (rooms[roomId].playersCount + 1 > 4) return {result: false, message: "Не удалось подключиться к комнате.\nКомната заполнена"};
         rooms[roomId].playersCount++;
-        console.log(rooms[roomId].playersCount);
+        console.log(`room ${roomId} - players: ${rooms[roomId].playersCount}`);
 
-        return true;
+        return {result: true};
     }
 
     /**
@@ -71,8 +71,8 @@ export class MultiplayerService {
      * @param roomId
      */
     public leaveRoom(roomId: string): void {
-        if(rooms[roomId]) {
-            console.log('leave count', rooms[roomId].playersCount - 1)
+        if (rooms[roomId]) {
+            // console.log('leave count', rooms[roomId].playersCount - 1)
             rooms[roomId].playersCount--;
             if (rooms[roomId].playersCount == 0) delete rooms[roomId];
         }
@@ -111,7 +111,7 @@ export class MultiplayerService {
         let currentPlayerIndex = 0;
 
         for (let i = 0; i < players.length; i++) {
-            if(players[i].isCurrentPlayer) {
+            if (players[i].isCurrentPlayer) {
                 currentPlayerIndex = i;
                 break;
             }
@@ -124,13 +124,13 @@ export class MultiplayerService {
     public checkGameResult(
         clients: WSClient[],
         deck: any[],
-        teams: {[key: string] : {score: number, color: string, name: string}}
-    ): {isOver: boolean, gameResult: any} {
+        teams: { [key: string]: { score: number, color: string, name: string } }
+    ): { isOver: boolean, gameResult: any } {
         // Game is over when there's no tiles in the deck
         let isOver = deck.length == 0;
         let gameResult = null;
 
-        if(isOver) {
+        if (isOver) {
             // Sort teams by score
             // 0 - the first place is the winner
             gameResult = Object.values(teams)
