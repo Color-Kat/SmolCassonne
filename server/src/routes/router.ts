@@ -1,7 +1,5 @@
 import express from 'express';
-import {TestController} from "../controllers/TestController.js";
-import expressWs from "express-ws";
-import {MultiPlayerController} from "../controllers/MultiPlayerController";
+import {TestController} from "../Controllers/TestController.js";
 
 const router = express.Router();
 

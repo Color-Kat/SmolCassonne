@@ -2,7 +2,6 @@
   "compilerOptions": {
     "target": "ES2018",
     "lib": [
-      "ES6",
       "ESNext"
     ],
     "module": "ESNext",
@@ -16,10 +15,10 @@
     "skipLibCheck": true,
     /* Bundler mode */
     "moduleResolution": "node",
-//    "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-//        "noEmit": true,
+//    "allowImportingTsExtensions": true,
+//    "noEmit": true,
 
     /* Linting */
     "strict": true,
@@ -27,7 +26,8 @@
     "noUnusedParameters": false,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "baseUrl": "./",
+
+    "baseUrl": ".",
 //    "paths": {
 //      "@/*": ["src/*"],
 //      "@controllers/*": ["src/controllers/*"],
@@ -43,9 +43,9 @@
   "exclude": [
     "node_modules"
   ],
-  "lib": [
-    "esnext"
-  ],
+//  "lib": [
+//    "esnext"
+//  ],
   "ts-node": {
     "esm": true
   }

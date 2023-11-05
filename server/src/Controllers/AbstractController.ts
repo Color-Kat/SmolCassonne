@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import { Response } from 'express';
 
 export abstract class AbstractController {
     protected handleError(res: Response, err: any): void {

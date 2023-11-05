@@ -3,7 +3,7 @@ import expressWs from 'express-ws';
 import cors from 'cors';
 
 import {router} from "./routes/router.js";
-import {MultiPlayerController} from "./controllers/MultiPlayerController.js";
+import {MultiPlayerController} from "./Controllers/MultiPlayerController.js";
 
 // console.log(new TestController());
 const PORT = process.env.PORT || 5000;

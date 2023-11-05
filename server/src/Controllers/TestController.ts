@@ -1,8 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
-import {AbstractController} from "./AbstractController.js";
-// import UserModel from '../models/userModel';
+import { AbstractController } from "./AbstractController.js";
 
-export class TestController extends AbstractController {
+export class TestController extends AbstractController{
 
     public sayHello(req: Request, res: Response, next: NextFunction): void {
         res.json({ hello: 'world' });

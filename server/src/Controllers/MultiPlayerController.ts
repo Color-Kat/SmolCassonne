@@ -1,10 +1,8 @@
 import {AbstractController} from "./AbstractController.js";
-import WebSocket from "ws";
 import {WebsocketRequestHandler, Instance as WSServerInstance} from "express-ws";
 import {IUser} from "../types/types";
 import {MultiplayerService} from "../Services/MultiplayerService.js";
 import {WSClient} from "../types/multiplayer";
-import {response} from "express";
 
 // Common Multiplayer request
 interface MultiPlayerRequest<T = undefined> {
