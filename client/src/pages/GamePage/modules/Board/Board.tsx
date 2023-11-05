@@ -119,11 +119,11 @@ export const Board: React.FC<BoardProps> = ({
             const newTeams = {...prev};
 
             // Mark free units as not occupied
-            newTeams[myTeamColor].units.map(unit => freeUnitIds.includes(unit.id) ? unit.setOccupied(false) : unit);
+            newTeams[myTeamColor]?.units.map(unit => freeUnitIds.includes(unit.id) ? unit.setOccupied(false) : unit);
 
             // Update score
             for(let teamColor in newTeams) {
-                newTeams[teamColor as TeamColorType].score += score[teamColor] ?? 0;
+                newTeams[teamColor as TeamColorType]!.score += score[teamColor] ?? 0;
             }
 
             return newTeams;

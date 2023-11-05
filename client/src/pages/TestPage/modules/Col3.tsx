@@ -1,16 +1,4 @@
 import React, {memo, useCallback, useState} from 'react';
-import {RainbowLoader} from "@UI/Loaders";
-import {Button, LoadingButton, RippleButton} from "@components/Buttons";
-import {
-    BlueButton,
-    BorderedButton, PurpleBorderedButton, RedBorderedButton,
-    GrayButton,
-    LimeButton,
-    PinkButton,
-    PurpleButton,
-    SuccessButton,
-    WhiteButton
-} from "@UI/Buttons";
 import {RedFilledButton} from "@UI/Buttons/RedFilledButton.tsx";
 import {Form} from "@components/Form";
 import {BsPerson} from "react-icons/bs";

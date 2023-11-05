@@ -2,11 +2,13 @@ import React from "react";
 import {Tile} from "@pages/GamePage/classes/TilesDeck.tsx";
 import {Unit} from "@pages/GamePage/classes/Units.ts";
 import {Team, TeamColorType, TeamsType} from "@pages/GamePage/classes/teams.ts";
+import {IUser} from "@/store/auth/auth.slice.ts";
 
 export const MapContext = React.createContext<{
     myTeamColor: TeamColorType,
-    teams: {[key in TeamColorType]: Team}
-    setTeams: React.Dispatch<React.SetStateAction<{[key in TeamColorType]: Team}>>,
+    setMyTeamColor: React.Dispatch<React.SetStateAction<TeamColorType | null>>,
+    teams: TeamsType
+    setTeams: React.Dispatch<React.SetStateAction<TeamsType>>,
 
     tileSize: number,
 
@@ -22,9 +24,17 @@ export const MapContext = React.createContext<{
     endOfTurn: (updatedMap: Tile[], updatedTeams: TeamsType) => void;
 }>({} as any);
 
-export type GameStagesType = 'notStarted' | 'emptyMap' | 'takeTile' | 'tilePlaced' | 'unitPlaced' | 'scoring' | 'endOfTurn' | 'wait';
+export type GameStagesType = 'notStarted' | 'emptyMap' | 'takeTile' | 'tilePlaced' | 'unitPlaced' | 'scoring' | 'endOfTurn' | 'wait' | 'gameOver';
 export const GameStageContext = React.createContext<{
     stage: GameStagesType,
     setStage: React.Dispatch<React.SetStateAction<GameStagesType>>,
 }>({} as any);
+
+export const MultiplayerContext = React.createContext<{
+    roomId: string,
+    joinRoom: (roomId: string, user: IUser) => void,
+    startGame: (roomId: string) => void,
+    disconnect: (roomId: string, user: IUser) => void
+}>({} as any);
+
 

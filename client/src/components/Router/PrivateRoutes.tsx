@@ -32,7 +32,7 @@ export const PrivateRoutes: React.FC<PrivateRoutesProps> = ({
     if(!auth && user) return <Navigate to="/" replace/>;
 
     // Check role
-    if(roleId && user?.role_id !== roleId) return <Navigate to="/?403" replace/>;
+    // if(roleId && user?.role_id !== roleId) return <Navigate to="/?403" replace/>;
 
     // Everything is alright, render route component
     return (

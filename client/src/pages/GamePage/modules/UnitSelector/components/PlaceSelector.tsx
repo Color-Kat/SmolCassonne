@@ -56,7 +56,7 @@ const UnitPlace: React.FC<UnitPlaceProps> = memo(({
             // Mark this unit as occupied
             setTeams(prev => {
                 const newTeams = {...prev};
-                newTeams[myTeamColor].units.map(unit => unit.id == selectedUnit.id ? unit.setOccupied(true) : unit);
+                newTeams[myTeamColor]?.units.map(unit => unit.id == selectedUnit.id ? unit.setOccupied(true) : unit);
                 return newTeams;
             });
 

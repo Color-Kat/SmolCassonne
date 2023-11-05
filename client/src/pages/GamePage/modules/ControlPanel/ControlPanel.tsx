@@ -70,7 +70,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = memo(({
     return (
         <div
             className={twJoin(
-                "h-full w-56 flex flex-col items-center px-3 py-5 bg-gray-300 absolute z-50",
+                "h-full w-56 flex flex-col items-center px-3 py-5 bg-gray-300 absolute z-10",
                 !canTakeTile && "pointer-events-none"
             )}
         >

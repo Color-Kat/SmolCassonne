@@ -61,7 +61,9 @@ export const ListOfUnits: React.FC<ListOfUnitsProps> = memo(({
                                                                  setSelectedUnit
                                                              }) => {
     const {myTeamColor, teams} = React.useContext(MapContext);
-    const units = teams[myTeamColor].units;
+    const units = teams[myTeamColor]?.units;
+
+    if(!units) return null;
 
     return (
         <div className="absolute bottom-0 w-full h-36 cursor-default">

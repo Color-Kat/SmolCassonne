@@ -1,10 +1,10 @@
 import {Unit, units as listOfUnits} from "@pages/GamePage/classes/Units.ts";
 
-export type TeamColorType = 'blue' | 'red';
+export type TeamColorType = 'blue' | 'red' | 'green' | 'yellow';
 
-export type TeamsType = {[key in TeamColorType]: Team};
+export type TeamsType = Partial<{[key in TeamColorType]: Team}>;
 
-interface ITeam {
+export interface ITeam {
     color: TeamColorType;
     name: string;
     units: Unit[];
@@ -54,11 +54,12 @@ export class Team implements ITeam{
      * Restore a full list Team instances from a simple object
      * @param teams
      */
-    static hydrateTeams(teams: {[key in TeamColorType]: ITeam}): TeamsType {
+    static hydrateTeams(teams: Partial<{[key in TeamColorType]: ITeam}>): TeamsType {
         const hydratedTeams: TeamsType = {} as any;
 
         for (const teamColor in teams) {
-            hydratedTeams[teamColor as TeamColorType] = Team.hydrate(teams[teamColor as TeamColorType]);
+            const teamObject = teams[teamColor as TeamColorType];
+            if(teamObject) hydratedTeams[teamColor as TeamColorType] = Team.hydrate(teamObject);
         }
 
         return hydratedTeams;
@@ -96,16 +97,26 @@ export class Team implements ITeam{
             red: '#f43f5e',
             green: '#22c55e',
             blue: '#0ea5e9',
+            yellow: '#e6b737',
         }[this.color] ?? 'magenta';
     }
 }
 
-// List of available team colors
-const teamColors: TeamColorType[] = ['red', 'blue'];
+/**
+ * Return a list of teams that match the teamColors.
+ *
+ * @param teamColors
+ */
+export const getTeamsByColors = (teamColors: TeamColorType[]): TeamsType => {
+    const teams: TeamsType = {} as any;
 
-// List of teams
-export const defaultTeams: TeamsType = {} as any;
+    for (const teamColor of teamColors) {
+        teams[teamColor] = new Team(teamColor);
+    }
 
-for (const teamColor of teamColors) {
-    defaultTeams[teamColor] = new Team(teamColor);
+    return teams;
 }
+
+// Default list of teams
+export const defaultTeams = {blue: new Team('blue')};
+
