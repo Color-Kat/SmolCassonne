@@ -137,6 +137,7 @@ export class MultiplayerService {
     }
 
     public checkGameResult(
+        roomId: string,
         clients: WSClient[],
         deck: any[],
         teams: { [key: string]: { score: number, color: string, name: string } }
@@ -150,6 +151,8 @@ export class MultiplayerService {
             // 0 - the first place is the winner
             gameResult = Object.values(teams)
                 .sort((a, b) => b.score - a.score);
+
+            delete rooms[roomId];
         }
 
         return {isOver, gameResult};

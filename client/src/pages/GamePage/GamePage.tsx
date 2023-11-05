@@ -14,6 +14,7 @@ import {IUser} from "@/store/auth/auth.slice.ts";
 import {RainbowLoader} from "@UI/Loaders";
 import {StartGameScreen} from "@pages/GamePage/modules/StartGameScreen/StartGameScreen.tsx";
 import {ComposeContexts, contextProvider} from "@components/Helpers";
+import {GameOverScreen} from "@pages/GamePage/modules/GameOverScreen/GameOverScreen.tsx";
 
 /**
  * This component renders the game page.
@@ -126,10 +127,12 @@ export const GamePage = () => {
                 GameStageContext.Provider,
                 {stage, setStage}
             ),
+            /* --- Map context --- */
             contextProvider(
                 MapContext.Provider,
                 {
                     myTeamColor: myTeamColor as any,
+                    setMyTeamColor,
                     teams,
                     setTeams,
 
@@ -146,6 +149,7 @@ export const GamePage = () => {
                     endOfTurn
                 }
             ),
+            /* --- Multiplayer context --- */
             contextProvider(
                 MultiplayerContext.Provider,
                 {
@@ -153,7 +157,7 @@ export const GamePage = () => {
                     joinRoom,
                     startGame,
                     // passTheMove,
-                    // disconnect
+                    disconnect
                 }
             )
         ]}>
@@ -163,8 +167,9 @@ export const GamePage = () => {
                     <link rel="canonical" href={import.meta.env.VITE_APP_URL + '/game'}/>
                 </Helmet>
 
-                {!isConnectedToRoom && <RainbowLoader className="mt-24"/>}
+                {/*{!isConnectedToRoom && <RainbowLoader className="mt-24"/>}*/}
 
+                {/* Start game screen */}
                 {stage == 'notStarted' &&
                     <StartGameScreen
                         user={user}
@@ -174,6 +179,7 @@ export const GamePage = () => {
                     />
                 }
 
+                {/* Game */}
                 {stage !== 'notStarted' &&
                     <div className="flex h-full w-full relative">
                         {/* Control panel with buttons and the deck of tiles */}
@@ -197,6 +203,16 @@ export const GamePage = () => {
                             endOfTurn={endOfTurn}
                         />
                     </div>
+                }
+
+                {/* Game over screen */}
+                {stage == 'gameOver' &&
+                    <GameOverScreen
+                        winners={winners}
+                        user={user}
+                        roomId={roomId}
+                        setRoomId={setRoomId}
+                    />
                 }
 
                 {/* Information messages, tooltips and info */}

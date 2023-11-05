@@ -5,6 +5,7 @@ import {MapContext, MultiplayerContext} from "@pages/GamePage/gameContext.ts";
 import {SimpleInput} from "@components/Inputs";
 import {twMerge} from "tailwind-merge";
 import {IUser} from "@/store/auth/auth.slice.ts";
+import {RainbowLoader} from "@UI/Loaders";
 
 interface StartGameScreenProps {
     roomId: string;
@@ -24,10 +25,11 @@ export const StartGameScreen: React.FC<StartGameScreenProps> = memo(({
 
     return (
         <div className="flex justify-center items-center h-full w-full absolute inset-0">
-             {/*TODO loader*/}
+            {/*TODO loader*/}
+            {/*<RainbowLoader className="mt-24"/>*/}
 
             {/* Join room */}
-            {!isConnectedToRoom && <div className="flex flex-col gap-3">
+            {!isConnectedToRoom && <div className="flex flex-col gap-3 p-7 rounded-3xl bg-app">
                 <h1 className="font-bold text-2xl text-gray-700 mb-5">
                     Подключитесь <br/>к комнате
                 </h1>
@@ -58,7 +60,7 @@ export const StartGameScreen: React.FC<StartGameScreenProps> = memo(({
 
 
             {/* Start The Game */}
-            {isConnectedToRoom && <div className="flex flex-col">
+            {isConnectedToRoom && <div className="flex flex-col  p-7 rounded-3xl bg-app">
                 <div className="text-gray-500 text-sm">
                     Комната #{roomId}
                 </div>

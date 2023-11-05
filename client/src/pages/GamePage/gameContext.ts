@@ -6,6 +6,7 @@ import {IUser} from "@/store/auth/auth.slice.ts";
 
 export const MapContext = React.createContext<{
     myTeamColor: TeamColorType,
+    setMyTeamColor: React.Dispatch<React.SetStateAction<TeamColorType | null>>,
     teams: TeamsType
     setTeams: React.Dispatch<React.SetStateAction<TeamsType>>,
 
@@ -32,7 +33,8 @@ export const GameStageContext = React.createContext<{
 export const MultiplayerContext = React.createContext<{
     roomId: string,
     joinRoom: (roomId: string, user: IUser) => void,
-    startGame: (roomId: string) => void;
+    startGame: (roomId: string) => void,
+    disconnect: (roomId: string, user: IUser) => void
 }>({} as any);
 
 

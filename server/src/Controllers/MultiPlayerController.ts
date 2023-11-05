@@ -142,6 +142,8 @@ export class MultiPlayerController extends AbstractController {
             this.initPlayer(request);
 
             this.joinNewPlayer(request);
+            console.log('seeent')
+            // TODO если второй игрок подключается к комнате, то он не переходит на второй экарн (не получает запрос)
         } else {
             // User can't join this room
             this.ws.send(JSON.stringify({
@@ -177,6 +179,7 @@ export class MultiPlayerController extends AbstractController {
             method: 'setMyTeam',
             team: this.ws.team
         }));
+
     }
 
     public joinNewPlayer(request: MultiPlayerRequest): void {
@@ -303,17 +306,19 @@ export class MultiPlayerController extends AbstractController {
         });
 
         const {isOver, gameResult} = this.multiplayerService.checkGameResult(
+            roomId,
             this.getRoomPlayers(roomId),
             request.data.deck,
             request.data.teams
         );
 
         // Game is over
-        if (isOver)
+        if (isOver) {
             this.broadcast(roomId, (client: WSClient) => ({
                 gameResult: gameResult,
                 method: 'gameOver',
             }));
+        }
     }
     /* ------- Handlers ------- */
 }
