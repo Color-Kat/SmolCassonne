@@ -1,6 +1,4 @@
-import {Instance as WSServerInstance} from "express-ws";
 import {WSClient} from "../types/multiplayer";
-import WebSocket from "ws";
 
 interface IRoom {
     roomId: string;
@@ -133,7 +131,7 @@ export class MultiplayerService {
         }
 
         const nextPlayerIndex = (currentPlayerIndex + 1) % players.length;
-        return players[nextPlayerIndex].user?.id ?? "";
+        return players[nextPlayerIndex].user?.id ?? players[0].user?.id ?? "";
     }
 
     public checkGameResult(
@@ -142,7 +140,7 @@ export class MultiplayerService {
         deck: any[],
         teams: { [key: string]: { score: number, color: string, name: string } }
     ): { isOver: boolean, gameResult: any } {
-        // Game is over when there's no tiles in the deck
+        // The Game is over when there are no tiles in the deck
         let isOver = deck.length == 0;
         let gameResult = null;
 

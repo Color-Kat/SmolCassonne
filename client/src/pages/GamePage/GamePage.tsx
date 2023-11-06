@@ -16,6 +16,11 @@ import {StartGameScreen} from "@pages/GamePage/modules/StartGameScreen/StartGame
 import {ComposeContexts, contextProvider} from "@components/Helpers";
 import {GameOverScreen} from "@pages/GamePage/modules/GameOverScreen/GameOverScreen.tsx";
 
+const user: IUser = {
+    id: Date.now().toString(),
+    name: 'ColorKat',
+};
+
 /**
  * This component renders the game page.
  * It is responsible for global state of the game,
@@ -25,10 +30,6 @@ import {GameOverScreen} from "@pages/GamePage/modules/GameOverScreen/GameOverScr
  */
 export const GamePage = () => {
     const [roomId, setRoomId] = useState("");
-    const user: IUser = {
-        id: Date.now(),
-        name: 'ColorKat',
-    };
 
     const [myTeamColor, setMyTeamColor] = useState<TeamColorType | null>(null); // Will be set by server
     const [teams, setTeams] = useState<TeamsType>(defaultTeams);
@@ -56,11 +57,13 @@ export const GamePage = () => {
     /* ------- Functions for multiplayer ------- */
     // Retrieve methods for multiplayer
     const {
+        connectUser,
         joinRoom,
         startGame,
         passTheMove,
-        disconnect
+        leaveRoom
     } = useMultiplayer({
+        user,
         setStage,
         setDeck,
         setMyTeamColor, teams, setTeams,
@@ -69,9 +72,13 @@ export const GamePage = () => {
         setInfoMessage
     });
 
+    useEffect(() => {
+        connectUser();
+    }, []);
+
     // Catch disconnect event
     useEffect(() => {
-        const handleBeforeUnload = () => disconnect(roomId, user);
+        const handleBeforeUnload = () => leaveRoom(roomId);
         window.addEventListener('beforeunload', handleBeforeUnload);
         return () => window.removeEventListener('beforeunload', handleBeforeUnload);
     }, [roomId, user]);
@@ -157,7 +164,7 @@ export const GamePage = () => {
                     joinRoom,
                     startGame,
                     // passTheMove,
-                    disconnect
+                    leaveRoom
                 }
             )
         ]}>

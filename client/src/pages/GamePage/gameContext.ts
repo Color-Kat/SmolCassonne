@@ -34,7 +34,7 @@ export const MultiplayerContext = React.createContext<{
     roomId: string,
     joinRoom: (roomId: string, user: IUser) => void,
     startGame: (roomId: string) => void,
-    disconnect: (roomId: string, user: IUser) => void
+    leaveRoom: (roomId: string) => void
 }>({} as any);
 
 

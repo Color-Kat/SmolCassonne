@@ -1,7 +1,7 @@
 import {useWebsocket} from "@hooks/useWebsocket.ts";
 import TilesDeck, {Tile} from "@pages/GamePage/classes/TilesDeck.tsx";
 import {getTeamsByColors, ITeam, Team, TeamColorType, TeamsType} from "@pages/GamePage/classes/teams.ts";
-import React, {useContext} from "react";
+import React, {useContext, useEffect} from "react";
 import {Unit} from "@pages/GamePage/classes/Units.ts";
 import {TilesMap} from "@pages/GamePage/classes/TilesMap.ts";
 import {IUser} from "@/store/auth/auth.slice.ts";
@@ -9,6 +9,8 @@ import {GameStageContext, GameStagesType, MapContext} from "@pages/GamePage/game
 import {ISyncDataResponse, MultiplayerSyncRequest} from "@pages/GamePage/hooks/multiplayerTypes.ts";
 
 interface IMultiplayerState {
+    user: IUser;
+
     setStage: React.Dispatch<React.SetStateAction<GameStagesType>>;
 
     setDeck: React.Dispatch<React.SetStateAction<Tile[]>>;
@@ -47,8 +49,8 @@ export const useMultiplayer = (multiplayerState: IMultiplayerState) => {
                 joinNewPlayerHandler(response);
                 break;
 
-            case 'disconnectPlayer':
-                disconnectPlayerHandler(response);
+            case 'playerLeaveRoom':
+                playerLeaveRoomHandler(response);
                 break;
 
             case 'startGame':
@@ -79,6 +81,20 @@ export const useMultiplayer = (multiplayerState: IMultiplayerState) => {
     const {sendToWebsocket} = useWebsocket('ws://localhost:5000/multiplayer', handleMultiplayerEvents);
 
     /**
+     * Try to connect user and setUserId to this connection
+     */
+    const connectUser = () => {
+        try{
+            sendToWebsocket({
+                method: 'setUserId',
+                userId: multiplayerState.user.id
+            });
+        } catch (e) {
+            setTimeout( connectUser, 500 );
+        }
+    }
+
+    /**
      * Send request to join user to the room with roomId
      * @param roomId
      * @param user
@@ -86,8 +102,11 @@ export const useMultiplayer = (multiplayerState: IMultiplayerState) => {
     const joinRoom = (roomId: string, user: IUser) => {
         if(!roomId) return false;
 
+        console.log('i must join the room!')
+
         sendToWebsocket({
             method: 'joinRoom',
+            userId: multiplayerState.user.id,
             roomId: roomId,
             user: user
         });
@@ -96,17 +115,19 @@ export const useMultiplayer = (multiplayerState: IMultiplayerState) => {
     const startGame = (roomId: string) => {
         sendToWebsocket({
             method: 'startGame',
+            userId: multiplayerState.user.id,
             roomId: roomId,
         });
 
         // multiplayerState.setStage('emptyMap');
     };
 
-    const disconnect = (roomId: string, user: IUser) => {
+    const leaveRoom = (roomId: string) => {
         sendToWebsocket({
-            method: 'disconnect',
+            method: 'leaveRoom',
+            userId: multiplayerState.user.id,
             roomId: roomId,
-            user: user
+            user: multiplayerState.user
         });
     }
 
@@ -116,8 +137,9 @@ export const useMultiplayer = (multiplayerState: IMultiplayerState) => {
      */
     const passTheMove = (request: MultiplayerSyncRequest) => {
         sendToWebsocket({
-            roomId: request.roomId,
             method: 'passTheMove',
+            userId: multiplayerState.user.id,
+            roomId: request.roomId,
             user: request.user,
             data: request.data
         });
@@ -141,8 +163,13 @@ export const useMultiplayer = (multiplayerState: IMultiplayerState) => {
         multiplayerState.setTeams(getTeamsByColors(response.teamsList)); // Set list of teams that are connected to this room
     }
 
-    const disconnectPlayerHandler = (response: { teamsList: TeamColorType[] }) => {
-        multiplayerState.setTeams(getTeamsByColors(response.teamsList)); // Set list of teams that are connected to this room
+    const playerLeaveRoomHandler = (response: { teamsList: TeamColorType[] }) => {
+        if(response.teamsList.length > 0)
+            // Set list of teams that are still connected to this room
+            multiplayerState.setTeams(getTeamsByColors(response.teamsList));
+        else
+            // There are no players in this room, leave from room
+            multiplayerState.setMyTeamColor(null);
     }
 
     const startGameHandler = (response: { teamsList: TeamColorType[] }) => {
@@ -187,9 +214,10 @@ export const useMultiplayer = (multiplayerState: IMultiplayerState) => {
     /* ----------------------------- */
 
     return {
+        connectUser,
         joinRoom,
         startGame,
         passTheMove,
-        disconnect
+        leaveRoom
     };
 };

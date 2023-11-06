@@ -1,6 +1,6 @@
 import React, {memo, useContext} from 'react';
 import {RippleButton} from "@components/Buttons";
-import {PurpleButton} from "@UI/Buttons";
+import {PurpleButton, RedBorderedButton} from "@UI/Buttons";
 import {MapContext, MultiplayerContext} from "@pages/GamePage/gameContext.ts";
 import {SimpleInput} from "@components/Inputs";
 import {twMerge} from "tailwind-merge";
@@ -20,8 +20,12 @@ export const StartGameScreen: React.FC<StartGameScreenProps> = memo(({
      isConnectedToRoom,
      user
  }) => {
-    const {joinRoom, startGame} = useContext(MultiplayerContext);
+    const {joinRoom, startGame, leaveRoom} = useContext(MultiplayerContext);
     const {teams} = useContext(MapContext);
+
+    const handleLeaveRoom = () => {
+        leaveRoom(roomId);
+    }
 
     return (
         <div className="flex justify-center items-center h-full w-full absolute inset-0">
@@ -81,6 +85,14 @@ export const StartGameScreen: React.FC<StartGameScreenProps> = memo(({
                     className="w-full"
                 >
                     Начать игру
+                </RippleButton>
+
+                <RippleButton
+                    onClick={handleLeaveRoom}
+                    ButtonComponent={RedBorderedButton}
+                    className="w-full mt-3 py-1.5"
+                >
+                    Назад
                 </RippleButton>
             </div>}
         </div>

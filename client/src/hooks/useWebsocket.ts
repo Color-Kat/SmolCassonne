@@ -26,19 +26,26 @@ export const useWebsocket = (url: string, onEventCallback: (method: string, data
             onEventCallback(data.method, data);
         };
 
+        socketRef.current.onclose = () => {
+            console.log('Disconnected from the websocket server!');
+        };
+
         // Close connection
-        // return () => {
-        //     socketRef.current?.close();
-        // };
+        return () => {
+            socketRef.current?.close();
+            console.log('Disconnected from the websocket server');
+        };
     }, []);
 
-    const sendToWebsocket = (data: any) => {
+    const sendToWebsocket = (data: {
+        userId: string; // Use for private messages directly to the user
+        [key: string]: any;
+    }) => {
         // if(socketRef.current?.readyState !== WebSocket.OPEN) return false;
         socketRef.current?.send(JSON.stringify(data));
     };
 
     return {
         sendToWebsocket,
-
     }
 };
