@@ -21,10 +21,11 @@ export const StartGameScreen: React.FC<StartGameScreenProps> = memo(({
      user
  }) => {
     const {joinRoom, startGame, leaveRoom} = useContext(MultiplayerContext);
-    const {teams} = useContext(MapContext);
+    const {teams, setMyTeamColor} = useContext(MapContext);
 
     const handleLeaveRoom = () => {
         leaveRoom(roomId);
+        setMyTeamColor(null);
     }
 
     return (
