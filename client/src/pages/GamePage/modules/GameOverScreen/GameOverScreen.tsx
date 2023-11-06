@@ -4,9 +4,11 @@ import {PurpleButton} from "@UI/Buttons";
 import {GameStageContext, MapContext, MultiplayerContext} from "@pages/GamePage/gameContext.ts";
 import {IUser} from "@/store/auth/auth.slice.ts";
 import {Team} from "@pages/GamePage/classes/teams.ts";
+import TilesDeck from "@pages/GamePage/classes/TilesDeck.tsx";
 
 interface GameOverScreenProps {
     winners: Team[];
+    setWinners: React.Dispatch<React.SetStateAction<Team[]>>;
 
     roomId: string;
     setRoomId: React.Dispatch<React.SetStateAction<string>>;
@@ -15,22 +17,23 @@ interface GameOverScreenProps {
 
 export const GameOverScreen: React.FC<GameOverScreenProps> = memo(({
                                                                        winners,
+                                                                       setWinners,
                                                                        roomId,
                                                                        setRoomId,
                                                                        user
                                                                    }) => {
     const {setStage} = useContext(GameStageContext);
-    const {myTeamColor, setMyTeamColor, setTeams , setMap} = useContext(MapContext);
-    const {disconnect} = useContext(MultiplayerContext);
+    const {myTeamColor, setMyTeamColor, setDeck, setTeams, setMap} = useContext(MapContext);
+    const {leaveRoom} = useContext(MultiplayerContext);
 
     const gameResult = useMemo(() => {
         const myTeamIndex = winners.findIndex((team) => team.color === myTeamColor);
-
+        console.log('hereeee', myTeamIndex, myTeamColor, winners)
         return {
             myScore: winners[myTeamIndex].score,
             myPlace: myTeamIndex + 1
         }
-    }, []);
+    }, [winners, myTeamColor]);
 
     const exit = () => {
         setMyTeamColor(null);
@@ -38,8 +41,10 @@ export const GameOverScreen: React.FC<GameOverScreenProps> = memo(({
         setMap([]);
         setRoomId("");
         setStage("notStarted");
+        setDeck(new TilesDeck().getShuffledDeck());
+        setWinners([]);
 
-        disconnect(roomId, user);
+        leaveRoom(roomId);
     }
 
     return (
@@ -56,19 +61,19 @@ export const GameOverScreen: React.FC<GameOverScreenProps> = memo(({
 
                 {/* Count of connected players */}
 
-               {/* My place */}
-               <div className="my-8 mx-auto text-center">
-                   <div className="text-gray-500 text-base font-semibold">
-                       Вы заняли
-                   </div>
-                   <div className="text-4xl font-bold text-slate-700">
-                       {gameResult.myPlace} место
-                   </div>
+                {/* My place */}
+                <div className="my-8 mx-auto text-center">
+                    <div className="text-gray-500 text-base font-semibold">
+                        Вы заняли
+                    </div>
+                    <div className="text-4xl font-bold text-slate-700">
+                        {gameResult.myPlace} место
+                    </div>
 
-                   <div className="text-gray-500  text-base font-semibold mt-2">
-                       Ваш счёт: {gameResult.myScore}
-                   </div>
-               </div>
+                    <div className="text-gray-500  text-base font-semibold mt-2">
+                        Ваш счёт: {gameResult.myScore}
+                    </div>
+                </div>
 
                 {/* Opponents */}
                 <div className="flex gap-3 mx-auto">
@@ -85,7 +90,7 @@ export const GameOverScreen: React.FC<GameOverScreenProps> = memo(({
                             <div
                                 className="text-3xl font-bold"
                                 style={{color: team.getTeamColor()}
-                            }>
+                                }>
                                 {team.name}
                             </div>
 

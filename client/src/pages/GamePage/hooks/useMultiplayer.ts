@@ -174,12 +174,13 @@ export const useMultiplayer = (multiplayerState: IMultiplayerState) => {
 
     const startGameHandler = (response: { teamsList: TeamColorType[] }) => {
         multiplayerState.setStage('emptyMap'); // Init empty map
+
+        // multiplayerState.setDeck()
         // multiplayerState.setTeams(getTeamsByColors(response.teamsList)); // Set list of teams that are connected to this room
     };
 
     const passTheMoveHandler = (response: { isCurrentPlayer: boolean }) => {
         if (response.isCurrentPlayer) {
-            // TODO карта на прогружается
             multiplayerState.setStage('takeTile');
         } else
             multiplayerState.setStage('wait');

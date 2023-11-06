@@ -96,7 +96,7 @@ export class MultiplayerService {
         // Iterate all players of this room
         players.forEach((player) => {
             // Delete already taken team names
-            freeTeams = freeTeams.filter((team) => team != player.team)
+            freeTeams = freeTeams.filter((team) => team != player.team);
         });
 
         return freeTeams[0];

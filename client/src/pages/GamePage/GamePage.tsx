@@ -144,6 +144,7 @@ export const GamePage = () => {
                     setTeams,
 
                     tileSize: 192,
+                    setDeck,
                     map,
                     setMap,
                     currentTile,
@@ -216,6 +217,7 @@ export const GamePage = () => {
                 {stage == 'gameOver' &&
                     <GameOverScreen
                         winners={winners}
+                        setWinners={setWinners}
                         user={user}
                         roomId={roomId}
                         setRoomId={setRoomId}

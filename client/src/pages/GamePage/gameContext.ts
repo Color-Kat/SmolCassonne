@@ -12,6 +12,8 @@ export const MapContext = React.createContext<{
 
     tileSize: number,
 
+    setDeck: React.Dispatch<React.SetStateAction<Tile[]>>,
+
     map: Tile[],
     setMap: React.Dispatch<React.SetStateAction<Tile[]>>,
     currentTile: Tile | undefined,
