@@ -250,6 +250,10 @@ export class MultiPlayerController extends AbstractController {
         if (!client) return;
         const roomId = request.roomId;
 
+        // Pass the turn to the next player
+        // before the player leaves the room
+        this.passTheMoveHandler(request as any, false);
+
         // Delete data about current game of the client
         delete client.roomId;
         delete client.user;
@@ -301,8 +305,9 @@ export class MultiPlayerController extends AbstractController {
      * Set isCurrentPlayer = false for all players besides the new active player.
      *
      * @param request
+     * @param syncData
      */
-    public passTheMoveHandler = (request: MultiplayerSyncRequest): void => {
+    public passTheMoveHandler = (request: MultiplayerSyncRequest, syncData: boolean = true): void => {
         const roomId = request.roomId;
 
         // Get the next player user id
@@ -319,7 +324,8 @@ export class MultiPlayerController extends AbstractController {
             };
         });
 
-        this.syncDataHandler(request);
+        if(syncData)
+            this.syncDataHandler(request);
     };
 
     /**
