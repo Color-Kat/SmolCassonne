@@ -28,7 +28,7 @@ export const GameOverScreen: React.FC<GameOverScreenProps> = memo(({
 
     const gameResult = useMemo(() => {
         const myTeamIndex = winners.findIndex((team) => team.color === myTeamColor);
-        console.log('hereeee', myTeamIndex, myTeamColor, winners)
+
         return {
             myScore: winners[myTeamIndex].score,
             myPlace: myTeamIndex + 1

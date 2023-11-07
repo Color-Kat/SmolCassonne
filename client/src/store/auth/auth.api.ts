@@ -22,13 +22,21 @@ export const authApi = createApi({
             }),
             providesTags: ["User"],
             async onQueryStarted(id, {dispatch, queryFulfilled}) {
-                // Put user in slice store
-                try {
-                    const {data} = await queryFulfilled;
-                    dispatch(setUser(data))
-                } catch (e) {
-                    dispatch(setUser(null))
-                }
+
+                // const user: IUser = {
+                //     id: Date.now().toString(),
+                //     name: 'ColorKat',
+                // };
+                //
+                // dispatch(setUser(user));
+
+                // // Put user in slice store
+                // try {
+                //     const {data} = await queryFulfilled;
+                //     dispatch(setUser(data))
+                // } catch (e) {
+                //     dispatch(setUser(null))
+                // }
             }
         }),
 

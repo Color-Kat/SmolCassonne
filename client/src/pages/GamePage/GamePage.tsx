@@ -15,6 +15,7 @@ import {RainbowLoader} from "@UI/Loaders";
 import {StartGameScreen} from "@pages/GamePage/modules/StartGameScreen/StartGameScreen.tsx";
 import {ComposeContexts, contextProvider} from "@components/Helpers";
 import {GameOverScreen} from "@pages/GamePage/modules/GameOverScreen/GameOverScreen.tsx";
+import {useTSelector} from "@hooks/redux.ts";
 
 const user: IUser = {
     id: Date.now().toString(),
@@ -23,13 +24,15 @@ const user: IUser = {
 
 /**
  * This component renders the game page.
- * It is responsible for global state of the game,
+ * It is responsible for the global state of the game,
  * and it provides an interface for multiplayer realization.
  *
  * @constructor
  */
 export const GamePage = () => {
     const [roomId, setRoomId] = useState("");
+    const user = useTSelector(state => state.auth.user) as IUser;
+    console.log(user)
 
     const [myTeamColor, setMyTeamColor] = useState<TeamColorType | null>(null); // Will be set by server
     const [teams, setTeams] = useState<TeamsType>(defaultTeams);
@@ -164,8 +167,8 @@ export const GamePage = () => {
                     roomId,
                     joinRoom,
                     startGame,
-                    // passTheMove,
-                    leaveRoom
+                    leaveRoom,
+                    passTheMove,
                 }
             )
         ]}>

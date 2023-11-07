@@ -15,7 +15,10 @@ const initialState: {
     user: IUser | null,
 }  = {
     isLoading: true,
-    user: null,
+    user:  {
+        id: Date.now().toString(),
+        name: 'ColorKat',
+    }
 }
 
 const authSlice = createSlice({

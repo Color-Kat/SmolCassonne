@@ -1,7 +1,7 @@
 import React, {memo, useContext, useEffect} from 'react';
 import tileBack from "@assets/tileBack.jpg";
 import {IMapTile, Tile} from "@pages/GamePage/classes/TilesDeck.tsx";
-import {GameStageContext} from "@pages/GamePage/gameContext.ts";
+import {GameStageContext, MultiplayerContext} from "@pages/GamePage/gameContext.ts";
 import {twJoin} from "tailwind-merge";
 
 interface ControlPanelProps {
@@ -19,6 +19,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = memo(({
                                                                }) => {
 
     const {stage} = useContext(GameStageContext);
+    const {passTheMove} = useContext(MultiplayerContext);
     const canTakeTile = stage === 'takeTile';
 
     // Get the top tile from the deck
@@ -32,6 +33,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = memo(({
         setDeck(deckCopy);
     };
 
+    /* ----- Rotation ----- */
     /**
      * Rotate tile for rotateValue positions.
      * @param rotateValue
@@ -66,6 +68,11 @@ export const ControlPanel: React.FC<ControlPanelProps> = memo(({
             document.removeEventListener('keydown', handleKeyPress);
         };
     }, [rotateTileLeft, rotateTileRight]);
+    /* ----- Rotation ----- */
+
+    const skipMove = () => {
+        // passTheMove();
+    }
 
     return (
         <div
@@ -110,6 +117,13 @@ export const ControlPanel: React.FC<ControlPanelProps> = memo(({
                         className="h-8 bg-zinc-500/70 hover:bg-zinc-500/50 rounded-md text-white flex-1">Вправо
                 </button>
             </div>
+
+            <button
+                className="mt-auto w-full h-12 bg-zinc-400/90 hover:bg-zinc-500/50 rounded-md font-bold text-lg text-white mb-2"
+                onClick={skipMove}
+            >
+                Пропустить ход
+            </button>
         </div>
     );
 });

@@ -3,6 +3,7 @@ import {Tile} from "@pages/GamePage/classes/TilesDeck.tsx";
 import {Unit} from "@pages/GamePage/classes/Units.ts";
 import {Team, TeamColorType, TeamsType} from "@pages/GamePage/classes/teams.ts";
 import {IUser} from "@/store/auth/auth.slice.ts";
+import {MultiplayerSyncRequest} from "@pages/GamePage/hooks/multiplayerTypes.ts";
 
 export const MapContext = React.createContext<{
     myTeamColor: TeamColorType,
@@ -36,7 +37,8 @@ export const MultiplayerContext = React.createContext<{
     roomId: string,
     joinRoom: (roomId: string, user: IUser) => void,
     startGame: (roomId: string) => void,
-    leaveRoom: (roomId: string) => void
+    leaveRoom: (roomId: string) => void,
+    passTheMove: (request: MultiplayerSyncRequest) => void
 }>({} as any);
 
 
