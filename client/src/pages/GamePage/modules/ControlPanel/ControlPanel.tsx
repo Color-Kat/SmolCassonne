@@ -1,25 +1,34 @@
 import React, {memo, useContext, useEffect} from 'react';
 import tileBack from "@assets/tileBack.jpg";
 import {IMapTile, Tile} from "@pages/GamePage/classes/TilesDeck.tsx";
-import {GameStageContext, MultiplayerContext} from "@pages/GamePage/gameContext.ts";
+import {GameStageContext, MapContext, MultiplayerContext} from "@pages/GamePage/gameContext.ts";
 import {twJoin} from "tailwind-merge";
+import {useTSelector} from "@hooks/redux.ts";
+import {IUser} from "@/store/auth/auth.slice.ts";
 
 interface ControlPanelProps {
     currentTile: Tile | undefined;
     setCurrentTile: React.Dispatch<React.SetStateAction<Tile | undefined>>;
     deck: Tile[];
     setDeck: React.Dispatch<React.SetStateAction<Tile[]>>;
+
+    skipTheMove: () => void;
 }
 
 export const ControlPanel: React.FC<ControlPanelProps> = memo(({
                                                                    currentTile,
                                                                    setCurrentTile,
                                                                    deck,
-                                                                   setDeck
+                                                                   setDeck,
+
+                                                                   skipTheMove
                                                                }) => {
+    const user = useTSelector(state => state.auth.user) as IUser;
 
     const {stage} = useContext(GameStageContext);
     const {passTheMove} = useContext(MultiplayerContext);
+    const {} = useContext(MapContext);
+
     const canTakeTile = stage === 'takeTile';
 
     // Get the top tile from the deck
@@ -70,10 +79,6 @@ export const ControlPanel: React.FC<ControlPanelProps> = memo(({
     }, [rotateTileLeft, rotateTileRight]);
     /* ----- Rotation ----- */
 
-    const skipMove = () => {
-        // passTheMove();
-    }
-
     return (
         <div
             className={twJoin(
@@ -82,7 +87,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = memo(({
             )}
         >
             <div className="w-48 h-48 relative mb-16 transition-all">
-                {deck.length > 0 && <img
+                {(deck.length > 0 || currentTile) && <img
                     src={currentTile ? `/tiles/${currentTile.design}.png` : tileBack}
                     onClick={() => !currentTile ? takeTile() : null}
                     alt=""
@@ -96,10 +101,11 @@ export const ControlPanel: React.FC<ControlPanelProps> = memo(({
                 {deck.length > 3 && <img src={tileBack} alt="" className="absolute w-full top-8  rounded-md"/>}
                 {deck.length > 2 && <img src={tileBack} alt="" className="absolute w-full top-6  rounded-md"/>}
                 {deck.length > 1 && <img src={tileBack} alt="" className="absolute w-full top-4  rounded-md"/>}
-                {deck.length === 0 &&
+                {deck.length === 0 && !currentTile &&
                     <div className="absolute w-full h-full top-4 rounded-md flex-center text-black font-bold">
                         Колода закончилась
-                    </div>}
+                    </div>
+                }
             </div>
 
             <button
@@ -120,7 +126,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = memo(({
 
             <button
                 className="mt-auto w-full h-12 bg-zinc-400/90 hover:bg-zinc-500/50 rounded-md font-bold text-lg text-white mb-2"
-                onClick={skipMove}
+                onClick={skipTheMove}
             >
                 Пропустить ход
             </button>

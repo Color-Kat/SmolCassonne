@@ -32,7 +32,6 @@ const user: IUser = {
 export const GamePage = () => {
     const [roomId, setRoomId] = useState("");
     const user = useTSelector(state => state.auth.user) as IUser;
-    console.log(user)
 
     const [myTeamColor, setMyTeamColor] = useState<TeamColorType | null>(null); // Will be set by server
     const [teams, setTeams] = useState<TeamsType>(defaultTeams);
@@ -127,6 +126,11 @@ export const GamePage = () => {
         });
     };
 
+    const skipTheMove = () => {
+        setCurrentTile(undefined);
+        handlePassTheMove()
+    }
+
     console.log('STAGE:', stage);
 
     return (
@@ -199,6 +203,7 @@ export const GamePage = () => {
                             setCurrentTile={setCurrentTile}
                             deck={deck}
                             setDeck={setDeck}
+                            skipTheMove={skipTheMove}
                         />
 
                         {/* Users list and score */}
