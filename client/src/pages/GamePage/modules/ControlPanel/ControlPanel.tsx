@@ -90,8 +90,9 @@ export const ControlPanel: React.FC<ControlPanelProps> = memo(({
                 {deck.length > 2 && <img src={tileBack} alt="" className="absolute w-full top-6  rounded-md"/>}
                 {deck.length > 1 && <img src={tileBack} alt="" className="absolute w-full top-4  rounded-md"/>}
                 {deck.length === 0 &&
-                    <div className="absolute w-full h-full top-4 rounded-md flex-center text-black font-bold">Колода
-                        закончилась</div>}
+                    <div className="absolute w-full h-full top-4 rounded-md flex-center text-black font-bold">
+                        Колода закончилась
+                    </div>}
             </div>
 
             <button

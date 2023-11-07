@@ -64,7 +64,7 @@ export const GamePage = () => {
         leaveRoom
     } = useMultiplayer({
         user,
-        setStage,
+        stage, setStage,
         setDeck,
         setMyTeamColor, teams, setTeams,
         map, setMap,

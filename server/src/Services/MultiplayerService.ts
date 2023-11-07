@@ -131,9 +131,22 @@ export class MultiplayerService {
         }
 
         const nextPlayerIndex = (currentPlayerIndex + 1) % players.length;
-        return players[nextPlayerIndex].user?.id ?? players[0].user?.id ?? "";
+        return players[nextPlayerIndex]?.user?.id ?? players[0]?.user?.id ?? "";
     }
 
+    public checkIfGameStarted(roomId: string): boolean {
+        return rooms[roomId]?.isGameStarted ?? false;
+    }
+
+    /**
+     * Return isOver the game, and if the game over,
+     * return gameResult with the list of winners sorted in their place order
+     *
+     * @param roomId
+     * @param clients
+     * @param deck
+     * @param teams
+     */
     public checkGameResult(
         roomId: string,
         clients: WSClient[],

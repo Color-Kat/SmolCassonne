@@ -58,10 +58,12 @@ export class MultiPlayerController extends AbstractController {
      *
      * @param roomId
      * @param callback
+     * @param exclude
      */
-    private broadcast = (roomId: string, callback: (client: WSClient) => {}) => {
+    private broadcast = (roomId: string, callback: (client: WSClient) => {}, exclude?: WSClient) => {
         this.aWss.clients.forEach((client: WSClient) => {
             if (client.roomId !== roomId) return; // Skip other rooms
+            if (client === exclude) return;       // Skip excluded client
 
             const result = callback(client);
 
@@ -82,7 +84,7 @@ export class MultiPlayerController extends AbstractController {
         return client;
     }
 
-    private sendToUser (userId: string, data: any){
+    private sendToUser(userId: string, data: any) {
         const userWs = this.getClientById(userId);
 
         userWs?.send(JSON.stringify(data));
@@ -143,7 +145,7 @@ export class MultiPlayerController extends AbstractController {
     /* ------- Handlers ------- */
 
     public setUserIdHandler(request: MultiPlayerRequest): void {
-        if(!this.ws) return;
+        if (!this.ws) return;
         this.ws.userId = request.userId;
     }
 
@@ -170,7 +172,6 @@ export class MultiPlayerController extends AbstractController {
             this.initPlayer(request);
 
             this.joinNewPlayer(request);
-            // TODO если второй игрок подключается к комнате, то он не переходит на второй экрaн (не получает запрос)
         } else {
             // User can't join this room
             this.ws.send(JSON.stringify({
@@ -250,9 +251,12 @@ export class MultiPlayerController extends AbstractController {
         if (!client) return;
         const roomId = request.roomId;
 
+        const isGameStarted = this.multiplayerService.checkIfGameStarted(roomId);
+
         // Pass the turn to the next player
         // before the player leaves the room
-        this.passTheMoveHandler(request as any, false);
+        if(isGameStarted)
+            this.passTheMoveHandler(request as any, false);
 
         // Delete data about current game of the client
         delete client.roomId;
@@ -324,7 +328,7 @@ export class MultiPlayerController extends AbstractController {
             };
         });
 
-        if(syncData)
+        if (syncData)
             this.syncDataHandler(request);
     };
 
