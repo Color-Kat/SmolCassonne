@@ -5,6 +5,7 @@ import {GameStageContext, MapContext, MultiplayerContext} from "@pages/GamePage/
 import {twJoin} from "tailwind-merge";
 import {useTSelector} from "@hooks/redux.ts";
 import {IUser} from "@/store/auth/auth.slice.ts";
+import {Instructions} from "@pages/GamePage/modules/ControlPanel/components/instructions.tsx";
 
 interface ControlPanelProps {
     currentTile: Tile | undefined;
@@ -130,6 +131,8 @@ export const ControlPanel: React.FC<ControlPanelProps> = memo(({
                         className="h-8 bg-zinc-500/70 hover:bg-zinc-500/50 rounded-md text-white flex-1">Вправо
                 </button>
             </div>
+
+            <Instructions />
 
             <button
                 className="mt-auto w-full h-12 bg-zinc-400/90 hover:bg-zinc-500/50 rounded-md font-bold text-lg text-white mb-2"
