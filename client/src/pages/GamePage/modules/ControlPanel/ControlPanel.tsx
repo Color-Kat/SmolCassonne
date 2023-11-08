@@ -71,10 +71,17 @@ export const ControlPanel: React.FC<ControlPanelProps> = memo(({
             }
         }
 
+        function handleContextMenu(e: MouseEvent) {
+            e.preventDefault();
+            rotateTileRight();
+        }
+
         document.addEventListener('keydown', handleKeyPress);
+        document.addEventListener('contextmenu', handleContextMenu);
 
         return () => {
             document.removeEventListener('keydown', handleKeyPress);
+            document.removeEventListener('contextmenu', handleContextMenu);
         };
     }, [rotateTileLeft, rotateTileRight]);
     /* ----- Rotation ----- */
