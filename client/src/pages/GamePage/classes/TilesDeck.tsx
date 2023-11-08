@@ -27,6 +27,16 @@ export interface IMapTile extends ITile {
 
 class TilesDeck {
     private deck = ([
+
+        /* --- New Tiles --- */
+        // {id: 1, design: "A", borders: ['city', 'road', 'road', 'city'], rotation: 0, pennant: true},
+        // {id: 2, design: "B", borders: ['city', 'road', 'road', 'city'], rotation: 0},
+        // {id: 3, design: "C", borders: ['city', 'road', 'field', 'road'], rotation: 0},
+        // {id: 4, design: "D", borders: ['road', 'field', 'road', 'field'], rotation: 0},
+        // {id: 5, design: "E", borders: ['field', 'field', 'road', 'road'], rotation: 0},
+
+
+
         {id: 1, design: "A", borders: ['field', 'field', 'road', 'field'], rotation: 0, roadEnd: true},
         {id: 2, design: "A", borders: ['field', 'field', 'road', 'field'], rotation: 0, roadEnd: true},
         {id: 3, design: "B", borders: ['field', 'field', 'field', 'field'], rotation: 0},
@@ -103,7 +113,7 @@ class TilesDeck {
     ));
 
     public getShuffledDeck() {
-        return shuffle(this.deck).slice(0, 12);
+        return shuffle(this.deck).slice(0, 70);
     }
 
     /**
@@ -216,6 +226,7 @@ export class Tile implements ITile {
             <img
                 className="rounded-sm shadow-md"
                 src={`/tiles/${this.design}.png`}
+                // src={`/newTiles/${this.design}.jpg`}
                 draggable="false"
                 alt=""
                 style={{

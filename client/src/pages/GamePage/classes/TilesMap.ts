@@ -289,6 +289,7 @@ export class TilesMap {
                         }
 
                         result.count += data.count; // Increase count of this object tiles
+                        result.count += borderName == 'city' && mapTile.pennant ? 1 : 0; // Take into account pennants
                         result.units.push(...data.units); // Push units
                     }
                 }
@@ -304,6 +305,7 @@ export class TilesMap {
             return result;
         };
 
+        // Entry point of the algorithm.
         // Start checking for all four sides
         let currentFieldNumber = 1;
         let currentRoadNumber = 1; // For checking four roads
@@ -331,9 +333,14 @@ export class TilesMap {
             if (data == false) {
                 objectsData[borderName] = false;
             } else { // @ts-ignore
-                if (objectsData[borderName].count === 0) objectsData[borderName].count = 1; // @ts-ignore
-                objectsData[borderName].count += data.count; // @ts-ignore
+                // Calculate count of this object.
+                // If a city has a pennant, it is counted as twice
+                if (objectsData[borderName].count === 0) objectsData[borderName].count = 1;             // @ts-ignore
+                objectsData[borderName].count += data.count;                                            // @ts-ignore
+                objectsData[borderName].count += borderName == 'city' && lastTile.pennant ? 1 : 0;      // @ts-ignore
                 objectsData[borderName].units.push(...data.units);
+
+                console.log(borderName, lastTile.pennant, lastTile)
             }
 
             // If it's a road end, stop checking because this road can't be connected to other roads.

@@ -179,6 +179,7 @@ export const Board: React.FC<BoardProps> = ({
                         className=""
                         draggable="false"
                         src={`/tiles/${currentTile.design}.png`}
+                        // src={`/newTiles/${currentTile.design}.jpg`}
                         alt=""
                         style={{
                             width: '100%',

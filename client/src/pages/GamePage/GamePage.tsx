@@ -132,6 +132,7 @@ export const GamePage = () => {
         handlePassTheMove()
     }
     // console.log('STAGE:', stage);
+    // console.log(deck)
 
     return (
         // Compose context providers
