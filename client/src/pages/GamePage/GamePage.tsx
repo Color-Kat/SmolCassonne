@@ -16,6 +16,7 @@ import {StartGameScreen} from "@pages/GamePage/modules/StartGameScreen/StartGame
 import {ComposeContexts, contextProvider} from "@components/Helpers";
 import {GameOverScreen} from "@pages/GamePage/modules/GameOverScreen/GameOverScreen.tsx";
 import {useTSelector} from "@hooks/redux.ts";
+import {YourMove} from "@pages/GamePage/Components/YourMove.tsx";
 
 const user: IUser = {
     id: Date.now().toString(),
@@ -130,8 +131,7 @@ export const GamePage = () => {
         setCurrentTile(undefined);
         handlePassTheMove()
     }
-
-    console.log('STAGE:', stage);
+    // console.log('STAGE:', stage);
 
     return (
         // Compose context providers
@@ -197,6 +197,7 @@ export const GamePage = () => {
                 {/* Game */}
                 {stage !== 'notStarted' &&
                     <div className="flex h-full w-full relative">
+
                         {/* Control panel with buttons and the deck of tiles */}
                         <ControlPanel
                             currentTile={currentTile}
@@ -218,6 +219,9 @@ export const GamePage = () => {
 
                             endOfTurn={endOfTurn}
                         />
+
+                        {stage == 'takeTile' && !currentTile && <YourMove />}
+
                     </div>
                 }
 
@@ -243,6 +247,7 @@ export const GamePage = () => {
                     setTileInformation={setTileInformation}
                     setUnitInformation={setUnitInformation}
                 />
+
             </div>
         </ComposeContexts>
     );

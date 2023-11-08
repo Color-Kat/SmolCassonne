@@ -21,7 +21,7 @@ export const useWebsocket = (url: string, onEventCallback: (method: string, data
         // Handle events from the server
         socketRef.current.onmessage = (event) => {
             const data: IWebsocketServerResponse = JSON.parse(event.data);
-            console.log(data);
+            // console.log(data);
 
             onEventCallback(data.method, data);
         };
