@@ -1,4 +1,4 @@
-import {memo, useEffect, useState} from "react";
+import React, {memo, useEffect, useState} from "react";
 
 import {Header} from "./Header/Header.tsx";
 import Main from "./Main";
@@ -8,6 +8,8 @@ import {MobileBottomMenu} from "@modules/Layout/components/MobileBottomMenu.tsx"
 import {Banner} from "@UI/Banners";
 import {LayoutContext} from "@modules/Layout/LayoutContext.tsx";
 import {Footer} from "@modules/Layout/components/Footer.tsx";
+
+import mapIcon from "@assets/icons/map.png";
 
 export const Layout: React.FC<{ children: React.ReactElement }> = memo(({children}) => {
     const [showFooter, setShowFooter] = useState(true);
@@ -20,6 +22,7 @@ export const Layout: React.FC<{ children: React.ReactElement }> = memo(({childre
             <div
                 className={twJoin(
                     "h-screen w-screen flex flex-col",
+                    "relative",
                     // "scroll-container overflow-y-auto overflow-x-hidden", // Header can be scrolled
 
                     // "md:h-screen h-[calc(100vh-4.4rem)]", // For MobileBottomMenu
@@ -28,6 +31,12 @@ export const Layout: React.FC<{ children: React.ReactElement }> = memo(({childre
                     "bg-app-dark font-inter"
                 )}
             >
+
+                <img
+                    className="absolute h-4/6 -bottom-10 right-0 opacity-5 grayscale"
+                    src={mapIcon}
+                    alt=""
+                />
 
                 {/*<div className="relative flex h-32 w-full bg-red-500"></div>*/}
 

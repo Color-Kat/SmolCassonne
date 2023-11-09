@@ -73,7 +73,7 @@ export class MultiPlayerController extends AbstractController {
     };
 
     /**
-     * Return websocket client by id.
+     * Return a websocket client by id.
      * @param userId
      */
     private getClientById = (userId: string): WSClient | null => {
@@ -147,24 +147,25 @@ export class MultiPlayerController extends AbstractController {
     public setUserIdHandler(request: MultiPlayerRequest): void {
         if (!this.ws) return;
         this.ws.userId = request.userId;
+        this.ws.roomId = "";
 
-        this.sendRoomList(request.userId);
+        this.sendFreeRoomList(request.userId);
     }
 
-    public sendRoomList(userId?: string) {
+    public sendFreeRoomList(userId?: string) {
         const freeRooms = this.multiplayerService.getFreeRooms();
 
         // Send to certain user
-        if (userId) this.sendToUser(userId, {
-            method: 'setRoomList',
-            rooms: freeRooms
-        });
+        if (userId)
+            this.sendToUser(userId, {
+                method: 'setRoomList',
+                rooms: freeRooms
+            });
         else
             this.broadcast("", (client: WSClient) => ({
                 method: 'setRoomList',
                 rooms: freeRooms
             }));
-
     }
 
     /**
@@ -191,7 +192,7 @@ export class MultiPlayerController extends AbstractController {
 
             this.joinNewPlayer(request);
 
-            this.sendRoomList();
+            this.sendFreeRoomList();
         } else {
             // User can't join this room
             this.ws.send(JSON.stringify({
@@ -304,6 +305,9 @@ export class MultiPlayerController extends AbstractController {
             method: 'playerLeaveRoom',
             teamsList
         }));
+
+        // Update the list of free rooms
+        this.sendFreeRoomList();
     }
 
     /**
