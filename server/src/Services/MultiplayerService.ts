@@ -7,6 +7,7 @@ interface IRoom {
 }
 
 const rooms: { [key: string]: IRoom } = {};
+const MAX_PLAYERS_COUNT = 4;
 
 export class MultiplayerService {
     // /**
@@ -28,7 +29,27 @@ export class MultiplayerService {
         // this.aWss = this.wsServer.getWss();
     }
 
+    // напиши что-нибудь
+
     private teams = ['blue', 'red', 'green', 'yellow'];
+
+    /**
+     * Return list of free rooms.
+     */
+    public getFreeRooms() {
+        const freeRooms: typeof rooms = {};
+
+        for (const roomId in rooms) {
+            if (
+                !rooms[roomId].isGameStarted &&
+                rooms[roomId].playersCount < MAX_PLAYERS_COUNT
+            ) {
+                freeRooms[roomId] = rooms[roomId];
+            }
+        }
+
+        return freeRooms;
+    }
 
     /**
      * Create or update room.
@@ -51,7 +72,7 @@ export class MultiplayerService {
         };
 
         // The room is full
-        if (rooms[roomId].playersCount + 1 > 4) return {
+        if (rooms[roomId].playersCount + 1 > MAX_PLAYERS_COUNT) return {
             result: false,
             message: "Не удалось подключиться к комнате.\nКомната заполнена"
         };

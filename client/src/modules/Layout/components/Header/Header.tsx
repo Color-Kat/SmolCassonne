@@ -11,7 +11,6 @@ export const Header = memo(() => {
     const {user, isLoading} = useTSelector(state => state.auth);
     const [logout] = useLogoutMutation();
 
-    // Replace javascript:void(0) path with your path
     const navigation = [
         {title: "Тест", link: "/test"},
         {title: "Главная", link: "/"},
@@ -34,7 +33,7 @@ export const Header = memo(() => {
 
                 {/* Links (center) */}
                 <ul
-                    className="md:flex hidden items-center gap-5"
+                    className="md:flex hidden items-center gap-5 lg:pr-52"
                 >
                     {
                         navigation.map((item) => (

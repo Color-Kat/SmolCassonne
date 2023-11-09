@@ -147,6 +147,24 @@ export class MultiPlayerController extends AbstractController {
     public setUserIdHandler(request: MultiPlayerRequest): void {
         if (!this.ws) return;
         this.ws.userId = request.userId;
+
+        this.sendRoomList(request.userId);
+    }
+
+    public sendRoomList(userId?: string) {
+        const freeRooms = this.multiplayerService.getFreeRooms();
+
+        // Send to certain user
+        if (userId) this.sendToUser(userId, {
+            method: 'setRoomList',
+            rooms: freeRooms
+        });
+        else
+            this.broadcast("", (client: WSClient) => ({
+                method: 'setRoomList',
+                rooms: freeRooms
+            }));
+
     }
 
     /**
@@ -172,6 +190,8 @@ export class MultiPlayerController extends AbstractController {
             this.initPlayer(request);
 
             this.joinNewPlayer(request);
+
+            this.sendRoomList();
         } else {
             // User can't join this room
             this.ws.send(JSON.stringify({
@@ -255,7 +275,7 @@ export class MultiPlayerController extends AbstractController {
 
         // Pass the turn to the next player
         // before the player leaves the room
-        if(isGameStarted)
+        if (isGameStarted)
             this.passTheMoveHandler(request as any, false);
 
         // Delete data about current game of the client

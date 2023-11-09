@@ -1,12 +1,20 @@
 import {useWebsocket} from "@hooks/useWebsocket.ts";
 import TilesDeck, {Tile} from "@pages/GamePage/classes/TilesDeck.tsx";
 import {getTeamsByColors, ITeam, Team, TeamColorType, TeamsType} from "@pages/GamePage/classes/teams.ts";
-import React, {useContext, useEffect} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {Unit} from "@pages/GamePage/classes/Units.ts";
 import {TilesMap} from "@pages/GamePage/classes/TilesMap.ts";
 import {IUser} from "@/store/auth/auth.slice.ts";
 import {GameStageContext, GameStagesType, MapContext} from "@pages/GamePage/gameContext.ts";
 import {ISyncDataResponse, MultiplayerSyncRequest} from "@pages/GamePage/hooks/multiplayerTypes.ts";
+
+export interface IRooms {
+    [key: string]: {
+        roomId: string;
+        isGameStarted: boolean
+        playersCount: number;
+    }
+}
 
 interface IMultiplayerState {
     user: IUser;
@@ -31,6 +39,9 @@ interface IMultiplayerState {
 
 export const useMultiplayer = (multiplayerState: IMultiplayerState) => {
 
+    const [freeRooms, setFreeRooms] = useState<IRooms>({});
+
+
     /**
      * Handle events from the server
      * @param method
@@ -40,6 +51,10 @@ export const useMultiplayer = (multiplayerState: IMultiplayerState) => {
         switch (method) {
             case 'message':
                 showMessageHandler(response);
+                break;
+
+            case 'setRoomList':
+                setRoomListHandler(response);
                 break;
 
             case 'setMyTeam':
@@ -93,6 +108,14 @@ export const useMultiplayer = (multiplayerState: IMultiplayerState) => {
         } catch (e) {
             setTimeout( connectUser, 500 );
         }
+    }
+
+    /**
+     * Update state with the list of free rooms.
+     * @param response
+     */
+    const setRoomListHandler = (response: {rooms: IRooms}) => {
+        setFreeRooms(response.rooms);
     }
 
     /**
@@ -219,6 +242,7 @@ export const useMultiplayer = (multiplayerState: IMultiplayerState) => {
 
     return {
         connectUser,
+        freeRooms,
         joinRoom,
         startGame,
         passTheMove,
