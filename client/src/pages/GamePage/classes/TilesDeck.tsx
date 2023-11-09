@@ -113,7 +113,7 @@ class TilesDeck {
     ));
 
     public getShuffledDeck() {
-        return shuffle(this.deck).slice(0, 70);
+        return shuffle(this.deck).slice(0, 5);
     }
 
     /**

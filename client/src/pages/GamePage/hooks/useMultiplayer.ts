@@ -192,7 +192,7 @@ export const useMultiplayer = (multiplayerState: IMultiplayerState) => {
      * @param response
      */
     const syncDataHandler = (response: ISyncDataResponse) => {
-        if(multiplayerState.stage === 'notStarted') return;
+        // if(multiplayerState.stage === 'notStarted') return;
 
         // Hydrate deck object
         const deck: Tile[] = TilesDeck.hydrate(response.data.deck);

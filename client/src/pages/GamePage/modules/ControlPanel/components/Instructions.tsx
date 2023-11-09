@@ -1,6 +1,6 @@
 import React, {memo, useContext} from 'react';
 import {GameStageContext} from "@pages/GamePage/gameContext.ts";
-import {Loader} from "@UI/Loaders";
+import {Loader, RainbowLoader} from "@UI/Loaders";
 
 interface InstructionsProps {
 
@@ -25,7 +25,7 @@ export const Instructions: React.FC<InstructionsProps> = memo(({}) => {
     const {stage} = useContext(GameStageContext);
 
     return (
-        <div className="w-full rounded-xl bg-app/20 shadow-md flex flex- aspect-square my-7 text-center text-sm">
+        <div className="w-full rounded-xl bg-app/20 shadow-md flex flex-1 my-4 text-center text-sm">
             {stage === 'notStarted' && <StageDescription title="Ожидание игроков" />}
 
             {stage === 'emptyMap' && <StageDescription title="Загрузка карты" />}
@@ -51,8 +51,10 @@ export const Instructions: React.FC<InstructionsProps> = memo(({}) => {
 
             {stage === 'endOfTurn' && <StageDescription title="Конец хода"/>}
 
-            {stage === 'wait' && <StageDescription title="Ход оппонента"/>}
-            <Loader />
+            {stage === 'wait' && <div className="flex flex-col justify-evenly items-center">
+                <StageDescription title="Ход оппонента"/>
+            </div>}
+
 
             {stage === 'gameOver' && <StageDescription title="Игра завершена"/>}
 

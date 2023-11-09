@@ -135,7 +135,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = memo(({
             <Instructions />
 
             <button
-                className="mt-auto w-full h-12 bg-zinc-400/90 hover:bg-zinc-500/50 rounded-md font-bold text-lg text-white mb-2"
+                className="mt-auo w-full h-12 bg-zinc-400/90 hover:bg-zinc-500/50 rounded-md font-bold text-lg text-white mb-2"
                 onClick={skipTheMove}
             >
                 Пропустить ход
