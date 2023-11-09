@@ -5,7 +5,7 @@ import {GameStageContext, MapContext, MultiplayerContext} from "@pages/GamePage/
 import {twJoin} from "tailwind-merge";
 import {useTSelector} from "@hooks/redux.ts";
 import {IUser} from "@/store/auth/auth.slice.ts";
-import {Instructions} from "@pages/GamePage/modules/ControlPanel/components/instructions.tsx";
+import {Instructions} from "./components/Instructions.tsx";
 
 interface ControlPanelProps {
     currentTile: Tile | undefined;
@@ -27,8 +27,8 @@ export const ControlPanel: React.FC<ControlPanelProps> = memo(({
     const user = useTSelector(state => state.auth.user) as IUser;
 
     const {stage} = useContext(GameStageContext);
-    const {passTheMove} = useContext(MultiplayerContext);
-    const {} = useContext(MapContext);
+    // const {passTheMove} = useContext(MultiplayerContext);
+    // const {} = useContext(MapContext);
 
     const canTakeTile = stage === 'takeTile';
 
