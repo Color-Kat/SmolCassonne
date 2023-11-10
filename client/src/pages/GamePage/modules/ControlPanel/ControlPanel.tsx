@@ -96,7 +96,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = memo(({
         >
             <div className="w-48 h-48 relative mb-16 transition-all">
                 {(deck.length > 0 || currentTile) && <img
-                    src={currentTile ? `/tiles/${currentTile.design}.png` : tileBack}
+                    src={currentTile ? currentTile.getImageUrl() : tileBack}
                     onClick={() => !currentTile ? takeTile() : null}
                     alt=""
                     className="z-10 absolute top-2 hover:top-0 cursor-pointer w-full h-full rounded-md"
