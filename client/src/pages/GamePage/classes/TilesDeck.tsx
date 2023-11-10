@@ -16,6 +16,10 @@ export interface ITile {
 
     units: (Unit | null)[];
     coords: { x: number, y: number };
+
+    name: string | null;
+    realPhoto: string | null;
+    description: string | null;
 }
 
 export interface IMapTile extends ITile {
@@ -51,7 +55,6 @@ class TilesDeck {
         {id: 40, design: "P", borders: ['city', 'road', 'road', 'city'], rotation: 0},
         {id: 41, design: "P", borders: ['city', 'road', 'road', 'city'], rotation: 0},
         {id: 42, design: "P", borders: ['city', 'road', 'road', 'city'], rotation: 0},
-        {id: 42, design: "R-1", borders: ['field', 'road', 'city', 'road'], rotation: 0},
         {id: 50, design: "U", borders: ['road', 'field', 'road', 'field'], rotation: 0},
         {id: 51, design: "U", borders: ['road', 'field', 'road', 'field'], rotation: 0},
         {id: 52, design: "U", borders: ['road', 'field', 'road', 'field'], rotation: 0},
@@ -172,9 +175,9 @@ export class Tile implements ITile {
     public roadEnd: boolean;
     public coords: { x: number, y: number };
 
-    public name: string = 'Успенский собор';
-    public description: string = 'Собо́р Успе́ния Пресвято́й Богоро́дицы — православный храм в Смоленске, кафедральный собор Смоленской митрополии Русской православной церкви. Находится в центральной части города на Соборной горе';
-    public realPhoto: string = 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/%D0%92%D0%B8%D0%B4_%D0%B2%D0%B5%D1%87%D0%B5%D1%80%D0%BE%D0%BC.jpg/1280px-%D0%92%D0%B8%D0%B4_%D0%B2%D0%B5%D1%87%D0%B5%D1%80%D0%BE%D0%BC.jpg';
+    public name: string | null = 'Успенский собор';
+    public description: string | null = 'Собо́р Успе́ния Пресвято́й Богоро́дицы — православный храм в Смоленске, кафедральный собор Смоленской митрополии Русской православной церкви. Находится в центральной части города на Соборной горе';
+    public realPhoto: string | null = 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/%D0%92%D0%B8%D0%B4_%D0%B2%D0%B5%D1%87%D0%B5%D1%80%D0%BE%D0%BC.jpg/1280px-%D0%92%D0%B8%D0%B4_%D0%B2%D0%B5%D1%87%D0%B5%D1%80%D0%BE%D0%BC.jpg';
 
     public className: string = ''; // Manually used for debug
 
@@ -187,6 +190,10 @@ export class Tile implements ITile {
         this.pennant = tile.pennant ?? false;
         this.roadEnd = tile.roadEnd ?? false;
         this.coords = tile.coords ?? {x: -999, y: -999};
+
+        this.name = tile.name ?? null;
+        this.realPhoto = tile.realPhoto ?? null;
+        this.description = tile.description ?? null;
 
         // Default common values that doesn't depend on tile
         if (tile instanceof Tile) {

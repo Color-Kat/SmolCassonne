@@ -72,7 +72,8 @@ export const Information: React.FC<InformationProps> = memo(({
         return (
             <div
                 className="absolute right-0 bottom-0 bg-black/40 rounded-tl-xl z-50 p-4 text-gray-100 max-w-2xl cursor-pointer"
-                onClick={closeInformation}>
+                onClick={closeInformation}
+            >
                 <div className="flex flex-row gap-3">
                     <img src={tileInformation.realPhoto} alt={tileInformation.name} className="h-36"/>
 

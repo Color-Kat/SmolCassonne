@@ -39,11 +39,15 @@ const UnitPlace: React.FC<UnitPlaceProps> = memo(({
 
     // Place unit on the placed tile
     const placeUnit = () => {
-        if (!selectedUnit) return setTooltip("Выберите фишку");
+        if (!selectedUnit)
+            return setTooltip("Выберите фишку");
 
-        if (selectedUnit.isOccupied) return setTooltip("Фишка уже используется в другом месте");
+        if (selectedUnit.isOccupied)
+            return setTooltip("Фишка уже используется в другом месте");
 
-        const canBePlaced = selectedUnit?.canBePlacedOnMap(position, map, tileSize);
+        const canBePlaced = selectedUnit.canBePlacedOnMap(position, map, tileSize);
+
+        console.log('before', selectedUnit)
 
         if (canBePlaced) {
             // Add unit to the tile on the map
@@ -57,8 +61,10 @@ const UnitPlace: React.FC<UnitPlaceProps> = memo(({
             setTeams(prev => {
                 const newTeams = {...prev};
                 newTeams[myTeamColor]?.units.map(unit => unit.id == selectedUnit.id ? unit.setOccupied(true) : unit);
+
                 return newTeams;
             });
+
 
             closeSelectingUnit(); // Close unit selecting modal
         } else setTooltip("На этом объекте уже стоит другая фишка");
@@ -100,15 +106,17 @@ export const PlaceSelector: React.FC<PlaceSelectorProps> = memo(({
             </h2>
 
             <div className="mx-auto w-max h-max relative">
+                {selectedUnit && !selectedUnit.isOccupied && <>
+                    <UnitPlace selectedUnit={selectedUnit} position={0} setMap={setMap}
+                               closeSelectingUnit={closeSelectingUnit}/>
+                    <UnitPlace selectedUnit={selectedUnit} position={1} setMap={setMap}
+                               closeSelectingUnit={closeSelectingUnit}/>
+                    <UnitPlace selectedUnit={selectedUnit} position={2} setMap={setMap}
+                               closeSelectingUnit={closeSelectingUnit}/>
+                    <UnitPlace selectedUnit={selectedUnit} position={3} setMap={setMap}
+                               closeSelectingUnit={closeSelectingUnit}/>
 
-                <UnitPlace selectedUnit={selectedUnit} position={0} setMap={setMap}
-                           closeSelectingUnit={closeSelectingUnit}/>
-                <UnitPlace selectedUnit={selectedUnit} position={1} setMap={setMap}
-                           closeSelectingUnit={closeSelectingUnit}/>
-                <UnitPlace selectedUnit={selectedUnit} position={2} setMap={setMap}
-                           closeSelectingUnit={closeSelectingUnit}/>
-                <UnitPlace selectedUnit={selectedUnit} position={3} setMap={setMap}
-                           closeSelectingUnit={closeSelectingUnit}/>
+                </>}
 
                 <PlacedTile/>
             </div>
