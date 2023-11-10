@@ -87,6 +87,9 @@ export const StartGameScreen: React.FC<StartGameScreenProps> = memo(({
                                 onMouseOver={() => {
                                     setUnitInformation(unit);
                                 }}
+                                onMouseLeave={() => {
+                                    setUnitInformation(null);
+                                }}
                                 onClick={() => {
                                     // Add unit to my units
                                 }}
@@ -114,11 +117,16 @@ export const StartGameScreen: React.FC<StartGameScreenProps> = memo(({
 
                     {/*  Unit information  */}
 
-                    <div className="border-t-2 border-slate-300 mt-2 pt-2 h-[75px]">
-                        {unitInformation && <>
+                    <div className="border-t-2 border-slate-300 mt-2 pt-2 h-[75px] relative">
+                        {unitInformation ? <>
                             <b>Бонус:</b><br/>
                             {unitInformation?.bonusDescription}
-                        </>}
+                        </> : <div className="text-center font-semibold h-full flex items-center" style={{
+                            // @ts-ignore
+                            textWrap: 'balance'
+                        }}>
+                            Выберите 5 Смолян, которые будут в вашей колоде
+                        </div>}
                     </div>
                 </div>
 
