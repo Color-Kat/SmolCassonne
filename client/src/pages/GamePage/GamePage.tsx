@@ -17,6 +17,7 @@ import {ComposeContexts, contextProvider} from "@components/Helpers";
 import {GameOverScreen} from "@pages/GamePage/modules/GameOverScreen/GameOverScreen.tsx";
 import {useTSelector} from "@hooks/redux.ts";
 import {YourMove} from "@pages/GamePage/Components/YourMove.tsx";
+import {RoomSelectorScreen} from "@pages/GamePage/modules/RoomSelectorScreen/RoomSelectorScreen.tsx";
 
 const user: IUser = {
     id: Date.now().toString(),
@@ -189,14 +190,20 @@ export const GamePage = () => {
 
                 {/*{!isConnectedToRoom && <RainbowLoader className="mt-24"/>}*/}
 
-                {/* Start game screen */}
-                {stage == 'notStarted' &&
-                    <StartGameScreen
+                {/* Room Selector screen */}
+                {stage == 'notStarted' && !isConnectedToRoom &&
+                    <RoomSelectorScreen
                         user={user}
                         roomId={roomId}
                         setRoomId={setRoomId}
                         freeRooms={freeRooms}
-                        isConnectedToRoom={isConnectedToRoom}
+                    />
+                }
+
+                {/* Start Game screen with unit selector */}
+                {stage == 'notStarted' && isConnectedToRoom &&
+                    <StartGameScreen
+                        roomId={roomId}
                     />
                 }
 
