@@ -140,7 +140,7 @@ export const StartGameScreen: React.FC<StartGameScreenProps> = memo(({
 
                         {/*  Unit information  */}
 
-                        <div className="border-t-2 border-slate-300 mt-2 pt-2 h-[75px] relative">
+                        <div className="border-t-2 border-slate-300 mt-2 pt-2 h-[75px] relative leading-5">
                             {unitInformation ? <>
                                 <b>Бонус:</b><br/>
                                 {unitInformation?.bonusDescription}
