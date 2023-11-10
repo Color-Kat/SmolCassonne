@@ -27,7 +27,7 @@ export default defineConfig({
         },
         extensions: ['.js', '.ts', '.tsx', '.jsx'],
     },
-    server: {
-        port: 3000
-    }
+    // server: {
+    //     port: 3000
+    // }
 });

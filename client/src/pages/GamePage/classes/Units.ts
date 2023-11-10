@@ -5,35 +5,46 @@ export type UnitRoleType = 'traveler' | 'scientist' | 'astronaut';
 
 interface IUnit {
     id: number;
-    team?: TeamColorType|null;
+    team?: TeamColorType | null;
     name: string;
     description: string;
+    bonusDescription: string;
     image: string;
     isOccupied: boolean;
 
     role: UnitRoleType;
-    scoreMultiplier: {[key: string]: number}
+    scoreMultiplier: { [key: string]: number }
 }
 
 export class Unit implements IUnit {
 
     public id: number;
-    public team: TeamColorType|null = null;
+    public team: TeamColorType | null = null;
     public name: string;
     public description: string;
+    public bonusDescription: string;
     public image: string;
 
     public role: UnitRoleType;
-    public scoreMultiplier: {[key: string]: number} = {city: 1, field1: 1, field2: 1, road1: 1, road2: 1, road3: 1, road4: 1 };
+    public scoreMultiplier: { [key: string]: number } = {
+        city: 1,
+        field1: 1,
+        field2: 1,
+        road1: 1,
+        road2: 1,
+        road3: 1,
+        road4: 1
+    };
 
     public isOccupied: boolean;
 
     constructor(unitData: IUnit) {
-        if(unitData.team) this.team = unitData.team
+        if (unitData.team) this.team = unitData.team
 
         this.id = unitData.id;
         this.name = unitData.name;
         this.description = unitData.description;
+        this.bonusDescription = unitData.bonusDescription;
         this.image = unitData.image;
 
         this.role = unitData.role;
@@ -168,7 +179,7 @@ export class Unit implements IUnit {
                 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< //
 
                 // If it's a road end, stop checking because this road can't be connected to other roads.
-                if(borderName == 'road' && mapTile.roadEnd) break;
+                if (borderName == 'road' && mapTile.roadEnd) break;
 
                 // Business logic for a field that cannot go through the tile center
                 if (
@@ -205,7 +216,7 @@ export class Unit implements IUnit {
             count += countUnits(lastTile, position);
 
         // If it's a road end, stop checking because this road can't be connected to other roads.
-        if(borderName == 'road' && lastTile.roadEnd) return count === 0;
+        if (borderName == 'road' && lastTile.roadEnd) return count === 0;
 
         // Business logic for a field that cannot go through the tile center
         if (
@@ -243,6 +254,7 @@ const traveler = new Unit({
     id: 0,
     name: 'Николай Михайлович Пржевальский',
     description: 'Никола́й Миха́йлович Пржева́льский — русский путешественник, географ и натуралист, почётный член Русского географического общества. Предпринял несколько экспедиций в Центральную Азию, во время которых изучил территорию Монголии, Китая и Тибета. Генерал-майор. Брат адвоката Владимира и математика Евгения Пржевальских',
+    bonusDescription: "Николай пржевальский даёт х2 бонус на дороге.",
     image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDDNnZ-mO6UTZ4jSDCWlQ27RbJVmjr67Jw-w1uWqhH3z5S61OoT8JSmjxO4E03U5HXbBA&usqp=CAU',
     isOccupied: false,
     role: 'traveler',
@@ -253,6 +265,7 @@ const scientist = new Unit({
     id: 1,
     name: 'Василий Васильевич Докучаев',
     description: 'Васи́лий Васи́льевич Докуча́ев — русский геолог и почвовед, профессор минералогии и кристаллографии Санкт-Петербургского университета, директор Ново-Александрийского института сельского хозяйства и лесоводства. Известен как основоположник школы научного почвоведения и географии почв.',
+    bonusDescription: 'Василий Докучаев - почвовед, даёт х3 бонус в зелёной зоне.',
     image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Dokuchaev_1888.jpg/274px-Dokuchaev_1888.jpg',
     isOccupied: false,
     role: 'scientist',
@@ -263,6 +276,7 @@ const astronaut = new Unit({
     id: 2,
     name: 'Юрий Алексеевич Гагарин',
     description: 'Ю́рий Алексе́евич Гага́рин — лётчик-космонавт СССР, Герой Советского Союза. Совершил первый полёт в космос',
+    bonusDescription: 'Юрий Гагарин - космонавт, даёт х2 бонус везде.',
     image: 'https://biblioclub.ru/services/fks.php?fks_action=get_file&fks_id=31762774&fks_flag=2',
     isOccupied: false,
     role: 'astronaut',
@@ -281,7 +295,7 @@ const listOfUnits = [
  * Get a list of units and set a team for every unit.
  * @param team
  */
-function getUnitsByTeam(team: TeamColorType) {
+export function getUnitsByTeam(team: TeamColorType) {
     return listOfUnits.map(unit => {
         const teamUnit = new Unit(unit);
         return teamUnit.setTeam(team);
@@ -289,7 +303,7 @@ function getUnitsByTeam(team: TeamColorType) {
 }
 
 // Units divided by teams
-export const units: {[key in TeamColorType]: Unit[]} = {
+export const units: { [key in TeamColorType]: Unit[] } = {
     blue: getUnitsByTeam('blue'),
     red: getUnitsByTeam('red'),
     green: getUnitsByTeam('green'),
