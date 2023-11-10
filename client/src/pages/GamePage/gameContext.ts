@@ -36,7 +36,7 @@ export const GameStageContext = React.createContext<{
 export const MultiplayerContext = React.createContext<{
     roomId: string,
     joinRoom: (roomId: string, user: IUser) => void,
-    startGame: (roomId: string) => void,
+    ready: (roomId: string, data: any) => void,
     leaveRoom: (roomId: string) => void,
     passTheMove: (request: MultiplayerSyncRequest) => void
 }>({} as any);

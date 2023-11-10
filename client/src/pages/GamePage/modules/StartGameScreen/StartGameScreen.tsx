@@ -21,7 +21,7 @@ const MY_UNITS_MAX_COUNT = 5;
 export const StartGameScreen: React.FC<StartGameScreenProps> = memo(({
                                                                          roomId,
                                                                      }) => {
-    const {startGame, leaveRoom} = useContext(MultiplayerContext);
+    const {ready, leaveRoom} = useContext(MultiplayerContext);
     const {teams, setTeams, setMyTeamColor, myTeamColor, setTooltip} = useContext(MapContext);
 
     const listOfUnits = getUnitsByTeam(myTeamColor);
@@ -43,7 +43,11 @@ export const StartGameScreen: React.FC<StartGameScreenProps> = memo(({
             return teams;
         })
 
-        startGame(roomId);
+        ready(roomId, {
+            teamColor: myTeamColor,
+            selectedUnits: selectedUnits
+        });
+
         setTooltip("");
     }
 

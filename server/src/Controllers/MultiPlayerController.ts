@@ -251,21 +251,32 @@ export class MultiPlayerController extends AbstractController {
      * Send event "passTheMove" to the player, who started this game, with isCurrentPlayer property.
      * @param request
      */
-    public readyHandler(request: MultiPlayerRequest): void {
-        const isAllReady = this.multiplayerService.setReady(request.roomId);
+    public readyHandler(request: MultiPlayerRequest<{
+        teamColor: string,
+        selectedUnits: any[]
+    }>): void {
+        const roomId = request.roomId;
+
+        const isAllReady = this.multiplayerService.setReady(roomId);
+
+        this.broadcast(roomId, (client: WSClient) => ({
+            method: 'syncSelectedUnits',
+            teamColor: request.data.teamColor,
+            selectedUnits: request.data.selectedUnits
+        }))
 
         if(!isAllReady) return;
 
         // Mark this room as game started
-        this.multiplayerService.startGame(request.roomId);
+        this.multiplayerService.startGame(roomId);
 
         // Send a message about new player
-        this.broadcast(request.roomId, (client: WSClient) => ({
+        this.broadcast(roomId, (client: WSClient) => ({
             method: 'startGame',
         }));
 
         // Pass the move to the player, who started this game
-        setTimeout(() => this.passTheFirstMoveHandler(request), 250);
+        setTimeout(() => this.passTheFirstMoveHandler(request as any), 250);
     }
 
     /**

@@ -67,7 +67,7 @@ export const GamePage = () => {
         connectUser,
         freeRooms,
         joinRoom,
-        startGame,
+        ready,
         passTheMove,
         leaveRoom
     } = useMultiplayer({
@@ -176,7 +176,7 @@ export const GamePage = () => {
                 {
                     roomId,
                     joinRoom,
-                    startGame,
+                    ready,
                     leaveRoom,
                     passTheMove,
                 }
