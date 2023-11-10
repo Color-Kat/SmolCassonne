@@ -1,5 +1,5 @@
-import {BorderType, Tile} from "@pages/GamePage/classes/TilesDeck.tsx";
-import {Team, TeamColorType} from "@pages/GamePage/classes/teams.ts";
+import {Tile} from "@pages/GamePage/classes/TilesDeck.tsx";
+import {TeamColorType} from "@pages/GamePage/classes/teams.ts";
 
 import AsimovPortrait from '@assets/portrets/Asimov.png';
 import DokuchaevPortrait from '@assets/portrets/Dokuchaev.png';
@@ -12,7 +12,17 @@ import RylenkovPortrait from '@assets/portrets/Rylenkov.png';
 import TenishevaPortrait from '@assets/portrets/Tenisheva.png';
 import VasilevPortrait from '@assets/portrets/Vasilev.png';
 
-export type UnitRoleType = 'traveler' | 'scientist' | 'astronaut' | 'architect' | 'actor' | 'poet' | 'philanthropist' | 'soil_scientist' | 'writer' | 'scientist-writer';
+export type UnitRoleType =
+    'traveler'
+    | 'scientist'
+    | 'astronaut'
+    | 'architect'
+    | 'actor'
+    | 'poet'
+    | 'philanthropist'
+    | 'soil_scientist'
+    | 'writer'
+    | 'scientist-writer';
 
 interface IUnit {
     id: number;
@@ -23,8 +33,9 @@ interface IUnit {
     isOccupied: boolean;
 
     role: UnitRoleType;
-    scoreMultiplier: {[key: string]: number}
+    scoreMultiplier: { [key: string]: number }
     bonusDescription: string;
+    moreAbout: string;
 }
 
 export class Unit implements IUnit {
@@ -36,8 +47,17 @@ export class Unit implements IUnit {
     public image: string;
 
     public role: UnitRoleType;
-    public scoreMultiplier: {[key: string]: number} = {city: 1, field1: 1, field2: 1, road1: 1, road2: 1, road3: 1, road4: 1 };
+    public scoreMultiplier: { [key: string]: number } = {
+        city: 1,
+        field1: 1,
+        field2: 1,
+        road1: 1,
+        road2: 1,
+        road3: 1,
+        road4: 1
+    };
     public bonusDescription: string;
+    public moreAbout: string;
 
     public isOccupied: boolean;
 
@@ -52,6 +72,7 @@ export class Unit implements IUnit {
         this.role = unitData.role;
         this.scoreMultiplier = {...this.scoreMultiplier, ...unitData.scoreMultiplier}; // Rewrite default values
         this.bonusDescription = unitData.bonusDescription;
+        this.moreAbout = unitData.moreAbout;
 
         this.isOccupied = unitData.isOccupied;
     }
@@ -76,6 +97,7 @@ export class Unit implements IUnit {
         this.isOccupied = isOccupied;
         return this;
     }
+
 // 'traveler' | 'scientist' | 'astronaut' | 'architect' | 'actor' | 'poet' | 'philanthropist' | 'soil_scientist';
     public getRole() {
         switch (this.role) {
@@ -196,7 +218,7 @@ export class Unit implements IUnit {
                 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< //
 
                 // If it's a road end, stop checking because this road can't be connected to other roads.
-                if(borderName == 'road' && mapTile.roadEnd) break;
+                if (borderName == 'road' && mapTile.roadEnd) break;
 
                 // Business logic for a field that cannot go through the tile center
                 if (
@@ -233,7 +255,7 @@ export class Unit implements IUnit {
             count += countUnits(lastTile, position);
 
         // If it's a road end, stop checking because this road can't be connected to other roads.
-        if(borderName == 'road' && lastTile.roadEnd) return count === 0;
+        if (borderName == 'road' && lastTile.roadEnd) return count === 0;
 
         // Business logic for a field that cannot go through the tile center
         if (
@@ -275,7 +297,8 @@ const Asimov = new Unit({
     isOccupied: false,
     role: 'scientist-writer',
     scoreMultiplier: {city: 1.5, road1: 1.5, road2: 1.5, road3: 1.5, road4: 1.5},
-    bonusDescription: 'Айзек Азимов принесет вам 3 очка вместо 2 в городе, и 1.5 очка на клетках дороги'
+    bonusDescription: 'Айзек Азимов принесет вам 3 очка вместо 2 в городе, и 1.5 очка на клетках дороги',
+    moreAbout: 'https://ru.wikipedia.org/wiki/Азимов,_Айзек'
 });
 
 const Dokuchaev = new Unit({
@@ -286,7 +309,8 @@ const Dokuchaev = new Unit({
     isOccupied: false,
     role: 'soil_scientist',
     scoreMultiplier: {field1: 3, field2: 3},
-    bonusDescription: 'Поставив геолога Докучаева на зелёную зону, вы получите втрое больше очков'
+    bonusDescription: 'Поставив геолога Докучаева на зелёную зону, вы получите втрое больше очков',
+    moreAbout: 'https://ru.wikipedia.org/wiki/Докучаев,_Василий_Васильевич'
 });
 
 const Gagarin = new Unit({
@@ -296,8 +320,9 @@ const Gagarin = new Unit({
     image: GagarinPortrait,
     isOccupied: false,
     role: 'astronaut',
-    scoreMultiplier: {city: 2, field1: 2, field2: 2, road1: 2, road2: 2, road3: 2, road4: 2 },
-    bonusDescription: 'Юрий Гагарин дает 2х бонус очков, куда бы вы его не поставили'
+    scoreMultiplier: {city: 2, field1: 2, field2: 2, road1: 2, road2: 2, road3: 2, road4: 2},
+    bonusDescription: 'Юрий Гагарин дает 2х бонус очков, куда бы вы его не поставили',
+    moreAbout: 'https://ru.wikipedia.org/wiki/Гагарин,_Юрий_Алексеевич'
 });
 
 const Isakovski = new Unit({
@@ -307,8 +332,9 @@ const Isakovski = new Unit({
     image: IsakovskiPortrait,
     isOccupied: false,
     role: 'writer',
-    scoreMultiplier: {road1: 2, road2: 2, road3: 2, road4: 2 },
-    bonusDescription: 'Получите в 2 раза больше очков, поставив поэта Исаковского на ваши дороги'
+    scoreMultiplier: {road1: 2, road2: 2, road3: 2, road4: 2},
+    bonusDescription: 'Получите в 2 раза больше очков, поставив поэта Исаковского на ваши дороги',
+    moreAbout: 'https://ru.wikipedia.org/wiki/Исаковский,_Михаил_Васильевич'
 });
 
 const Kon = new Unit({
@@ -318,8 +344,9 @@ const Kon = new Unit({
     image: KonPortrait,
     isOccupied: false,
     role: 'architect',
-    scoreMultiplier: { city: 2 },
-    bonusDescription: 'Получите вдвое больше очков за город, окруженный Cмоленская крепостная стеной, построенной под руководством Фёдора Коня!'
+    scoreMultiplier: {city: 2},
+    bonusDescription: 'Получите вдвое больше очков за город, окруженный Cмоленская крепостная стеной, построенной под руководством Фёдора Коня!',
+    moreAbout: 'https://ru.wikipedia.org/wiki/Конь,_Фёдор_Савельевич'
 });
 
 const Nikulin = new Unit({
@@ -329,8 +356,9 @@ const Nikulin = new Unit({
     image: NikulinPortrait,
     isOccupied: false,
     role: 'actor',
-    scoreMultiplier: {},
-    bonusDescription: ''
+    scoreMultiplier: {road1: 2, road2: 2, road3: 2, road4: 2},
+    bonusDescription: 'Поставте Юрия Никулина на дорогу, чтобы получить вдвое больше очков',
+    moreAbout: 'https://ru.wikipedia.org/wiki/Никулин,_Юрий_Владимирович'
 });
 
 const Prjevalski = new Unit({
@@ -340,8 +368,9 @@ const Prjevalski = new Unit({
     image: PrjevalskiPortrait,
     isOccupied: false,
     role: 'traveler',
-    scoreMultiplier: {},
-    bonusDescription: ''
+    scoreMultiplier: {road1: 2, road2: 2, road3: 2, road4: 2},
+    bonusDescription: 'Русский путешественник Никола́й Пржева́льский удваивает очки на дорогах',
+    moreAbout: 'https://ru.wikipedia.org/wiki/Пржевальский,_Николай_Михайлович'
 });
 
 const Rylenkov = new Unit({
@@ -351,8 +380,9 @@ const Rylenkov = new Unit({
     image: RylenkovPortrait,
     isOccupied: false,
     role: 'poet',
-    scoreMultiplier: {},
-    bonusDescription: ''
+    scoreMultiplier: {field1: 2, field2: 2},
+    bonusDescription: 'Никола́й Рылéнков говорит: "Получи 2х очков на полях!" ',
+    moreAbout: 'https://ru.wikipedia.org/wiki/Рыленков,_Николай_Иванович'
 });
 
 const Tenisheva = new Unit({
@@ -362,8 +392,9 @@ const Tenisheva = new Unit({
     image: TenishevaPortrait,
     isOccupied: false,
     role: 'philanthropist',
-    scoreMultiplier: {},
-    bonusDescription: ''
+    scoreMultiplier: {city: 2, field1: 2, field2: 2, road1: 2, road2: 2, road3: 2, road4: 2},
+    bonusDescription: 'Всем наука! Бонус 2х на картах любого типа от Марии Тенишевой!',
+    moreAbout: 'https://ru.wikipedia.org/wiki/Тенишева,_Мария_Клавдиевна'
 });
 
 const Vasilev = new Unit({
@@ -373,8 +404,9 @@ const Vasilev = new Unit({
     image: VasilevPortrait,
     isOccupied: false,
     role: 'writer',
-    scoreMultiplier: {},
-    bonusDescription: ''
+    scoreMultiplier: {field1: 2, field2: 2, road1: 2, road2: 2, road3: 2, road4: 2},
+    bonusDescription: 'Дороги и поля - именно на этих клетках вы получаете бонус 2х благодаря Борису Васильеву',
+    moreAbout: 'https://ru.wikipedia.org/wiki/Васильев,_Борис_Львович'
 });
 
 
