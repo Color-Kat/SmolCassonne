@@ -35,6 +35,7 @@ interface IUnit {
     role: UnitRoleType;
     scoreMultiplier: { [key: string]: number }
     bonusDescription: string;
+    moreAbout: string;
 }
 
 export class Unit implements IUnit {
@@ -56,6 +57,7 @@ export class Unit implements IUnit {
         road4: 1
     };
     public bonusDescription: string;
+    public moreAbout: string;
 
     public isOccupied: boolean;
 
@@ -70,6 +72,7 @@ export class Unit implements IUnit {
         this.role = unitData.role;
         this.scoreMultiplier = {...this.scoreMultiplier, ...unitData.scoreMultiplier}; // Rewrite default values
         this.bonusDescription = unitData.bonusDescription;
+        this.moreAbout = unitData.moreAbout;
 
         this.isOccupied = unitData.isOccupied;
     }
@@ -294,7 +297,8 @@ const Asimov = new Unit({
     isOccupied: false,
     role: 'scientist-writer',
     scoreMultiplier: {city: 1.5, road1: 1.5, road2: 1.5, road3: 1.5, road4: 1.5},
-    bonusDescription: 'Айзек Азимов принесет вам 3 очка вместо 2 в городе, и 1.5 очка на клетках дороги'
+    bonusDescription: 'Айзек Азимов принесет вам 3 очка вместо 2 в городе, и 1.5 очка на клетках дороги',
+    moreAbout: 'https://ru.wikipedia.org/wiki/Азимов,_Айзек'
 });
 
 const Dokuchaev = new Unit({
@@ -305,7 +309,8 @@ const Dokuchaev = new Unit({
     isOccupied: false,
     role: 'soil_scientist',
     scoreMultiplier: {field1: 3, field2: 3},
-    bonusDescription: 'Поставив геолога Докучаева на зелёную зону, вы получите втрое больше очков'
+    bonusDescription: 'Поставив геолога Докучаева на зелёную зону, вы получите втрое больше очков',
+    moreAbout: 'https://ru.wikipedia.org/wiki/Докучаев,_Василий_Васильевич'
 });
 
 const Gagarin = new Unit({
@@ -316,7 +321,8 @@ const Gagarin = new Unit({
     isOccupied: false,
     role: 'astronaut',
     scoreMultiplier: {city: 2, field1: 2, field2: 2, road1: 2, road2: 2, road3: 2, road4: 2},
-    bonusDescription: 'Юрий Гагарин дает 2х бонус очков, куда бы вы его не поставили'
+    bonusDescription: 'Юрий Гагарин дает 2х бонус очков, куда бы вы его не поставили',
+    moreAbout: 'https://ru.wikipedia.org/wiki/Гагарин,_Юрий_Алексеевич'
 });
 
 const Isakovski = new Unit({
@@ -327,7 +333,8 @@ const Isakovski = new Unit({
     isOccupied: false,
     role: 'writer',
     scoreMultiplier: {road1: 2, road2: 2, road3: 2, road4: 2},
-    bonusDescription: 'Получите в 2 раза больше очков, поставив поэта Исаковского на ваши дороги'
+    bonusDescription: 'Получите в 2 раза больше очков, поставив поэта Исаковского на ваши дороги',
+    moreAbout: 'https://ru.wikipedia.org/wiki/Исаковский,_Михаил_Васильевич'
 });
 
 const Kon = new Unit({
@@ -338,7 +345,8 @@ const Kon = new Unit({
     isOccupied: false,
     role: 'architect',
     scoreMultiplier: {city: 2},
-    bonusDescription: 'Получите вдвое больше очков за город, окруженный Cмоленская крепостная стеной, построенной под руководством Фёдора Коня!'
+    bonusDescription: 'Получите вдвое больше очков за город, окруженный Cмоленская крепостная стеной, построенной под руководством Фёдора Коня!',
+    moreAbout: 'https://ru.wikipedia.org/wiki/Конь,_Фёдор_Савельевич'
 });
 
 const Nikulin = new Unit({
@@ -349,7 +357,8 @@ const Nikulin = new Unit({
     isOccupied: false,
     role: 'actor',
     scoreMultiplier: {road1: 2, road2: 2, road3: 2, road4: 2},
-    bonusDescription: 'Поставте Юрия Никулина на дорогу, чтобы получить вдвое больше очков'
+    bonusDescription: 'Поставте Юрия Никулина на дорогу, чтобы получить вдвое больше очков',
+    moreAbout: 'https://ru.wikipedia.org/wiki/Никулин,_Юрий_Владимирович'
 });
 
 const Prjevalski = new Unit({
@@ -360,7 +369,8 @@ const Prjevalski = new Unit({
     isOccupied: false,
     role: 'traveler',
     scoreMultiplier: {road1: 2, road2: 2, road3: 2, road4: 2},
-    bonusDescription: 'Русский путешественник Никола́й Пржева́льский удваивает очки на дорогах'
+    bonusDescription: 'Русский путешественник Никола́й Пржева́льский удваивает очки на дорогах',
+    moreAbout: 'https://ru.wikipedia.org/wiki/Пржевальский,_Николай_Михайлович'
 });
 
 const Rylenkov = new Unit({
@@ -371,7 +381,8 @@ const Rylenkov = new Unit({
     isOccupied: false,
     role: 'poet',
     scoreMultiplier: {field1: 2, field2: 2},
-    bonusDescription: 'Никола́й Рылéнков говорит: "Получи 2х очков на полях!" '
+    bonusDescription: 'Никола́й Рылéнков говорит: "Получи 2х очков на полях!" ',
+    moreAbout: 'https://ru.wikipedia.org/wiki/Рыленков,_Николай_Иванович'
 });
 
 const Tenisheva = new Unit({
@@ -382,7 +393,8 @@ const Tenisheva = new Unit({
     isOccupied: false,
     role: 'philanthropist',
     scoreMultiplier: {city: 2, field1: 2, field2: 2, road1: 2, road2: 2, road3: 2, road4: 2},
-    bonusDescription: 'Всем наука! Бонус 2х на картах любого типа от Марии Тенишевой!'
+    bonusDescription: 'Всем наука! Бонус 2х на картах любого типа от Марии Тенишевой!',
+    moreAbout: 'https://ru.wikipedia.org/wiki/Тенишева,_Мария_Клавдиевна'
 });
 
 const Vasilev = new Unit({
@@ -393,7 +405,8 @@ const Vasilev = new Unit({
     isOccupied: false,
     role: 'writer',
     scoreMultiplier: {field1: 2, field2: 2, road1: 2, road2: 2, road3: 2, road4: 2},
-    bonusDescription: 'Дороги и поля - именно на этих клетках вы получаете бонус 2х благодаря Борису Васильеву'
+    bonusDescription: 'Дороги и поля - именно на этих клетках вы получаете бонус 2х благодаря Борису Васильеву',
+    moreAbout: 'https://ru.wikipedia.org/wiki/Васильев,_Борис_Львович'
 });
 
 
