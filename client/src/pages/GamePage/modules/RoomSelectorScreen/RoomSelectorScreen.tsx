@@ -95,7 +95,7 @@ export const RoomSelectorScreen: React.FC<RoomSelectorScreenProps> = memo(({
                                     #{room.roomId}
                                 </div>
 
-                                <div className="font-semibold tracking-tighter">
+                                <div className="font-semibold tracking-tighter whitespace-nowrap">
                                     {room.playersCount} / 4
                                 </div>
 

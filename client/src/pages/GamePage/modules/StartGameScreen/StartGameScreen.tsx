@@ -33,9 +33,10 @@ export const StartGameScreen: React.FC<StartGameScreenProps> = memo(({
     }
 
     const handleStartGame = () => {
-        if(selectedUnits.length < MY_UNITS_MAX_COUNT) {
-            setTooltip("Выберите 5 Смолян");
-        }
+        if (selectedUnits.length < MY_UNITS_MAX_COUNT)
+            return setTooltip("Выберите 5 Смолян");
+
+        startGame(roomId);
     }
 
     return (
@@ -60,7 +61,7 @@ export const StartGameScreen: React.FC<StartGameScreenProps> = memo(({
                         </div>
 
                         <RippleButton
-                            onClick={() => startGame(roomId)}
+                            onClick={handleStartGame}
                             ButtonComponent={PurpleButton}
                             className="w-full"
                         >
@@ -85,9 +86,9 @@ export const StartGameScreen: React.FC<StartGameScreenProps> = memo(({
                         </h2>
 
                         <div
-                            className="flex flex-wrap gap-1.5 overflow-y-auto no-scrollbar"
+                            className="grid grid-cols-5 gap-1.5 overflow-y-auto no-scrollbar"
                         >
-                            {[...listOfUnits, ...listOfUnits, ...listOfUnits].map((unit) => (
+                            {listOfUnits.map((unit) => (
                                 <button
                                     className={twJoin(
                                         "h-",
@@ -104,13 +105,13 @@ export const StartGameScreen: React.FC<StartGameScreenProps> = memo(({
                                     }}
                                     onClick={() => {
                                         setSelectedUnits(prev => {
-                                            if(selectedUnits.some(selectedUnit => selectedUnit.id === unit.id)) {
+                                            if (selectedUnits.some(selectedUnit => selectedUnit.id === unit.id)) {
                                                 // Unselect unit
                                                 return selectedUnits.filter(selectedUnit => selectedUnit.id !== unit.id);
-                                            } else {
+                                            } else if(prev.length < MY_UNITS_MAX_COUNT) {
                                                 // Select unit
                                                 return [...prev, unit];
-                                            }
+                                            } else return prev;
                                         })
                                     }}
                                     title={unit.name}
@@ -129,8 +130,8 @@ export const StartGameScreen: React.FC<StartGameScreenProps> = memo(({
                                         />
                                     </div>
 
-                                    <div>
-                                        {unit.name.split(' ')[0]}
+                                    <div className="text-sm truncate max-w-[85px]">
+                                        {unit.name.split(' ')[2]}
                                     </div>
 
                                 </button>
@@ -154,21 +155,22 @@ export const StartGameScreen: React.FC<StartGameScreenProps> = memo(({
                     </div>
                 </div>
 
+                {/* List of selected units */}
                 <div className="rounded-b-3xl rounded-t-lg w-ful pb-7 p-3 bg-app">
-                    <h2 className="font-bold text-xl text-gray-600">
+                    <h2 className="font-bold text-xl text-gray-600 mb-1">
                         Ваша колода
                     </h2>
                     <div
-                        className="flex flex-wrap gap-1.5 overflow-y-auto no-scrollbar"
+                        className="flex flex-wrap gap-5 overflow-y-auto no-scrollbar"
                     >
                         {[0, 1, 2, 3, 4].map((unitNumber) => {
-                            if(selectedUnits[unitNumber]) {
+                            if (selectedUnits[unitNumber]) {
                                 const unit = selectedUnits[unitNumber];
                                 return (
                                     <button
                                         className={twJoin(
-                                            "h-28",
-                                            "flex flex-col items-center justify-betwee gap-0.25 relative"
+                                            "h-28 w-[85px]",
+                                            "flex flex-col items-center gap-0.25 relative"
                                         )}
                                         key={unit.id}
                                         onClick={() => {
@@ -192,8 +194,8 @@ export const StartGameScreen: React.FC<StartGameScreenProps> = memo(({
                                             />
                                         </div>
 
-                                        <div>
-                                            {unit.name.split(' ')[0]}
+                                        <div className="text-sm truncat text-center ">
+                                            {unit.name.split(' ')[2]}
                                         </div>
 
                                     </button>
@@ -201,11 +203,11 @@ export const StartGameScreen: React.FC<StartGameScreenProps> = memo(({
                             } else {
                                 return (
                                     <button
-                                        className="flex flex-col items-center justify-between gap-0.25 relative border-4 rounded-lg p-2 border-gray-600 h-28"
-                                        key={unitNumber}
+                                        className="flex flex-col items-center justify-between w-[85px] gap-0.25 relative border-4 rounded-lg p-2 border-gray-600 h-28"
+                                        key={unitNumber + 990}
                                         title="Пусто"
                                     >
-                                        <BsFillPersonFill className="text-4xl text-slate-700" />
+                                        <BsFillPersonFill className="text-4xl text-slate-700"/>
 
                                         <div>Пусто</div>
                                     </button>
