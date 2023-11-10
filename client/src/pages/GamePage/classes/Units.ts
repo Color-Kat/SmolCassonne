@@ -1,7 +1,18 @@
 import {BorderType, Tile} from "@pages/GamePage/classes/TilesDeck.tsx";
 import {Team, TeamColorType} from "@pages/GamePage/classes/teams.ts";
 
-export type UnitRoleType = 'traveler' | 'scientist' | 'astronaut';
+import AsimovPortrait from '@assets/portrets/Azimov.png';
+import DokuchaevPortrait from '@assets/portrets/Dokuchaev.png';
+import GagarinPortrait from '@assets/portrets/Gagarin.png';
+import IsakovskiPortrait from '@assets/portrets/Isakovski.png';
+import KonPortrait from '@assets/portrets/Kon.png';
+import NikulinPortrait from '@assets/portrets/Nikulin.png';
+import PrjevalskiPortrait from '@assets/portrets/Prjevalski.png';
+import RylenkovPortrait from '@assets/portrets/Rylenkov.png';
+import TenishevaPortrait from '@assets/portrets/Tenisheva.png';
+import VasilevPortrait from '@assets/portrets/Vasilev.png';
+
+export type UnitRoleType = 'traveler' | 'scientist' | 'astronaut' | 'architect' | 'actor' | 'poet' | 'philanthropist' | 'soil_scientist' | 'writer' | 'scientist-writer';
 
 interface IUnit {
     id: number;
@@ -13,6 +24,7 @@ interface IUnit {
 
     role: UnitRoleType;
     scoreMultiplier: {[key: string]: number}
+    bonus_description: string;
 }
 
 export class Unit implements IUnit {
@@ -25,6 +37,7 @@ export class Unit implements IUnit {
 
     public role: UnitRoleType;
     public scoreMultiplier: {[key: string]: number} = {city: 1, field1: 1, field2: 1, road1: 1, road2: 1, road3: 1, road4: 1 };
+    public bonus_description: string;
 
     public isOccupied: boolean;
 
@@ -38,6 +51,7 @@ export class Unit implements IUnit {
 
         this.role = unitData.role;
         this.scoreMultiplier = {...this.scoreMultiplier, ...unitData.scoreMultiplier}; // Rewrite default values
+        this.bonus_description = unitData.bonus_description;
 
         this.isOccupied = unitData.isOccupied;
     }
@@ -62,7 +76,7 @@ export class Unit implements IUnit {
         this.isOccupied = isOccupied;
         return this;
     }
-
+// 'traveler' | 'scientist' | 'astronaut' | 'architect' | 'actor' | 'poet' | 'philanthropist' | 'soil_scientist';
     public getRole() {
         switch (this.role) {
             case 'traveler':
@@ -71,8 +85,22 @@ export class Unit implements IUnit {
                 return 'Учёный';
             case 'astronaut':
                 return 'Космонавт';
-            default:
+            case 'architect':
+                return 'Зодчий';
+            case 'actor':
+                return 'Актёр';
+            case 'poet':
                 return 'Поэт';
+            case 'philanthropist':
+                return 'Меценатка';
+            case 'soil_scientist':
+                return 'Почвовед';
+            case 'writer':
+                return 'Писатель';
+            case 'scientist-writer':
+                return 'Писатель-фантаст';
+            default:
+                return '';
         }
     }
 
@@ -239,42 +267,132 @@ export class Unit implements IUnit {
 }
 
 /* ----- Units definition ----- */
-const traveler = new Unit({
+const Asimov = new Unit({
     id: 0,
-    name: 'Николай Михайлович Пржевальский',
-    description: 'Никола́й Миха́йлович Пржева́льский — русский путешественник, географ и натуралист, почётный член Русского географического общества. Предпринял несколько экспедиций в Центральную Азию, во время которых изучил территорию Монголии, Китая и Тибета. Генерал-майор. Брат адвоката Владимира и математика Евгения Пржевальских',
-    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDDNnZ-mO6UTZ4jSDCWlQ27RbJVmjr67Jw-w1uWqhH3z5S61OoT8JSmjxO4E03U5HXbBA&usqp=CAU',
+    name: 'Айзек Азимов',
+    description: 'Айзек Азимов - писатель-фантаст, популяризатор науки, биохимик. Автор трёх законов робототехники. Написал около 500 произведений, в основном художественных и научно-популярных. Родился в Смоленской губернии (ныне Смоленская область)',
+    image: AsimovPortrait,
     isOccupied: false,
-    role: 'traveler',
-    scoreMultiplier: {road1: 2, road2: 2, road3: 2, road4: 2}
+    role: 'scientist-writer',
+    scoreMultiplier: {city: 1.5, road1: 1.5, road2: 1.5, road3: 1.5, road4: 1.5},
+    bonus_description: 'Айзек Азимов принесет вам 3 очка вместо 2 в городе, и 1.5 очка на клетках дороги'
 });
 
-const scientist = new Unit({
+const Dokuchaev = new Unit({
     id: 1,
     name: 'Василий Васильевич Докучаев',
     description: 'Васи́лий Васи́льевич Докуча́ев — русский геолог и почвовед, профессор минералогии и кристаллографии Санкт-Петербургского университета, директор Ново-Александрийского института сельского хозяйства и лесоводства. Известен как основоположник школы научного почвоведения и географии почв.',
-    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Dokuchaev_1888.jpg/274px-Dokuchaev_1888.jpg',
+    image: DokuchaevPortrait,
     isOccupied: false,
-    role: 'scientist',
-    scoreMultiplier: {field1: 2, field2: 2}
+    role: 'soil_scientist',
+    scoreMultiplier: {field1: 3, field2: 3},
+    bonus_description: 'Поставив геолога Докучаева на зелёную зону, вы получите втрое больше очков'
 });
 
-const astronaut = new Unit({
+const Gagarin = new Unit({
     id: 2,
     name: 'Юрий Алексеевич Гагарин',
-    description: 'Ю́рий Алексе́евич Гага́рин — лётчик-космонавт СССР, Герой Советского Союза. Совершил первый полёт в космос',
-    image: 'https://biblioclub.ru/services/fks.php?fks_action=get_file&fks_id=31762774&fks_flag=2',
+    description: 'Ю́рий Алексе́евич Гага́рин — лётчик-космонавт СССР, Герой Советского Союза. Юрий Гагарин стал первым человеком в мировой истории, совершившим полёт в космическое пространство',
+    image: GagarinPortrait,
     isOccupied: false,
     role: 'astronaut',
-    scoreMultiplier: {'city': 2}
+    scoreMultiplier: {city: 2, field1: 2, field2: 2, road1: 2, road2: 2, road3: 2, road4: 2 },
+    bonus_description: 'Юрий Гагарин дает 2х бонус очков, куда бы вы его не поставили'
 });
+
+const Isakovski = new Unit({
+    id: 3,
+    name: 'Михаил Васильевич Исаковский',
+    description: 'Русский советский поэт, поэт-песенник, прозаик, переводчик. Герой Социалистического Труда (1970). Лауреат двух Сталинских премий первой степени',
+    image: IsakovskiPortrait,
+    isOccupied: false,
+    role: 'writer',
+    scoreMultiplier: {road1: 2, road2: 2, road3: 2, road4: 2 },
+    bonus_description: 'Получите в 2 раза больше очков, поставив поэта Исаковского на ваши дороги'
+});
+
+const Kon = new Unit({
+    id: 4,
+    name: 'Фёдор Савельевич Конь',
+    description: 'Фёдор Конь - один из немногих древнерусских зодчих, чьё имя зафиксировано источниками. Одной из первых и самых значимых его построек являются стены Белого города в Москве. Крупнейшая из сохранившихся кирпичных крепостей мира - Cмоленская крепостная стена, была построенна как раз под руководством Фёдора Коня',
+    image: KonPortrait,
+    isOccupied: false,
+    role: 'architect',
+    scoreMultiplier: { city: 2 },
+    bonus_description: 'Получите вдвое больше очков за город, окруженный Cмоленская крепостная стеной, построенной под руководством Фёдора Коня!'
+});
+
+const Nikulin = new Unit({
+    id: 5,
+    name: 'Ю́рий Влади́мирович Нику́лин',
+    description: 'Советский и российский артист цирка (клоун), цирковой режиссёр, киноактёр, телеведущий. Герой Социалистического Труда (1990), народный артист СССР (1973), лауреат Государственной премии РСФСР им. братьев Васильевых (1980), кавалер двух орденов Ленина (1980, 1990). Участник Великой Отечественной войны.',
+    image: NikulinPortrait,
+    isOccupied: false,
+    role: 'actor',
+    scoreMultiplier: {},
+    bonus_description: ''
+});
+
+const Prjevalski = new Unit({
+    id: 6,
+    name: 'Никола́й Миха́йлович Пржева́льский',
+    description: 'Никола́й Миха́йлович Пржева́льский - русский путешественник (поляк по происхождению), географ и натуралист, почётный член Императорского Русского географического общества. Генерального штаба генерал-майор (1886). Предпринял несколько экспедиций в Центральную Азию, во время которых изучил территорию Монголии, Северного Китая и Тибета.',
+    image: PrjevalskiPortrait,
+    isOccupied: false,
+    role: 'traveler',
+    scoreMultiplier: {},
+    bonus_description: ''
+});
+
+const Rylenkov = new Unit({
+    id: 7,
+    name: 'Никола́й Ива́нович Рылéнков',
+    description: 'Никола́й Ива́нович Рылéнков — русский советский поэт. Автор стихотворного пересказа «Слова о полку Игореве». Издал сборник статей «Традиции и новаторство»',
+    image: RylenkovPortrait,
+    isOccupied: false,
+    role: 'poet',
+    scoreMultiplier: {},
+    bonus_description: ''
+});
+
+const Tenisheva = new Unit({
+    id: 8,
+    name: 'Мари́я Кла́вдиевна Те́нишева',
+    description: 'Княгиня Мари́я Кла́вдиевна Те́нишева - русская дворянка, общественная деятельница, художница-эмальерка, преподавательница, меценатка и коллекционерка. Основательница художественной студии в Петербурге, Рисовальной школы и Музея русской старины в Смоленске, ремесленного училища в Бежице, а также художественно-промышленных мастерских в собственном имении Талашкино.',
+    image: TenishevaPortrait,
+    isOccupied: false,
+    role: 'philanthropist',
+    scoreMultiplier: {},
+    bonus_description: ''
+});
+
+const Vasilev = new Unit({
+    id: 9,
+    name: 'Бори́с Льво́вич Васи́льев',
+    description: 'Бори́с Льво́вич Васи́льев - русский советский писатель, сценарист. Лауреат Премии Президента Российской Федерации (2000), Государственной премии СССР (1975) и премии Ленинского комсомола (1975). Участник Великой Отечественной войны. Член Союза писателей Москвы и Союза кинематографистов России, академик Российской академии кинематографических искусств «Ника»',
+    image: VasilevPortrait,
+    isOccupied: false,
+    role: 'writer',
+    scoreMultiplier: {},
+    bonus_description: ''
+});
+
+
+
 /* ----- Units definition ----- */
 
 // Set of units
 const listOfUnits = [
-    traveler,
-    scientist,
-    astronaut
+    Asimov,
+    Dokuchaev,
+    Gagarin,
+    Isakovski,
+    Kon,
+    Nikulin,
+    Prjevalski,
+    Rylenkov,
+    Tenisheva,
+    Vasilev
 ];
 
 /**
