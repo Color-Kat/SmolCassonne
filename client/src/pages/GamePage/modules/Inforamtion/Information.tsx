@@ -56,9 +56,10 @@ export const Information: React.FC<InformationProps> = memo(({
         return (
             <div
                 className="absolute right-0 bottom-0 bg-black/40 rounded-tl-xl z-50 p-4 text-gray-100 max-w-2xl cursor-pointer"
-                onClick={closeInformation}>
+                onClick={closeInformation}
+            >
                 <div className="flex flex-row gap-3">
-                    <img src={unitInformation.image} alt={unitInformation.name} className="h-36"/>
+                    <img src={unitInformation.image} alt={unitInformation.name} className="h-36 rounded-lg"/>
 
                     <div>
                         <h3 className="text-xl font-semibold">{unitInformation.name}</h3>
@@ -68,18 +69,18 @@ export const Information: React.FC<InformationProps> = memo(({
             </div>
         );
 
-    if (tileInformation)
+    if (tileInformation && tileInformation.realPhoto)
         return (
             <div
                 className="absolute right-0 bottom-0 bg-black/40 rounded-tl-xl z-50 p-4 text-gray-100 max-w-2xl cursor-pointer"
                 onClick={closeInformation}
             >
                 <div className="flex flex-row gap-3">
-                    <img src={tileInformation.realPhoto} alt={tileInformation.name} className="h-36"/>
+                    <img src={tileInformation.realPhoto} alt={tileInformation.name!} className="h-36 rounded-xl"/>
 
                     <div>
                         <h3 className="text-xl font-semibold">{tileInformation.name}</h3>
-                        <p className="text-gray-300">{tileInformation.description}</p>
+                        <p className="text-gray-300">{tileInformation.description!}</p>
                     </div>
                 </div>
             </div>

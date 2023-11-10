@@ -49,7 +49,10 @@ export class TilesMap {
             design: "R-1",
             borders: ['field', 'road', 'city', 'road'],
             pennant: false,
-            coords: {x: mapCenter - mapCenter % tileSize, y: mapCenter - mapCenter % tileSize}
+            coords: {x: mapCenter - mapCenter % tileSize, y: mapCenter - mapCenter % tileSize},
+            name: "Смоленский Ж/Д вокзал",
+            realPhoto: "https://sun9-22.userapi.com/impg/Hw13C8fOSMT5OdXKYF-xrV8E1MstWLDBwZ3J1g/IFS_pX3hfNU.jpg?size=1200x814&quality=95&sign=245b3a728870fe0bf82dc3c737165ae3&c_uniq_tag=rW4rRQt5QdHwtXtpG9xhPv62z6iJ3U014y0w_R7o8kw&type=album",
+            description: "Станция открыта в 1868 году, а в 1870 году открыт проложенный параллельно ей первый участок Москва. В 1896 году от станции Духовская в пригороде Смоленска открыта линия в Раненбург. Станция располагается в Заднепровском районе Смоленска, южнее Витебского шоссе."
         })];
     }
 

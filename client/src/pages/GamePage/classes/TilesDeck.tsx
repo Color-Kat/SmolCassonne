@@ -17,9 +17,9 @@ export interface ITile {
     units: (Unit | null)[];
     coords: { x: number, y: number };
 
-    name: string | null;
-    realPhoto: string | null;
-    description: string | null;
+    name?: string | null;
+    realPhoto?: string | null;
+    description?: string | null;
 }
 
 export interface IMapTile extends ITile {
