@@ -23,6 +23,14 @@ export const RoomSelectorScreen: React.FC<RoomSelectorScreenProps> = memo(({
                                                                         }) => {
     const {joinRoom} = useContext(MultiplayerContext);
 
+    const handleJoinRoom = () => {
+        joinRoom(roomId, user);
+    }
+
+    const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') handleJoinRoom();
+    };
+
     return (
         <div className="flex justify-center items-center h-full w-full absolute inset-0">
 
@@ -39,6 +47,7 @@ export const RoomSelectorScreen: React.FC<RoomSelectorScreenProps> = memo(({
                         id="roomId"
                         name="roomId"
                         value={roomId}
+                        onKeyPress={handleKeyPress}
                         onChange={(e) => setRoomId(e.target.value)}
                         placeholder="Введите ID комнаты"
                         className={twMerge(
@@ -51,7 +60,7 @@ export const RoomSelectorScreen: React.FC<RoomSelectorScreenProps> = memo(({
                     />
 
                     <RippleButton
-                        onClick={() => joinRoom(roomId, user)}
+                        onClick={handleJoinRoom}
                         ButtonComponent={PurpleButton}
                         className="w-full"
                     >
