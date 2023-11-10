@@ -37,6 +37,7 @@ export const StartGameScreen: React.FC<StartGameScreenProps> = memo(({
             return setTooltip("Выберите 5 Смолян");
 
         startGame(roomId);
+        setTooltip("");
     }
 
     return (
