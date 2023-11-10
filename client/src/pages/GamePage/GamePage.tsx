@@ -9,7 +9,7 @@ import {Teams} from "@pages/GamePage/modules/Teams/Teams.tsx";
 import {GameStageContext, GameStagesType, MapContext, MultiplayerContext} from "@pages/GamePage/gameContext.ts";
 import {Information} from "@pages/GamePage/modules/Inforamtion/Information.tsx";
 import {defaultTeams, Team, TeamColorType, TeamsType} from "@pages/GamePage/classes/teams.ts";
-import {useMultiplayer} from "@pages/GamePage/hooks/useMultiplayer.ts";
+import {IRooms, useMultiplayer} from "@pages/GamePage/hooks/useMultiplayer.ts";
 import {IUser} from "@/store/auth/auth.slice.ts";
 import {RainbowLoader} from "@UI/Loaders";
 import {StartGameScreen} from "@pages/GamePage/modules/StartGameScreen/StartGameScreen.tsx";
@@ -17,6 +17,7 @@ import {ComposeContexts, contextProvider} from "@components/Helpers";
 import {GameOverScreen} from "@pages/GamePage/modules/GameOverScreen/GameOverScreen.tsx";
 import {useTSelector} from "@hooks/redux.ts";
 import {YourMove} from "@pages/GamePage/Components/YourMove.tsx";
+import {RoomSelectorScreen} from "@pages/GamePage/modules/RoomSelectorScreen/RoomSelectorScreen.tsx";
 
 const user: IUser = {
     id: Date.now().toString(),
@@ -31,9 +32,12 @@ const user: IUser = {
  * @constructor
  */
 export const GamePage = () => {
-    const [roomId, setRoomId] = useState("");
     const user = useTSelector(state => state.auth.user) as IUser;
 
+    // Rooms
+    const [roomId, setRoomId] = useState("");
+
+    // Teams
     const [myTeamColor, setMyTeamColor] = useState<TeamColorType | null>(null); // Will be set by server
     const [teams, setTeams] = useState<TeamsType>(defaultTeams);
 
@@ -61,6 +65,7 @@ export const GamePage = () => {
     // Retrieve methods for multiplayer
     const {
         connectUser,
+        freeRooms,
         joinRoom,
         startGame,
         passTheMove,
@@ -185,13 +190,20 @@ export const GamePage = () => {
 
                 {/*{!isConnectedToRoom && <RainbowLoader className="mt-24"/>}*/}
 
-                {/* Start game screen */}
-                {stage == 'notStarted' &&
-                    <StartGameScreen
+                {/* Room Selector screen */}
+                {stage == 'notStarted' && !isConnectedToRoom &&
+                    <RoomSelectorScreen
                         user={user}
                         roomId={roomId}
                         setRoomId={setRoomId}
-                        isConnectedToRoom={isConnectedToRoom}
+                        freeRooms={freeRooms}
+                    />
+                }
+
+                {/* Start Game screen with unit selector */}
+                {stage == 'notStarted' && isConnectedToRoom &&
+                    <StartGameScreen
+                        roomId={roomId}
                     />
                 }
 

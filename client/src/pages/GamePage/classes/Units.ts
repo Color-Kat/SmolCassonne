@@ -16,7 +16,7 @@ export type UnitRoleType = 'traveler' | 'scientist' | 'astronaut' | 'architect' 
 
 interface IUnit {
     id: number;
-    team?: TeamColorType|null;
+    team?: TeamColorType | null;
     name: string;
     description: string;
     image: string;
@@ -30,7 +30,7 @@ interface IUnit {
 export class Unit implements IUnit {
 
     public id: number;
-    public team: TeamColorType|null = null;
+    public team: TeamColorType | null = null;
     public name: string;
     public description: string;
     public image: string;
@@ -42,7 +42,7 @@ export class Unit implements IUnit {
     public isOccupied: boolean;
 
     constructor(unitData: IUnit) {
-        if(unitData.team) this.team = unitData.team
+        if (unitData.team) this.team = unitData.team
 
         this.id = unitData.id;
         this.name = unitData.name;
@@ -399,7 +399,7 @@ const listOfUnits = [
  * Get a list of units and set a team for every unit.
  * @param team
  */
-function getUnitsByTeam(team: TeamColorType) {
+export function getUnitsByTeam(team: TeamColorType) {
     return listOfUnits.map(unit => {
         const teamUnit = new Unit(unit);
         return teamUnit.setTeam(team);
@@ -407,7 +407,7 @@ function getUnitsByTeam(team: TeamColorType) {
 }
 
 // Units divided by teams
-export const units: {[key in TeamColorType]: Unit[]} = {
+export const units: { [key in TeamColorType]: Unit[] } = {
     blue: getUnitsByTeam('blue'),
     red: getUnitsByTeam('red'),
     green: getUnitsByTeam('green'),

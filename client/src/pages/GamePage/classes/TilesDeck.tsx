@@ -29,21 +29,6 @@ class TilesDeck {
     private deck = ([
 
         /* --- New Tiles --- */
-        // {id: 1, design: "A", borders: ['city', 'road', 'road', 'city'], rotation: 0, pennant: true},
-        // {id: 2, design: "B", borders: ['city', 'road', 'road', 'city'], rotation: 0},
-        // {id: 3, design: "C", borders: ['city', 'road', 'field', 'road'], rotation: 0},
-        // {id: 4, design: "D", borders: ['road', 'field', 'road', 'field'], rotation: 0},
-        // {id: 5, design: "E", borders: ['field', 'field', 'road', 'road'], rotation: 0},
-
-
-
-        {id: 1, design: "A", borders: ['field', 'field', 'road', 'field'], rotation: 0, roadEnd: true},
-        {id: 2, design: "A", borders: ['field', 'field', 'road', 'field'], rotation: 0, roadEnd: true},
-        {id: 3, design: "B", borders: ['field', 'field', 'field', 'field'], rotation: 0},
-        {id: 4, design: "B", borders: ['field', 'field', 'field', 'field'], rotation: 0},
-        {id: 5, design: "B", borders: ['field', 'field', 'field', 'field'], rotation: 0},
-        {id: 6, design: "B", borders: ['field', 'field', 'field', 'field'], rotation: 0},
-        {id: 7, design: "C", borders: ['city', 'city', 'city', 'city'], pennant: true, rotation: 0},
         {id: 8, design: "D", borders: ['city', 'road', 'field', 'road'], rotation: 0},
         {id: 9, design: "D", borders: ['city', 'road', 'field', 'road'], rotation: 0},
         {id: 10, design: "D", borders: ['city', 'road', 'field', 'road'], rotation: 0},
@@ -55,37 +40,16 @@ class TilesDeck {
         {id: 16, design: "F", borders: ['field', 'city', 'field', 'city'], pennant: true, rotation: 0},
         {id: 17, design: "F", borders: ['field', 'city', 'field', 'city'], pennant: true, rotation: 0},
         {id: 18, design: "G", borders: ['field', 'city', 'field', 'city'], rotation: 0},
-        {id: 19, design: "H", borders: ['field', 'city', 'field', 'city',], rotation: 0},
-        {id: 20, design: "H", borders: ['field', 'city', 'field', 'city'], rotation: 0},
-        {id: 21, design: "H", borders: ['field', 'city', 'field', 'city'], rotation: 0},
         {id: 22, design: "I", borders: ['city', 'field', 'field', 'city'], rotation: 0},
         {id: 23, design: "I", borders: ['city', 'field', 'field', 'city'], rotation: 0},
         {id: 24, design: "J", borders: ['city', 'road', 'road', 'field'], rotation: 0},
         {id: 25, design: "J", borders: ['city', 'road', 'road', 'field'], rotation: 0},
         {id: 26, design: "J", borders: ['city', 'road', 'road', 'field'], rotation: 0},
-        {id: 27, design: "K", borders: ['city', 'field', 'road', 'road'], rotation: 0},
-        {id: 28, design: "K", borders: ['city', 'field', 'road', 'road'], rotation: 0},
-        {id: 29, design: "K", borders: ['city', 'field', 'road', 'road'], rotation: 0},
-        {id: 30, design: "L", borders: ['city', 'road', 'road', 'road'], rotation: 0, roadEnd: true},
-        {id: 31, design: "L", borders: ['city', 'road', 'road', 'road'], rotation: 0, roadEnd: true},
-        {id: 32, design: "L", borders: ['city', 'road', 'road', 'road'], rotation: 0, roadEnd: true},
         {id: 33, design: "M", borders: ['city', 'field', 'field', 'city'], pennant: true, rotation: 0},
         {id: 34, design: "M", borders: ['city', 'field', 'field', 'city'], pennant: true, rotation: 0},
-        {id: 35, design: "N", borders: ['city', 'city', 'field', 'field'], rotation: 0},
-        {id: 36, design: "N", borders: ['city', 'city', 'field', 'field'], rotation: 0},
-        {id: 37, design: "N", borders: ['city', 'city', 'field', 'field'], rotation: 0},
-        {id: 38, design: "O", borders: ['city', 'road', 'road', 'city'], pennant: true, rotation: 0},
-        {id: 39, design: "O", borders: ['city', 'road', 'road', 'city'], pennant: true, rotation: 0},
         {id: 40, design: "P", borders: ['city', 'road', 'road', 'city'], rotation: 0},
         {id: 41, design: "P", borders: ['city', 'road', 'road', 'city'], rotation: 0},
         {id: 42, design: "P", borders: ['city', 'road', 'road', 'city'], rotation: 0},
-        {id: 43, design: "Q", borders: ['city', 'city', 'field', 'city'], pennant: true, rotation: 0},
-        {id: 44, design: "R", borders: ['city', 'city', 'field', 'city'], rotation: 0},
-        {id: 45, design: "R", borders: ['city', 'city', 'field', 'city'], rotation: 0},
-        {id: 46, design: "R", borders: ['city', 'city', 'field', 'city'], rotation: 0},
-        {id: 47, design: "S", borders: ['city', 'city', 'road', 'city'], pennant: true, rotation: 0, roadEnd: true},
-        {id: 48, design: "S", borders: ['city', 'city', 'road', 'city'], pennant: true, rotation: 0, roadEnd: true},
-        {id: 49, design: "T", borders: ['city', 'city', 'road', 'city'], rotation: 0, roadEnd: true},
         {id: 50, design: "U", borders: ['road', 'field', 'road', 'field'], rotation: 0},
         {id: 51, design: "U", borders: ['road', 'field', 'road', 'field'], rotation: 0},
         {id: 52, design: "U", borders: ['road', 'field', 'road', 'field'], rotation: 0},
@@ -103,17 +67,87 @@ class TilesDeck {
         {id: 64, design: "V", borders: ['field', 'field', 'road', 'road'], rotation: 0},
         {id: 65, design: "V", borders: ['field', 'field', 'road', 'road'], rotation: 0},
         {id: 66, design: "V", borders: ['field', 'field', 'road', 'road'], rotation: 0},
-        {id: 67, design: "W", borders: ['field', 'road', 'road', 'road'], rotation: 0, roadEnd: true},
-        {id: 68, design: "W", borders: ['field', 'road', 'road', 'road'], rotation: 0, roadEnd: true},
-        {id: 69, design: "W", borders: ['field', 'road', 'road', 'road'], rotation: 0, roadEnd: true},
-        {id: 70, design: "W", borders: ['field', 'road', 'road', 'road'], rotation: 0, roadEnd: true},
-        {id: 71, design: "X", borders: ['road', 'road', 'road', 'road'], rotation: 0, roadEnd: true}
+        {id: 38, design: "O", borders: ['city', 'road', 'road', 'city'], pennant: true, rotation: 0},
+        {id: 39, design: "O", borders: ['city', 'road', 'road', 'city'], pennant: true, rotation: 0},
+
+
+        // {id: 1, design: "A", borders: ['field', 'field', 'road', 'field'], rotation: 0, roadEnd: true},
+        // {id: 2, design: "A", borders: ['field', 'field', 'road', 'field'], rotation: 0, roadEnd: true},
+        // {id: 3, design: "B", borders: ['field', 'field', 'field', 'field'], rotation: 0},
+        // {id: 4, design: "B", borders: ['field', 'field', 'field', 'field'], rotation: 0},
+        // {id: 5, design: "B", borders: ['field', 'field', 'field', 'field'], rotation: 0},
+        // {id: 6, design: "B", borders: ['field', 'field', 'field', 'field'], rotation: 0},
+        // {id: 7, design: "C", borders: ['city', 'city', 'city', 'city'], pennant: true, rotation: 0},
+        // {id: 8, design: "D", borders: ['city', 'road', 'field', 'road'], rotation: 0},
+        // {id: 9, design: "D", borders: ['city', 'road', 'field', 'road'], rotation: 0},
+        // {id: 10, design: "D", borders: ['city', 'road', 'field', 'road'], rotation: 0},
+        // {id: 11, design: "E", borders: ['city', 'field', 'field', 'field'], rotation: 0},
+        // {id: 12, design: "E", borders: ['city', 'field', 'field', 'field'], rotation: 0},
+        // {id: 13, design: "E", borders: ['city', 'field', 'field', 'field'], rotation: 0},
+        // {id: 14, design: "E", borders: ['city', 'field', 'field', 'field'], rotation: 0},
+        // {id: 15, design: "E", borders: ['city', 'field', 'field', 'field'], rotation: 0},
+        // {id: 16, design: "F", borders: ['field', 'city', 'field', 'city'], pennant: true, rotation: 0},
+        // {id: 17, design: "F", borders: ['field', 'city', 'field', 'city'], pennant: true, rotation: 0},
+        // {id: 18, design: "G", borders: ['field', 'city', 'field', 'city'], rotation: 0},
+        // {id: 19, design: "H", borders: ['field', 'city', 'field', 'city',], rotation: 0},
+        // {id: 20, design: "H", borders: ['field', 'city', 'field', 'city'], rotation: 0},
+        // {id: 21, design: "H", borders: ['field', 'city', 'field', 'city'], rotation: 0},
+        // {id: 22, design: "I", borders: ['city', 'field', 'field', 'city'], rotation: 0},
+        // {id: 23, design: "I", borders: ['city', 'field', 'field', 'city'], rotation: 0},
+        // {id: 24, design: "J", borders: ['city', 'road', 'road', 'field'], rotation: 0},
+        // {id: 25, design: "J", borders: ['city', 'road', 'road', 'field'], rotation: 0},
+        // {id: 26, design: "J", borders: ['city', 'road', 'road', 'field'], rotation: 0},
+        // {id: 27, design: "K", borders: ['city', 'field', 'road', 'road'], rotation: 0},
+        // {id: 28, design: "K", borders: ['city', 'field', 'road', 'road'], rotation: 0},
+        // {id: 29, design: "K", borders: ['city', 'field', 'road', 'road'], rotation: 0},
+        // {id: 30, design: "L", borders: ['city', 'road', 'road', 'road'], rotation: 0, roadEnd: true},
+        // {id: 31, design: "L", borders: ['city', 'road', 'road', 'road'], rotation: 0, roadEnd: true},
+        // {id: 32, design: "L", borders: ['city', 'road', 'road', 'road'], rotation: 0, roadEnd: true},
+        // {id: 33, design: "M", borders: ['city', 'field', 'field', 'city'], pennant: true, rotation: 0},
+        // {id: 34, design: "M", borders: ['city', 'field', 'field', 'city'], pennant: true, rotation: 0},
+        // {id: 35, design: "N", borders: ['city', 'city', 'field', 'field'], rotation: 0},
+        // {id: 36, design: "N", borders: ['city', 'city', 'field', 'field'], rotation: 0},
+        // {id: 37, design: "N", borders: ['city', 'city', 'field', 'field'], rotation: 0},
+        // {id: 38, design: "O", borders: ['city', 'road', 'road', 'city'], pennant: true, rotation: 0},
+        // {id: 39, design: "O", borders: ['city', 'road', 'road', 'city'], pennant: true, rotation: 0},
+        // {id: 40, design: "P", borders: ['city', 'road', 'road', 'city'], rotation: 0},
+        // {id: 41, design: "P", borders: ['city', 'road', 'road', 'city'], rotation: 0},
+        // {id: 42, design: "P", borders: ['city', 'road', 'road', 'city'], rotation: 0},
+        // {id: 43, design: "Q", borders: ['city', 'city', 'field', 'city'], pennant: true, rotation: 0},
+        // {id: 44, design: "R", borders: ['city', 'city', 'field', 'city'], rotation: 0},
+        // {id: 45, design: "R", borders: ['city', 'city', 'field', 'city'], rotation: 0},
+        // {id: 46, design: "R", borders: ['city', 'city', 'field', 'city'], rotation: 0},
+        // {id: 47, design: "S", borders: ['city', 'city', 'road', 'city'], pennant: true, rotation: 0, roadEnd: true},
+        // {id: 48, design: "S", borders: ['city', 'city', 'road', 'city'], pennant: true, rotation: 0, roadEnd: true},
+        // {id: 49, design: "T", borders: ['city', 'city', 'road', 'city'], rotation: 0, roadEnd: true},
+        // {id: 50, design: "U", borders: ['road', 'field', 'road', 'field'], rotation: 0},
+        // {id: 51, design: "U", borders: ['road', 'field', 'road', 'field'], rotation: 0},
+        // {id: 52, design: "U", borders: ['road', 'field', 'road', 'field'], rotation: 0},
+        // {id: 53, design: "U", borders: ['road', 'field', 'road', 'field'], rotation: 0},
+        // {id: 54, design: "U", borders: ['road', 'field', 'road', 'field'], rotation: 0},
+        // {id: 55, design: "U", borders: ['road', 'field', 'road', 'field'], rotation: 0},
+        // {id: 56, design: "U", borders: ['road', 'field', 'road', 'field'], rotation: 0},
+        // {id: 57, design: "U", borders: ['road', 'field', 'road', 'field'], rotation: 0},
+        // {id: 58, design: "V", borders: ['field', 'field', 'road', 'road'], rotation: 0},
+        // {id: 59, design: "V", borders: ['field', 'field', 'road', 'road'], rotation: 0},
+        // {id: 60, design: "V", borders: ['field', 'field', 'road', 'road'], rotation: 0},
+        // {id: 61, design: "V", borders: ['field', 'field', 'road', 'road'], rotation: 0},
+        // {id: 62, design: "V", borders: ['field', 'field', 'road', 'road'], rotation: 0},
+        // {id: 63, design: "V", borders: ['field', 'field', 'road', 'road'], rotation: 0},
+        // {id: 64, design: "V", borders: ['field', 'field', 'road', 'road'], rotation: 0},
+        // {id: 65, design: "V", borders: ['field', 'field', 'road', 'road'], rotation: 0},
+        // {id: 66, design: "V", borders: ['field', 'field', 'road', 'road'], rotation: 0},
+        // {id: 67, design: "W", borders: ['field', 'road', 'road', 'road'], rotation: 0, roadEnd: true},
+        // {id: 68, design: "W", borders: ['field', 'road', 'road', 'road'], rotation: 0, roadEnd: true},
+        // {id: 69, design: "W", borders: ['field', 'road', 'road', 'road'], rotation: 0, roadEnd: true},
+        // {id: 70, design: "W", borders: ['field', 'road', 'road', 'road'], rotation: 0, roadEnd: true},
+        // {id: 71, design: "X", borders: ['road', 'road', 'road', 'road'], rotation: 0, roadEnd: true}
     ] as ITile[]).map((tile) => (
         new Tile(tile)
     ));
 
     public getShuffledDeck() {
-        return shuffle(this.deck).slice(0, 5);
+        return shuffle(this.deck);
     }
 
     /**
@@ -215,6 +249,11 @@ export class Tile implements ITile {
         return this;
     }
 
+    public getImageUrl() {
+        return `/newTiles/${this.design}.jpg`;
+        return `/tiles/${this.design}.png`;
+    }
+
     /**
      * Return a React component of image with rotated tile
      *
@@ -225,8 +264,7 @@ export class Tile implements ITile {
         return (
             <img
                 className="rounded-sm shadow-md"
-                src={`/tiles/${this.design}.png`}
-                // src={`/newTiles/${this.design}.jpg`}
+                src={this.getImageUrl()}
                 draggable="false"
                 alt=""
                 style={{
