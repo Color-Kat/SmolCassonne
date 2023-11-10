@@ -5,13 +5,10 @@ import {BsBrightnessHigh, BsHouse, BsLightningCharge, BsPeople, BsPerson, BsStac
 import {HiOutlineSquare3Stack3D} from "react-icons/hi2";
 import {GiBrain, GiChessKing} from "react-icons/gi";
 import {FaRegChessKnight} from "react-icons/fa6";
+import {H2} from "@UI/Typography/H2.tsx";
 
-interface HeroSectionProps {
 
-}
-
-// https://floatui.com/components/feature-sections
-export const FeaturesSection: React.FC<HeroSectionProps> = memo(({}) => {
+export const Rules: React.FC<{}> = memo(({}) => {
 
     const features = [
         {
@@ -47,11 +44,34 @@ export const FeaturesSection: React.FC<HeroSectionProps> = memo(({}) => {
     ];
 
     return (
-        <section className="" id="features">
+        <section className="mt-12" id="features">
             <div className="page-container py- text-gray-60">
-                <H3 className="mb-5 text-app-accent sm:text-2xl text-xl">Преимущества:</H3>
+                <H2 className="mb-5 text-app-accent text-3xl">Краткие правила:</H2>
 
-                <Features features={features} />
+                <div className="w-full text-left text-lg">
+                    В «СмолКассоне» вам предстоит составлять карту Смоленска из квадратов с нарисованными на них
+                    дорогами, крепостью и посадами. На эти квадраты, которые называются <b>тайлы</b>, вы будете ставить
+                    фишки известных людей Смоленщины - <b>Смоляне</b>, чтобы впоследствии получить за них победные очки.
+                    В ходе партии один из игроков может сильно вырваться вперёд, однако победа присуждается только по результатам финального подсчёта очков.
+                </div>
+
+                <ul className="grid gap-y-12 gap-x-12 sm:grid-cols-2 lg:grid-cols-3">
+                    <li className="space-y-3 text-center">
+                        <div
+                            className="w-12 h-12 mx-auto bg-indigo-50 text-indigo-600 rounded-full flex items-center justify-center"
+                        >
+
+                        </div>
+
+                        <h4 className="text-lg text-gray-800 font-semibold">
+                            Выбор Смолян
+                        </h4>
+
+                        <p>
+                            На тайлах изображе
+                        </p>
+                    </li>
+                </ul>
             </div>
         </section>
     );

@@ -160,7 +160,7 @@ export const StartGameScreen: React.FC<StartGameScreenProps> = memo(({
                                 // @ts-ignore
                                 textWrap: 'balance'
                             }}>
-                                Выберите Смолян, которые будут в вашей колоде
+                                Выберите 5 Смолян, которые будут в вашей колоде
                                 ({selectedUnits.length}/{MY_UNITS_MAX_COUNT})
                             </div>}
                         </div>

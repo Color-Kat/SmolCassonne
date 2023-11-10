@@ -184,7 +184,7 @@ export const GamePage = () => {
         ]}>
             <div className="w-full h-full cursor-default">
                 <Helmet>
-                    <title>СмолКассон</title>
+                    <title>СмолКассон - играть</title>
                     <link rel="canonical" href={import.meta.env.VITE_APP_URL + '/game'}/>
                 </Helmet>
 
