@@ -4,6 +4,7 @@ interface IRoom {
     roomId: string;
     isGameStarted: boolean
     playersCount: number;
+    readyCount: number
 }
 
 const rooms: { [key: string]: IRoom } = {};
@@ -62,7 +63,8 @@ export class MultiplayerService {
         if (!rooms[roomId]) rooms[roomId] = {
             roomId,
             isGameStarted: false,
-            playersCount: 0
+            playersCount: 0,
+            readyCount: 0
         };
 
         // The game is already started
@@ -96,6 +98,18 @@ export class MultiplayerService {
 
             if (rooms[roomId].playersCount == 0) delete rooms[roomId];
         }
+    }
+
+    /**
+     * Increase the count of users that have pressed the "Ready" button.
+     * Return true if all players are ready.
+     * @param roomId
+     */
+    public setReady(roomId: string): boolean {
+        const room = rooms[roomId];
+        room.readyCount++;
+
+        return room.readyCount >= room.playersCount;
     }
 
     /**

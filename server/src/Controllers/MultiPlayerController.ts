@@ -123,8 +123,8 @@ export class MultiPlayerController extends AbstractController {
                     this.joinRoomHandler(request);
                     break;
 
-                case 'startGame':
-                    this.startGameHandler(request);
+                case 'ready':
+                    this.readyHandler(request);
                     break;
 
                 case 'leaveRoom':
@@ -245,11 +245,17 @@ export class MultiPlayerController extends AbstractController {
     }
 
     /**
-     * Send event "startGame" with list of teams that are connected to this room.
+     * Sync myUnits.
+     * Send event "startGame" with the list of teams that are connected to this room
+     * if all players have pressed "I am ready" button.
      * Send event "passTheMove" to the player, who started this game, with isCurrentPlayer property.
      * @param request
      */
-    public startGameHandler(request: MultiPlayerRequest): void {
+    public readyHandler(request: MultiPlayerRequest): void {
+        const isAllReady = this.multiplayerService.setReady(request.roomId);
+
+        if(!isAllReady) return;
+
         // Mark this room as game started
         this.multiplayerService.startGame(request.roomId);
 

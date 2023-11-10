@@ -134,9 +134,9 @@ export const useMultiplayer = (multiplayerState: IMultiplayerState) => {
         });
     };
 
-    const startGame = (roomId: string) => {
+    const ready = (roomId: string) => {
         sendToWebsocket({
-            method: 'startGame',
+            method: 'ready',
             userId: multiplayerState.user.id,
             roomId: roomId,
         });
@@ -244,7 +244,7 @@ export const useMultiplayer = (multiplayerState: IMultiplayerState) => {
         connectUser,
         freeRooms,
         joinRoom,
-        startGame,
+        startGame: ready,
         passTheMove,
         leaveRoom
     };

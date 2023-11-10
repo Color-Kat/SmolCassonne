@@ -10,6 +10,7 @@ import {twJoin} from "tailwind-merge";
 import mapIcon from "@assets/icons/map.png";
 import noUnitImage from "@assets/icons/noUnit.png";
 import {BsFillPersonFill} from "react-icons/bs";
+import {Team} from "@pages/GamePage/classes/teams.ts";
 
 interface StartGameScreenProps {
     roomId: string;
@@ -21,7 +22,7 @@ export const StartGameScreen: React.FC<StartGameScreenProps> = memo(({
                                                                          roomId,
                                                                      }) => {
     const {startGame, leaveRoom} = useContext(MultiplayerContext);
-    const {teams, setMyTeamColor, myTeamColor, setTooltip} = useContext(MapContext);
+    const {teams, setTeams, setMyTeamColor, myTeamColor, setTooltip} = useContext(MapContext);
 
     const listOfUnits = getUnitsByTeam(myTeamColor);
     const [unitInformation, setUnitInformation] = useState<Unit | null>(null);
@@ -32,9 +33,15 @@ export const StartGameScreen: React.FC<StartGameScreenProps> = memo(({
         setMyTeamColor(null);
     }
 
-    const handleStartGame = () => {
+    const handleReady = () => {
         if (selectedUnits.length < MY_UNITS_MAX_COUNT)
             return setTooltip("Выберите 5 Смолян");
+
+        setTeams(prev => {
+            const teams = {...prev}
+            teams[myTeamColor]?.setUnits(selectedUnits);
+            return teams;
+        })
 
         startGame(roomId);
         setTooltip("");
@@ -62,11 +69,11 @@ export const StartGameScreen: React.FC<StartGameScreenProps> = memo(({
                         </div>
 
                         <RippleButton
-                            onClick={handleStartGame}
+                            onClick={handleReady}
                             ButtonComponent={PurpleButton}
                             className="w-full"
                         >
-                            Начать игру
+                            Я готов
                         </RippleButton>
 
                         <RippleButton
