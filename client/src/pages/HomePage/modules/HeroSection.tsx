@@ -4,30 +4,36 @@ import {H1} from "@UI/Typography";
 import {FilledArrowLink, TextArrowLink} from "@UI/Links";
 
 import heroImage from '../assets/hero-screen.png';
+import {Link} from "react-router-dom";
+import {twMerge} from "tailwind-merge";
 
 // https://floatui.com/components/heroes
 export const HeroSection: React.FC = memo(({}) => {
     return (
         <section className="">
-            <div className="page-container md:pt-16 md:pb-10 sm:py-20 pt-8 pb-16 lg:gap-12 gap-6 text-gray-600 overflow-hidden md:flex">
+            <div
+                className="page-container md:pt-16 md:pb-10 sm:py-20 pt-8 pb-16 lg:gap-12 gap-6 text-gray-600 overflow-hidden md:flex">
                 <div className="flex-none space-y-5 max-w-xl">
                     <a
-                        href="https://colorbit.ru"
+                        href="https://свойкод.рф"
                         target="_blank"
                         className="inline-flex gap-x-6 items-center rounded-full p-1 pr-6 border text-sm font-medium duration-150 hover:bg-white"
                     >
                         <span className="inline-block rounded-full px-3 py-1 bg-indigo-600 text-white">
-                            Спонсор
+                            Smolathon
                         </span>
                         <p className="flex items-center gap-1">
-                            Colorbit.ru - симулятор майнинга
+                            Организатор хакатона
                             <FaAngleRight/>
                         </p>
                     </a>
 
                     <H1>
-                        Разрабатывайте приложения легко
+                        Открой Смоленск в Новом Свете: <br/>
                     </H1>
+                    <div className="text-xl">
+                        Играй, Учись, Побеждай!
+                    </div>
 
                     <p>
                         Готовый шаблон сайта на стеке Ts, React, Tailwind, vite, PHP, Laravel <br/>
@@ -35,13 +41,21 @@ export const HeroSection: React.FC = memo(({}) => {
                     </p>
 
                     <div className="flex items-center gap-x-3 sm:text-sm first-letter:capitalize">
-                        <FilledArrowLink to="/test">
-                            <span className="hidden sm:block">Смотреть</span> компоненты
+                        <FilledArrowLink to="/game">
+                            Играть
                         </FilledArrowLink>
 
-                        <TextArrowLink to="/">
-                            А это для красоты
-                        </TextArrowLink>
+                        {/*<TextArrowLink to="/#features">*/}
+                        {/*    Узнать больше*/}
+                        {/*</TextArrowLink>*/}
+
+                        <a
+                            href="#features"
+                            className="flex items-center justify-center gap-x-1 py-2 px-4 text-gray-700 hover:text-gray-900 font-medium duration-150 md:inline-flex"
+                        >
+                            Узнать больше
+                            <FaAngleRight/>
+                        </a>
                     </div>
                 </div>
 

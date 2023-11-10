@@ -1,7 +1,7 @@
 import React, {memo} from "react";
 import {Features} from "@UI/Features";
 import {H3} from "@UI/Typography";
-import {BsBrightnessHigh, BsLightningCharge, BsPerson, BsStackOverflow} from "react-icons/bs";
+import {BsBrightnessHigh, BsLightningCharge, BsPeople, BsPerson, BsStackOverflow} from "react-icons/bs";
 import {HiOutlineSquare3Stack3D} from "react-icons/hi2";
 
 interface HeroSectionProps {
@@ -14,18 +14,18 @@ export const FeaturesSection: React.FC<HeroSectionProps> = memo(({}) => {
     const features = [
         {
             Icon: BsLightningCharge,
-            title: "Быстрая установка",
-            description: "Вам достаточно клонировать git репозиторий на ваш ПК и выполнить пару команд из README.md"
+            title: "Изучение культуры",
+            description: "Вы познакомитесь со многими достопримечательностями Смоленска и его известными личностями"
         },
         {
             Icon: BsPerson,
-            title: "Готовая авторизация по API",
-            description: "Авторизация на базе Laravel Fortify + Sanctum с восстановлением пароля, готовые стилизованные страницы."
+            title: "Одиночный режим",
+            description: "Вы можете играть даже один, если в данный момент на сервере нет других игроков"
         },
         {
-            Icon: HiOutlineSquare3Stack3D,
-            title: "React компоненты",
-            description: "Десятки стилизованных (легко кастомизируемых) accessible компонентов на все случаи жизни."
+            Icon: BsPeople,
+            title: "Играйте вместе",
+            description: "Играть в СмолКассон можно группой до 4-х человек"
         },
         {
             Icon:
@@ -49,7 +49,7 @@ export const FeaturesSection: React.FC<HeroSectionProps> = memo(({}) => {
     ];
 
     return (
-        <section className="">
+        <section className="" id="features">
             <div className="page-container py- text-gray-60">
                 <H3 className="mb-5 text-app-accent sm:text-2xl text-xl">Преимущества:</H3>
 

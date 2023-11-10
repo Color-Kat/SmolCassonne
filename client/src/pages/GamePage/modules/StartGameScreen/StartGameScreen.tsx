@@ -219,7 +219,7 @@ export const StartGameScreen: React.FC<StartGameScreenProps> = memo(({
                                         key={unitNumber + 990}
                                         title="Пусто"
                                     >
-                                        <BsFillPersonFill className="text-4xl text-slate-700"/>
+                                        <BsFillPersonFill className="text-5xl text-slate-700"/>
 
                                         <div>Пусто</div>
                                     </button>

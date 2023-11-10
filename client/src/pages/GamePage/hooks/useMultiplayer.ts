@@ -210,7 +210,7 @@ export const useMultiplayer = (multiplayerState: IMultiplayerState) => {
         multiplayerState.setTeams(prev => {
             const teams = {...prev};
 
-            teams[response.teamColor]?.setUnits(response.selectedUnits);
+            teams[response.teamColor]?.setUnits(response.selectedUnits.map(unit => new Unit(unit)));
 
             return teams;
         });

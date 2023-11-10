@@ -27,6 +27,7 @@ module.exports = {
                   'app-accent':
                       '#6366f1',
 
+
               },
               animation: {
                   'slide-up': 'slide-up .7s ease-in-out',

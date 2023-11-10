@@ -63,6 +63,8 @@ export const ListOfUnits: React.FC<ListOfUnitsProps> = memo(({
     const {myTeamColor, teams} = React.useContext(MapContext);
     const units = teams[myTeamColor]?.units;
 
+
+
     if(!units) return null;
 
     return (
