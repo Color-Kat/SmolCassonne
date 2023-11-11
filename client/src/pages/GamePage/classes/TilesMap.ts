@@ -46,7 +46,7 @@ export class TilesMap {
     public getStartingMap(mapCenter: number, tileSize: number) {
         return [new Tile({
             id: 0,
-            design: "R-1",
+            design: "START",
             borders: ['field', 'road', 'city', 'road'],
             pennant: false,
             coords: {x: mapCenter - mapCenter % tileSize, y: mapCenter - mapCenter % tileSize},

@@ -1,18 +1,48 @@
-import React, {memo} from "react";
+import React, {memo, useEffect, useRef} from "react";
 import {FaAngleRight} from "react-icons/fa";
 import {H1} from "@UI/Typography";
 import {FilledArrowLink, TextArrowLink} from "@UI/Links";
 
-import heroImage from '../assets/hero-screen.png';
+import heroImage from '@assets/hero-screen.png';
+import videoSrc from '@assets/gameplay.mp4';
 import {Link} from "react-router-dom";
 import {twMerge} from "tailwind-merge";
 
 // https://floatui.com/components/heroes
 export const HeroSection: React.FC = memo(({}) => {
+
+
+    const videoRef = useRef<HTMLVideoElement>(null);
+
+    useEffect(() => {
+        const videoElement = videoRef.current;
+
+        if (videoElement) {
+            videoElement.loop = true;
+            videoElement.play();
+        }
+    }, []);
+
+
     return (
-        <section className="">
+        <section className="relative">
+
+            {/*<div className="fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black">*/}
+                <video
+                    ref={videoRef}
+                    className="w-full h-full object-cover absolute top-0 left-0"
+                    src={videoSrc}
+                    autoPlay
+                    muted
+                    controls={false}
+                />
+            {/*</div>*/}
+
+
+
             <div
-                className="page-container md:pt-16 md:pb-10 sm:py-20 pt-8 pb-16 lg:gap-12 gap-6 text-gray-600 overflow-hidden md:flex">
+                className="page-container md:pt-16 md:pb-10 sm:py-20 pt-8 pb-16 lg:gap-12 gap-6 text-gray-600 overflow-hidden md:flex"
+            >
                 <div className="flex-none space-y-5 max-w-xl">
                     <a
                         href="https://свойкод.рф"

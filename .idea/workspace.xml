@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="9a602975-d8c1-4ef5-ab26-935b9f10dcbe" name="Changes" comment="fix(tiles): set tile information">
+      <change beforePath="$PROJECT_DIR$/client/public/newTiles/D.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/public/newTiles/E.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/public/newTiles/F.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/public/newTiles/G.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/public/newTiles/I.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/public/newTiles/J-1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/public/newTiles/J.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/public/newTiles/K-1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/public/newTiles/L.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/public/newTiles/M.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/public/newTiles/P.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/public/newTiles/R-1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/public/newTiles/S_i_T.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/public/newTiles/U.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/public/newTiles/V.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/public/newTiles/W.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/public/newTiles/X.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/public/newTiles/О.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/public/newTiles/ОД.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/public/newTiles/С-1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/GamePage/classes/TilesDeck.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/GamePage/classes/TilesDeck.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/GamePage/classes/TilesMap.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/GamePage/classes/TilesMap.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/HomePage/modules/HeroSection.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/HomePage/modules/HeroSection.tsx" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings">
+    <execution />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="a41b7fe03a3d3fb26b9f3909bbc47285ff36a4e5" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="SET_USER_NAME_GLOBALLY" value="false" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2XtBDCtcwd3HwEdwOrUtd0wd5R2" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "C:/Users/Qwup/Documents/SmolCassone/client/src/pages/HomePage/modules",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "ts.external.directory.path": "C:\\Users\\Qwup\\Documents\\SmolCassone\\client\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Qwup\Documents\SmolCassone\client\src\pages\HomePage\modules" />
+      <recent name="C:\Users\Qwup\Documents\SmolCassone\client\src\pages\GamePage\modules" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Qwup\Documents\SmolCassone\client\src\assets" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="9a602975-d8c1-4ef5-ab26-935b9f10dcbe" name="Changes" comment="" />
+      <created>1699438376916</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1699438376916</updated>
+      <workItem from="1699438377600" duration="263000" />
+      <workItem from="1699438673343" duration="1066000" />
+      <workItem from="1699439769238" duration="4143000" />
+      <workItem from="1699453594558" duration="2415000" />
+      <workItem from="1699508072485" duration="7911000" />
+      <workItem from="1699601235233" duration="38788000" />
+      <workItem from="1699652777295" duration="10908000" />
+    </task>
+    <task id="LOCAL-00001" summary="feat(marketing): instructions in the controll panel">
+      <option name="closed" value="true" />
+      <created>1699512607488</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1699512607488</updated>
+    </task>
+    <task id="LOCAL-00002" summary="feat(marketing): some improvements">
+      <option name="closed" value="true" />
+      <created>1699516136691</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1699516136691</updated>
+    </task>
+    <task id="LOCAL-00003" summary="feat(multiplayer): different components for start game screen and room selector screen">
+      <option name="closed" value="true" />
+      <created>1699610972420</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1699610972420</updated>
+    </task>
+    <task id="LOCAL-00004" summary="feat(multiplayer): unit selector">
+      <option name="closed" value="true" />
+      <created>1699615975503</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1699615975503</updated>
+    </task>
+    <task id="LOCAL-00005" summary="feat(my-units): show bonus description and instruction for my units selector">
+      <option name="closed" value="true" />
+      <created>1699618846202</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1699618846202</updated>
+    </task>
+    <task id="LOCAL-00006" summary="feat(my-units): show selected units">
+      <option name="closed" value="true" />
+      <created>1699622669659</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1699622669659</updated>
+    </task>
+    <task id="LOCAL-00007" summary="feat(my-units): fix bugs">
+      <option name="closed" value="true" />
+      <created>1699625688761</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1699625688761</updated>
+    </task>
+    <task id="LOCAL-00008" summary="feat(my-units): end frontend">
+      <option name="closed" value="true" />
+      <created>1699626096442</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1699626096442</updated>
+    </task>
+    <task id="LOCAL-00009" summary="feat(my-units): hide tooltips">
+      <option name="closed" value="true" />
+      <created>1699626287650</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1699626287650</updated>
+    </task>
+    <task id="LOCAL-00010" summary="feat(multiplayer): start the game when all players will have pressed the &quot;Ready&quot; button">
+      <option name="closed" value="true" />
+      <created>1699633168987</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1699633168987</updated>
+    </task>
+    <task id="LOCAL-00011" summary="feat(multiplayer): sync selected units">
+      <option name="closed" value="true" />
+      <created>1699638748193</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1699638748193</updated>
+    </task>
+    <task id="LOCAL-00012" summary="fix(deck): new design for the top tile">
+      <option name="closed" value="true" />
+      <created>1699638884135</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1699638884135</updated>
+    </task>
+    <task id="LOCAL-00013" summary="fix(multiplayer): onEnter event">
+      <option name="closed" value="true" />
+      <created>1699639341092</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1699639341092</updated>
+    </task>
+    <task id="LOCAL-00014" summary="fix(tiles): rename tile">
+      <option name="closed" value="true" />
+      <created>1699639404597</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1699639404597</updated>
+    </task>
+    <task id="LOCAL-00015" summary="fix(tiles): hydrate selected teams">
+      <option name="closed" value="true" />
+      <created>1699652399821</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1699652399821</updated>
+    </task>
+    <task id="LOCAL-00016" summary="fix(tiles): new start tile">
+      <option name="closed" value="true" />
+      <created>1699656803713</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1699656803713</updated>
+    </task>
+    <task id="LOCAL-00017" summary="fix(units): fix bug">
+      <option name="closed" value="true" />
+      <created>1699658475860</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1699658475861</updated>
+    </task>
+    <task id="LOCAL-00018" summary="fix(tiles): set tile information">
+      <option name="closed" value="true" />
+      <created>1699660142784</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1699660142784</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_NEW_TODO" value="false" />
+    <MESSAGE value="feat(marketing): instructions in the controll panel" />
+    <MESSAGE value="feat(marketing): some improvements" />
+    <MESSAGE value="feat(multiplayer): different components for start game screen and room selector screen" />
+    <MESSAGE value="feat(multiplayer): unit selector" />
+    <MESSAGE value="feat(my-units): show bonus description and instruction for my units selector" />
+    <MESSAGE value="feat(my-units): show selected units" />
+    <MESSAGE value="feat(my-units): fix bugs" />
+    <MESSAGE value="feat(my-units): end frontend" />
+    <MESSAGE value="feat(my-units): hide tooltips" />
+    <MESSAGE value="feat(multiplayer): start the game when all players will have pressed the &quot;Ready&quot; button" />
+    <MESSAGE value="feat(multiplayer): sync selected units" />
+    <MESSAGE value="fix(deck): new design for the top tile" />
+    <MESSAGE value="fix(multiplayer): onEnter event" />
+    <MESSAGE value="fix(tiles): rename tile" />
+    <MESSAGE value="fix(tiles): hydrate selected teams" />
+    <MESSAGE value="fix(tiles): new start tile" />
+    <MESSAGE value="fix(units): fix bug" />
+    <MESSAGE value="fix(tiles): set tile information" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix(tiles): set tile information" />
+  </component>
+</project>
