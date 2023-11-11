@@ -22,6 +22,7 @@ const MY_UNITS_MAX_COUNT = 5;
 export const StartGameScreen: React.FC<StartGameScreenProps> = memo(({
                                                                          roomId,
                                                                      }) => {
+    const [isReady, setIsReady] = useState(false);
     const {ready, leaveRoom} = useContext(MultiplayerContext);
     const {teams, setTeams, setMyTeamColor, myTeamColor, setTooltip} = useContext(MapContext);
 
@@ -54,6 +55,8 @@ export const StartGameScreen: React.FC<StartGameScreenProps> = memo(({
         });
 
         setTooltip("");
+
+        setIsReady(true);
     }
 
     return (
@@ -82,7 +85,7 @@ export const StartGameScreen: React.FC<StartGameScreenProps> = memo(({
                             ButtonComponent={PurpleButton}
                             className="w-full"
                         >
-                            Я готов
+                            {isReady ? "Ожидание игроков" : "Я готов"}
                         </RippleButton>
 
                         <RippleButton

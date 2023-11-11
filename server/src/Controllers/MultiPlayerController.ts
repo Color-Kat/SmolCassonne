@@ -293,7 +293,7 @@ export class MultiPlayerController extends AbstractController {
 
         // Pass the turn to the next player
         // before the player leaves the room
-        if (isGameStarted)
+        if (isGameStarted && client.isCurrentPlayer)
             this.passTheMoveHandler(request as any, false);
 
         // Delete data about current game of the client

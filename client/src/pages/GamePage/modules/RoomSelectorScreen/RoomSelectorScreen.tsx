@@ -70,7 +70,7 @@ export const RoomSelectorScreen: React.FC<RoomSelectorScreenProps> = memo(({
 
                 {/*  Select room from the list  */}
                 <div
-                    className="flex flex-col gap-3 p-7 rounded-r-3xl rounded-l-lg bg-app max-h-[250px] max-w-md relative">
+                    className="flex flex-col gap-3 p-7 rounded-r-3xl rounded-l-lg bg-app max-h-[250px] w-screen max-w-md relative">
                     <h2 className="font-bold text-2xl text-gray-700">
                         Открытые комнаты
                     </h2>
@@ -83,7 +83,7 @@ export const RoomSelectorScreen: React.FC<RoomSelectorScreenProps> = memo(({
                     </div>}
 
                     <div
-                        className="grid grid-cols-3 gap-3 overflow-y-auto no-scrollbar rounded-lg pt-1.5 pr-1.5 w-screen max-w-md">
+                        className="grid grid-cols-3 gap-3 overflow-y-auto no-scrollbar rounded-lg pt-1.5 pr-1.5">
                         {Object.values(freeRooms).map((room) => (
                             <button
                                 className={twJoin(
