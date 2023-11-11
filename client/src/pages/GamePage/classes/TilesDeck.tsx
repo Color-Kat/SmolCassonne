@@ -257,6 +257,7 @@ export class Tile implements ITile {
     public name: string | null = 'Успенский собор';
     public description: string | null = 'Собо́р Успе́ния Пресвято́й Богоро́дицы — православный храм в Смоленске, кафедральный собор Смоленской митрополии Русской православной церкви. Находится в центральной части города на Соборной горе';
     public realPhoto: string | null = 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/%D0%92%D0%B8%D0%B4_%D0%B2%D0%B5%D1%87%D0%B5%D1%80%D0%BE%D0%BC.jpg/1280px-%D0%92%D0%B8%D0%B4_%D0%B2%D0%B5%D1%87%D0%B5%D1%80%D0%BE%D0%BC.jpg';
+    public moreAbout: string | null = null;
 
     public className: string = ''; // Manually used for debug
 
@@ -273,6 +274,7 @@ export class Tile implements ITile {
         this.name = tile.name ?? null;
         this.realPhoto = tile.realPhoto ?? null;
         this.description = tile.description ?? null;
+        this.moreAbout = tile.moreAbout ?? null;
 
         // Default common values that doesn't depend on tile
         if (tile instanceof Tile) {

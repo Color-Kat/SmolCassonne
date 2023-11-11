@@ -82,7 +82,7 @@ export const Information: React.FC<InformationProps> = memo(({
                     <div>
                         <h3 className="text-xl font-semibold">{tileInformation.name}</h3>
                         <p className="text-gray-300">{tileInformation.description!}</p>
-                        <a href={unitInformation?.moreAbout} target="_blank" className="text-lg font-semibold text-indigo-400">Подробнее</a>
+                        <a href={tileInformation.moreAbout ?? '#'} target="_blank" className="text-lg font-semibold text-indigo-400">Подробнее</a>
 
                     </div>
                 </div>

@@ -13,6 +13,8 @@ export const SelectedUnit: React.FC<SelectedUnitProps> = memo(({selectedUnit}) =
     let name = selectedUnit?.name.split(' ').at(-1);
     if(name == 'Конь') name = 'Фёдор Конь';
 
+    if(!selectedUnit) return null;
+
     return (
         <div
             className="absolute top-1/2 -translate-y-1/2 right-10 h-72 flex gap-3 flex-co items-center cursor-default rounded-xl p-3 max-w-sm w-screen"
