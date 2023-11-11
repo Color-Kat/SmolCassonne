@@ -9,8 +9,9 @@ import {twJoin} from "tailwind-merge";
 
 import mapIcon from "@assets/icons/map.png";
 import noUnitImage from "@assets/icons/noUnit.png";
-import {BsFillPersonFill} from "react-icons/bs";
+import {BsDownload, BsFillPersonFill} from "react-icons/bs";
 import {Team} from "@pages/GamePage/classes/teams.ts";
+import {shuffle} from "@/utils/arrays";
 
 interface StartGameScreenProps {
     roomId: string;
@@ -27,6 +28,10 @@ export const StartGameScreen: React.FC<StartGameScreenProps> = memo(({
     const listOfUnits = getUnitsByTeam(myTeamColor);
     const [unitInformation, setUnitInformation] = useState<Unit | null>(null);
     const [selectedUnits, setSelectedUnits] = useState<Unit[]>([]);
+
+    const selectRandUnits = () => {
+        setSelectedUnits(shuffle(listOfUnits).slice(0, MY_UNITS_MAX_COUNT));
+    }
 
     const handleLeaveRoom = () => {
         leaveRoom(roomId);
@@ -194,7 +199,7 @@ export const StartGameScreen: React.FC<StartGameScreenProps> = memo(({
                                         title={unit.name}
                                     >
                                         <div
-                                            className="p-1 bg-gradient-to-tr from-purple-600 to-indigo-500 h-20 rounded-md"
+                                            className="p-1 bg-gradient-to-tr from-purple-600 to-indigo-500 rounded-md h-20"
                                         >
                                             <img
                                                 className={twJoin(
@@ -226,6 +231,15 @@ export const StartGameScreen: React.FC<StartGameScreenProps> = memo(({
                                 );
                             }
                         })}
+
+                        <button
+                            className="ml-auto h-28 w-[85px] p-2 bg-app-accent hover:bg-app-primary text-indigo-200 rounded-lg flex flex-col items-center justify-between"
+                            onClick={selectRandUnits}
+                        >
+                            <BsDownload className="text-5xl mt-2"/>
+
+                            <div>Авто</div>
+                        </button>
                     </div>
                 </div>
 
