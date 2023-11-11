@@ -47,7 +47,7 @@ export const FeaturesSection: React.FC<HeroSectionProps> = memo(({}) => {
     ];
 
     return (
-        <section className="" id="features">
+        <section className="mt-16 mb-20" id="features">
             <div className="page-container py- text-gray-60">
                 <H3 className="mb-5 text-app-accent sm:text-2xl text-xl">Преимущества:</H3>
 

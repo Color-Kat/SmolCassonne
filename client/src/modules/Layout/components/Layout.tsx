@@ -51,7 +51,7 @@ export const Layout: React.FC<{ children: React.ReactElement }> = memo(({childre
                 <Header/>
 
                 <div
-                    className="scroll-container overflow-y-auto overflow-x-hidden flex flex-col flex-auto"
+                    className="scroll-container overflow-y-auto overflow-x-hidden flex flex-col flex-auto scroll-smooth"
                 > {/* Header at the top of the page */}
                     <Main>
                         {children}

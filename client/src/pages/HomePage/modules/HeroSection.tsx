@@ -25,25 +25,23 @@ export const HeroSection: React.FC = memo(({}) => {
 
 
     return (
-        <section className="relative">
+        <section className="relative h-[calc(100vh-4rem)]">
 
-            {/*<div className="fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black">*/}
+            <div className="absolute top-0 left-0 w-screen h-full flex items-center justify-center bg-black/90 z-0">
                 <video
                     ref={videoRef}
-                    className="w-full h-full object-cover absolute top-0 left-0"
+                    className="w-full h-full object-cover  top-0 left-0 opacity-30"
                     src={videoSrc}
                     autoPlay
                     muted
                     controls={false}
                 />
-            {/*</div>*/}
-
-
+            </div>
 
             <div
-                className="page-container md:pt-16 md:pb-10 sm:py-20 pt-8 pb-16 lg:gap-12 gap-6 text-gray-600 overflow-hidden md:flex"
+                className="relative page-container md:pt-16 md:pb-10 sm:py-20 pt-8 pb-16 lg:gap-12 gap-6 text-gray-600 overflow-hidden md:flex z-10"
             >
-                <div className="flex-none space-y-5 max-w-xl">
+                <div className="flex-none">
                     <a
                         href="https://свойкод.рф"
                         target="_blank"
@@ -52,48 +50,39 @@ export const HeroSection: React.FC = memo(({}) => {
                         <span className="inline-block rounded-full px-3 py-1 bg-indigo-600 text-white">
                             Smolathon
                         </span>
-                        <p className="flex items-center gap-1">
+                        <p className="flex items-center gap-1 text-gray-200">
                             Организатор хакатона
                             <FaAngleRight/>
                         </p>
                     </a>
 
-                    <H1>
-                        Открой Смоленск в Новом Свете: <br/>
-                    </H1>
-                    <div className="text-xl">
-                        Играй, Учись, Побеждай!
+                    <h1 className="text-indigo-400 text-8xl font-extrabold mt-5 mb-3">
+                        СмолКассон
+                    </h1>
+                    <h2 className="text-5xl text-gray-300 font-semibold tracking-wide w-full">
+                        Узнавай Смоленск играя
+                    </h2>
+
+                    <div className="mt-16 mb-12 text-gray-300 text-2xl max-w-md" style={{
+                        // @ts-ignore
+                        textWrap: 'balance'
+                    }}>
+                        Это многопользовательская игра по мотивам известной настольной игры "Каркассон", но выполненная в стилистике Смоленска
                     </div>
 
-                    <p>
-                        Готовый шаблон сайта на стеке Ts, React, Tailwind, vite, PHP, Laravel <br/>
-                        со всем необходимым, и даже больше, <br/> чтобы вы могли творить удивительные вещи!
-                    </p>
-
-                    <div className="flex items-center gap-x-3 sm:text-sm first-letter:capitalize">
+                    <div className="flex items-center gap-x-12 sm:text-sm first-letter:capitalize">
                         <FilledArrowLink to="/game">
                             Играть
                         </FilledArrowLink>
 
-                        {/*<TextArrowLink to="/#features">*/}
-                        {/*    Узнать больше*/}
-                        {/*</TextArrowLink>*/}
-
                         <a
                             href="#features"
-                            className="flex items-center justify-center gap-x-1 py-2 px-4 text-gray-700 hover:text-gray-900 font-medium duration-150 md:inline-flex"
+                            className="flex items-center text-xl justify-center gap-x-1 py-2 px-4 text-gray-200 hover:text-gray-100 font-medium duration-150 md:inline-flex"
                         >
                             Узнать больше
                             <FaAngleRight/>
                         </a>
                     </div>
-                </div>
-
-                <div className="flex-1 hidden lg:flex items-center">
-                    <img
-                        src={heroImage}
-                        className="w-full mx-auto md:w-10/12 lg:w-full"
-                    />
                 </div>
             </div>
         </section>

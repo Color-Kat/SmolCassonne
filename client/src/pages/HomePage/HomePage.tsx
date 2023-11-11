@@ -13,7 +13,7 @@ export const HomePage = () => {
     const user = useTSelector(state => state.auth.user);
 
     return (
-        <Page
+        <div
             className="w-screen pt-0"
         >
             <Helmet>
@@ -32,6 +32,6 @@ export const HomePage = () => {
             <LogoGridSection />
 
             <CTASection />
-        </Page>
+        </div>
     );
 };

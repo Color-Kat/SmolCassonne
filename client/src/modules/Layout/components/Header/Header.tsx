@@ -6,6 +6,7 @@ import {twJoin} from "tailwind-merge";
 import {HeaderNavItem, MobileHeaderLink} from "@modules/Layout/components/Header/HeaderLinks.tsx";
 import {useLogoutMutation} from "@/store/auth/auth.api.ts";
 import {useTSelector} from "@hooks/redux.ts";
+import {GameRules} from "@modules/GameRules/GameRules.tsx";
 
 export const Header = memo(() => {
     const {user, isLoading} = useTSelector(state => state.auth);
@@ -42,6 +43,10 @@ export const Header = memo(() => {
                             </HeaderNavItem>
                         ))
                     }
+
+                    <HeaderNavItem link="">
+                        <GameRules />
+                    </HeaderNavItem>
                 </ul>
 
                 {/* Auth button + burger menu (Right) */}

@@ -11,7 +11,7 @@ interface LogoProps {
 export const Logo: React.FC<LogoProps> = memo(({className}) => {
     return (
         <div className={twMerge(
-            "logo text-3xl font-bold text-blue-500 flex items-center justify-center hover:saturate-150",
+            "logo text-3xl font-bold text-blue-600 flex items-center justify-center hover:saturate-150",
             className
         )}>
             <Link to="/" className="h-full flex gap-1 items-end">
@@ -20,7 +20,7 @@ export const Logo: React.FC<LogoProps> = memo(({className}) => {
                     className="h-12"
                     alt="С"
                 />
-                <div className="font-bold font-inter">мол Кассон</div>
+                <div className="font-bol text-4xl font-gabriela">молКассон</div>
             </Link>
         </div>
     );
