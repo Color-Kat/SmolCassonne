@@ -2,6 +2,7 @@ import React, {Fragment, useCallback, useState} from 'react';
 import {Dialog, Transition} from "@headlessui/react";
 import {GrClose} from "react-icons/gr";
 import {twMerge} from "tailwind-merge";
+import {AiOutlineClose} from "react-icons/ai";
 
 const DefaultLayout = ({
                            title,
@@ -113,7 +114,7 @@ export const Modal: React.FC<ModalProps> = ({
                     </Transition.Child>
 
                     <div className="fixed inset-0 overflow-y-auto">
-                        <div className="flex min-h-full items-center justify-center p-4 text-center">
+                        <div className="flex min-h-full items-end justify-center  text-center">
                             <Transition.Child
                                 as={Fragment}
                                 enter="ease-out duration-300"
@@ -126,7 +127,7 @@ export const Modal: React.FC<ModalProps> = ({
                                 <Dialog.Panel
                                     className={twMerge(
                                         "relative w-full transform overflow-hidden text-left align-middle transition-all",
-                                        "max-w-md rounded-2xl bg-white p-6 shadow-xl",
+                                        " rounded-2xl bg-white shadow-xl w-[670px]",
                                         modalClassName
                                     )}
                                 >
@@ -135,7 +136,7 @@ export const Modal: React.FC<ModalProps> = ({
                                         className="absolute top-2 right-2 w-8 h-8 leading-4 flex items-center justify-center text-lg font-bold focus:outline-none focus-visible:rounded-full focus-visible:ring-2 focus-visible:ring-blue-500/10"
                                         onClick={closeModal}
                                     >
-                                        <GrClose className='text-blue-900 hover:text-blue-800 h-5 w-5'/>
+                                        <AiOutlineClose className='z-10 text-gray-200 hover:text-gray-100 h-5 w-5'/>
                                     </button>
 
                                     {/* Default layout*/}

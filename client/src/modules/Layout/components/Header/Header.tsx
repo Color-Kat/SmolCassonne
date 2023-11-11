@@ -7,13 +7,14 @@ import {HeaderNavItem, MobileHeaderLink} from "@modules/Layout/components/Header
 import {useLogoutMutation} from "@/store/auth/auth.api.ts";
 import {useTSelector} from "@hooks/redux.ts";
 import {GameRules} from "@modules/GameRules/GameRules.tsx";
+import {BorderRightLineEffect} from "@UI/Effects";
 
 export const Header = memo(() => {
     const {user, isLoading} = useTSelector(state => state.auth);
     const [logout] = useLogoutMutation();
 
     const navigation = [
-        {title: "Тест", link: "/test"},
+        // {title: "Тест", link: "/test"},
         {title: "Главная", link: "/"},
         {title: "Играть", link: "/game"},
     ];
@@ -44,9 +45,9 @@ export const Header = memo(() => {
                         ))
                     }
 
-                    <HeaderNavItem link="">
+                    <BorderRightLineEffect as="li">
                         <GameRules />
-                    </HeaderNavItem>
+                    </BorderRightLineEffect>
                 </ul>
 
                 {/* Auth button + burger menu (Right) */}
