@@ -27,7 +27,7 @@ export const FeaturesSection: React.FC<HeroSectionProps> = memo(({}) => {
         {
             Icon: BsHouse,
             title: "Достопримечательности",
-            description: "На некоторых тайлах находятся достопримечательности Смоленска, которые вы можете "
+            description: "На некоторых тайлах находятся достопримечательности Смоленска, которые вы можете изучить"
         },
         {
             Icon: BsPeople,

@@ -4,10 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9a602975-d8c1-4ef5-ab26-935b9f10dcbe" name="Changes" comment="Added &quot;moreAbout&quot;">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_08_11_2023_18_05__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_08_11_2023_18_05__Changes_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_11_2023_10_28__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_11_2023_10_28__Changes_.xml" afterDir="false" />
+    <list default="true" id="9a602975-d8c1-4ef5-ab26-935b9f10dcbe" name="Changes" comment="feat(assets) compress assets">
+      <change afterPath="$PROJECT_DIR$/features.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/game-2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/game-3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/game.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/home-page.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/start.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/unit-selector-2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/unit-selector-3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/unit-selector.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/unit.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/GamePage/classes/TilesDeck.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/GamePage/classes/TilesDeck.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/HomePage/modules/FeaturesSection.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/HomePage/modules/FeaturesSection.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,7 +61,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/Users/Qwup/Documents/SmolCassone/client/src/pages/HomePage/modules",
+    "last_opened_file_path": "E:/programming/SmolCassone/client/public/newTiles",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -63,6 +74,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\programming\SmolCassone\client\public\newTiles" />
       <recent name="C:\Users\Qwup\Documents\SmolCassone\client\src\pages\HomePage\modules" />
       <recent name="C:\Users\Qwup\Documents\SmolCassone\client\src\pages\GamePage\modules" />
     </key>
@@ -231,7 +243,15 @@
       <option name="project" value="LOCAL" />
       <updated>1699660142784</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="feat(assets) compress assets">
+      <option name="closed" value="true" />
+      <created>1700159574044</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1700159574044</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -269,6 +289,7 @@
     <MESSAGE value="fix(units): fix bug" />
     <MESSAGE value="fix(tiles): set tile information" />
     <MESSAGE value="Added &quot;moreAbout&quot;" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added &quot;moreAbout&quot;" />
+    <MESSAGE value="feat(assets) compress assets" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat(assets) compress assets" />
   </component>
 </project>
